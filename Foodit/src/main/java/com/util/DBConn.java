@@ -38,7 +38,7 @@ public class DBConn {
 			}
 		}
 		
-		return conn;
+		return conn; 
 	}
 
 	public static Connection getConnection(String url, String user, String pwd, String internal_logon) {
