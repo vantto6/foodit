@@ -57,39 +57,34 @@ function sendLogin() {
 </header>
 	
 <main>
-	<div class="container body-container">
-		<div class="body-title">
-			<h2><i class="fa-solid fa-lock"></i> 로그인 </h2>
-		</div>
-		
-		<div class="body-main">
-			<div style="margin: 0 -15px 50px -15px"></div>
-			<form name="loginForm" method="post">
-				<div class="members-form">
-					<div class="row text-center">
-						<h2> 로그인 </h2>
-					</div>
-					<div class="row">
-						<input name="memberId" type="text" class="form-control" id="login-userId" placeholder="아이디를 입력하세요">
-						<input name="pwd" type="password" class="form-control margin-top" id="login-password" placeholder="비밀번호를 입력하세요">
-						<p class="text-right margin-top">
-							<a href="${pageContext.request.contextPath}/">아이디 찾기</a> <span>|</span>
-							<a href="${pageContext.request.contextPath}/">패스워드 찾기</a>
-						</p>
-					</div>
-					<div class="row text-center">
-						<button type="button" class="btn btn-primary" onclick="sendLogin();">로그인</button>
-						<button type="button" class="btn btn-primary" onclick="sendJoin();">회원가입</button>
+	<div id="main">
+		<div id="content">
+			<div class="section_login">
+				<h3 class="tit_login">로그인</h3>
+				<div class="write_form">
+					<div class="write_view login_view">
+						<form  name="form" id="form" action="index.jsp?folder=login&category=login_action" method="post">
+							<input type="text" name="id" id ="id" size="20" placeholder="아이디를 입력해주세요" value = "">
+							<input type="password" name="passwd" id = "passwd" size="20" placeholder="비밀번호를 입력해주세요">
+							<div class="checkbox_save">
+								<div class="login_search">
+									<a class="link"	href="index.jsp?folder=login&category=Find_id"> 아이디 찾기 </a> <span class="bar"></span> 
+									<a class="link"	href="index.jsp?folder=login&category=Find_pw"> 비밀번호 찾기 </a>
+								</div>
+							<div id="message"></div>
+							</div>
+							<div class="btn_type1" id ="btn_type1">
+								<span class="txt_type">로그인</span>
+							</div>
+						</form>
+						<a class="btn_type2 btn_member"	href="index.jsp?folder=login&category=join"> <span class="txt_type">회원가입</span>
+						</a>
 					</div>
 				</div>
-			</form>
-			<div class="members-message">
-				<p class="text-center">
-					${message}
-				</p>
 			</div>
 		</div>
 	</div>
+
 </main>
 
 <footer>
