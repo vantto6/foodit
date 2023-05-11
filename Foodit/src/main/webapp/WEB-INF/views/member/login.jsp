@@ -30,20 +30,20 @@
 function sendLogin() {
     const f = document.loginForm;
 
-	let str = f.userId.value;
+	let str = f.memberId.value;
     if(!str) {
         alert("아이디를 입력하세요. ");
-        f.userId.focus();
+        f.memberId.focus();
         return;
     }
 
-    str = f.userPwd.value;
+    str = f.pwd.value;
     if(!str) {
         alert("패스워드를 입력하세요. ");
-        f.userPwd.focus();
+        f.pwd.focus();
         return;
     }
-
+	
     f.action = "${pageContext.request.contextPath}/member/login_ok.do";
     f.submit();
 }
@@ -70,8 +70,8 @@ function sendLogin() {
 						<h2> 로그인 </h2>
 					</div>
 					<div class="row">
-						<input name="userId" type="text" class="form-control" id="login-userId" placeholder="아이디를 입력하세요">
-						<input name="user" type="password" class="form-control margin-top" id="login-password" placeholder="비밀번호를 입력하세요">
+						<input name="memberId" type="text" class="form-control" id="login-userId" placeholder="아이디를 입력하세요">
+						<input name="pwd" type="password" class="form-control margin-top" id="login-password" placeholder="비밀번호를 입력하세요">
 						<p class="text-right margin-top">
 							<a href="${pageContext.request.contextPath}/">아이디 찾기</a> <span>|</span>
 							<a href="${pageContext.request.contextPath}/">패스워드 찾기</a>
