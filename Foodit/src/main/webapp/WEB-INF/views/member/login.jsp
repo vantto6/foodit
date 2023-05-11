@@ -21,6 +21,8 @@
 .members-message p { color: #023b6d; }
 
 .text-center { text-align: center; }
+.text-right { text-align: right; }
+.margin-top { margin-top: 5px; }
 
 </style>
 
@@ -57,7 +59,7 @@ function sendLogin() {
 <main>
 	<div class="container body-container">
 		<div class="body-title">
-			<h2><i class="fa-solid fa-lock"></i> Members Login </h2>
+			<h2><i class="fa-solid fa-lock"></i> 로그인 </h2>
 		</div>
 		
 		<div class="body-main">
@@ -65,25 +67,20 @@ function sendLogin() {
 			<form name="loginForm" method="post">
 				<div class="members-form">
 					<div class="row text-center">
-						<i class="fa-solid fa-lock" style="font-size: 37px; color: #023b6d;"></i>
+						<h2> 로그인 </h2>
 					</div>
 					<div class="row">
-						<label for="login-userId">Your ID</label>
-						<input name="userId" type="text" class="form-control" id="login-userId" placeholder="아이디">
-					</div>
-					<div class="row">
-						<label for="login-password">Your Password</label>
-						<input name="userPwd" type="password" class="form-control" id="login-password" autocomplete="off"
-							placeholder="패스워드">
+						<input name="userId" type="text" class="form-control" id="login-userId" placeholder="아이디를 입력하세요">
+						<input name="user" type="password" class="form-control margin-top" id="login-password" placeholder="비밀번호를 입력하세요">
+						<p class="text-right margin-top">
+							<a href="${pageContext.request.contextPath}/">아이디 찾기</a> <span>|</span>
+							<a href="${pageContext.request.contextPath}/">패스워드 찾기</a>
+						</p>
 					</div>
 					<div class="row text-center">
-						<button type="button" class="btn btn-primary" onclick="sendLogin();">Login</button>
+						<button type="button" class="btn btn-primary" onclick="sendLogin();">로그인</button>
+						<button type="button" class="btn btn-primary" onclick="sendJoin();">회원가입</button>
 					</div>
-					<p class="text-center">
-						<a href="${pageContext.request.contextPath}/member/member.do">회원가입</a> <span>|</span>
-						<a href="${pageContext.request.contextPath}/">아이디 찾기</a> <span>|</span>
-						<a href="${pageContext.request.contextPath}/">패스워드 찾기</a>
-					</p>
 				</div>
 			</form>
 			<div class="members-message">

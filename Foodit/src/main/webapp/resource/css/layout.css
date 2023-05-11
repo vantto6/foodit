@@ -24,13 +24,15 @@ header .logo {
 	margin: 0;
 	margin-right: auto;
 	padding: 0;
-	line-height: 1;
+	line-height: 2;
 	font-weight: 600;
 	letter-spacing: 0.8px;
 	font-family: "Poppins", sans-serif;
 }
 header .logo a {
 	color: #222222;
+	padding : 5px;
+	
 }
 header .logo a:hover {
 	text-decoration: none;
@@ -49,46 +51,57 @@ header .logo a span {
 }
 
 nav {
+	
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	position: relative;
 	/* background: linear-gradient(90deg, #051937, #004d7a, #008793, #00bf72, #a8eb12); */
-	background: linear-gradient(90deg, #051937, #004d7a, #008793, #004d7a, #051937);
+	background: white;
+	box-shadow: 10px 10px 10px #F7F7F7;
+	margin: 0 auto;
 }
+	
 
 nav ul, nav li {
 	list-style: none;
 }
 
 .main-menu {
+	float: left;
+	margin-left: 35px;
+	margin-bottom: 15px;
+
 	display: flex;
 	align-items: center; /* 수직 가운데 */
 	/* justify-content: center; */ /* 수평(주축) 가운데 */
 	flex-wrap: wrap; /* 폭이 넘치는 경우 여러행으로 출력 */
 }
 
+.main-menu > li {
+	float: left;
+	margin-left: 35px;
+	margin-bottom: 15px;
+}
+
 .main-menu > li > a {
 	font-family: "NanumGothic", "나눔고딕", "Malgun Gothic", "맑은 고딕", 돋움, sans-serif;
-	font-size: 0.85rem;
-	color: rgba(255,255,255,0.9);
+	font-size: 15px;
+	color : black;
 	font-weight: 500;
 	text-align: center;
 	text-decoration: none;
 	letter-spacing: 0.05em;
 	display: block;
 	padding: 14px 36px;
-	border-right: 1px solid rgba(0,0,0,0.15);
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 
-.main-menu > li:nth-child(1) > a {
-  border-left: 1px solid rgba(0,0,0,0.15);
-}
+ 
 
 .main-menu .sub-menu {
 	position: absolute;
-	background: #182952;
+	background: white;
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.15s ease-in;
@@ -98,12 +111,14 @@ nav ul, nav li {
 .main-menu .sub-menu > li {
 	padding: 13px 28px;
 	border-bottom: 1px solid rgba(255,255,255,0.1);
+ 
+	
 }
 
 .main-menu .sub-menu > li >  a {
 	font-family: "NanumGothic", "나눔고딕", "Malgun Gothic", "맑은 고딕", 돋움, sans-serif;
 	font-size: 0.85rem;
-	color: rgba(255,255,255,0.9);
+	color:black;
 	text-decoration: none;
 }
 
@@ -113,7 +128,7 @@ nav ul, nav li {
 }
 
 .main-menu .sub-menu > li:hover {
-	background: #008793;
+	background: #F7F7F7;
 }
 
 .container {
@@ -179,16 +194,21 @@ nav ul, nav li {
 	padding-top: 35px;
 }
 
+
+
+
+
 /* footer */
 footer {
     background: #ffffff;
     padding: 30px 0 30px;
     color: #444;
     font-size: 14px;
-    background: #f1f6fe;
+    background: #F7F7F7;
     display: flex;
     justify-content: center;
     align-items: center;
+	
 }
 
 footer ul, footer li {
