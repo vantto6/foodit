@@ -26,7 +26,7 @@
 				<a href="${pageContext.request.contextPath}/" title="로그아웃"><i
 				class="fa-solid fa-arrow-right-from-bracket fa-lg"></i></a>
 		</c:if>
-		<c:if test="${sessionScope.member.userId == 'admin'}">
+		<c:if test="${sessionScope.member.memberId == 'admin'}">
             	&nbsp;
 				<a href="#" title="관리자"><i class="fa-solid fa-gear fa-lg"></i></a>
 		</c:if>
