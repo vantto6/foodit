@@ -13,6 +13,13 @@ public class MemberDTO {
 	private String updateDate;
 	private String deleteDate;
 	private String gubun;
+	private String birth;
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 	public long getMemberNo() {
 		return memberNo;
 	}
