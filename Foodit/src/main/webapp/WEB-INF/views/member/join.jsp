@@ -270,7 +270,7 @@ cursor : pointer;
     overflow: hidden;
     width: 1050px;
     margin: 0 auto;
-    padding: 50px 0 51px;
+    padding: 20px 0px 0px;
 }
 
 #idCheck.btn.default, #emailCheck.btn.default {
@@ -379,7 +379,7 @@ button, input, optgroup, select, textarea {
 				<span class="ico">*</span>필수입력사항
 			</p>
 			<hr>
-			<table class="tbl_comm" style="margin:30px;">
+			<table class="tbl_comm" style="margin:30px; border:none	">
 				<tr class="fst">
 					<th>아이디<span class="ico">*</span></th>
 					
