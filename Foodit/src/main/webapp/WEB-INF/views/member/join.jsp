@@ -12,12 +12,47 @@
 
 <style type="text/css">
 
-element.style {
+button {
+	background-color: transparent;
+	border: 0px solid transparent;
+	outline: none;
+	padding: 0;
+}
+
+button.btn.active.btn_join {
+	line-height: 46px !important;
 }
 
 .member_join .tbl_comm .fst th {
     padding-top: 29px;
 }
+.tbl_comm > tbody > tr > th {
+	padding-left: 0 !important;
+}
+.tbl_comm > tbody > tr > td {
+	display: flex;
+}
+
+.tbl_comm > tbody > tr > td > input {
+	flex: 1;
+}
+
+#wrapper {
+	display: flex;
+}
+
+#address1,
+#address2 {
+	width: 100%;
+}
+#zipcode {
+	flex: 1;
+}
+
+.field_address__wrapper {
+	width: 100%;
+}
+
 
 .member_join th {
     width: 159px;
@@ -268,7 +303,7 @@ cursor : pointer;
 }
 .tit_page {
     overflow: hidden;
-    width: 1050px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px 0px 0px;
 }
@@ -351,6 +386,12 @@ button, input, optgroup, select, textarea {
     text-align: center;
 }
 
+.type_form input[type="radio"] {
+	position: relative;
+	opacity: 1.0;
+	z-index: unset;
+}
+
 </style>
 
 
@@ -379,13 +420,13 @@ button, input, optgroup, select, textarea {
 				<span class="ico">*</span>필수입력사항
 			</p>
 			<hr>
-			<table class="tbl_comm" style="margin:30px; border:none	">
+			<table class="tbl_comm" style="margin:30px 0; border:none	">
 				<tr class="fst">
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
 						<input type="text" name="id" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"> 
-					<span class="btn default" id="emailCheck">중복확인</span></td>
+					<button class="btn default" id="emailCheck">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
@@ -403,12 +444,28 @@ button, input, optgroup, select, textarea {
 					<th>이름<span class="ico">*</span></th>
 					<td>
 						<input type="text" name="name" id="name" 	placeholder="이름을 입력해주세요">
+				</td>
 				</tr>
 				<tr>
-					<th>이메일<span class="ico">*</span></th>
+					<th>성별</th>
+					<td>
+					 	<div style="padding-top: 7px;">
+							<label for="male">
+								<input type="radio" name="gender" id="male" value="1" checked  />남자 
+							</label>
+							<label for="female">
+								<input type="radio" name="gender" id="female" value="0" />여자 
+							</label>
+						</div>
+						
+					</td>
+				</tr>
+				
+						<tr>
+						<th>이메일<span class="ico">*</span></th>
 					<td>
 						<input type="text" name="email" class="email" id="email" placeholder="예: marketkurly@kurly.com">
-					<span class="btn default" id="emailCheck">중복확인</span>
+					<button class="btn default" id="emailCheck">중복확인</button>
 					</td>
 				</tr>
 				<tr class="field_phone">
@@ -421,12 +478,12 @@ button, input, optgroup, select, textarea {
 				<tr>
 					<th>주소<span class="ico">*</span></th>
 					<td class="field_address">
-						<div>
+						<div class="field_address__wrapper">
 							<div id="wrapper">
 								<input type="text" name="zipcode" id="zipcode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
-								<span id="addressNo" class="address_no" data-text="재검색">주소 검색</span>
+								<button id="addressNo" class="address_no" data-text="재검색">주소 검색</button>
 								</a>
 							</div>
 							<input type="text" name="address1" id="address1"

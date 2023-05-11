@@ -11,6 +11,15 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+button {
+	background-color: transparent;
+	border: 0px solid transparent;
+	outline: none;
+}
+#btn_type1 > button {
+	width: 100%;
+	
+}
 .members-form { max-width: 360px; margin: 0 auto; background: #fefeff; padding: 30px 25px; box-shadow: 0 0 15px 0 rgb(2 59 109 / 10%); }
 .members-form .row { margin-bottom: 1.5rem; }
 .members-form label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-family: Verdana, sans-serif; }
@@ -74,7 +83,7 @@ function sendLogin() {
 							<div id="message"></div>
 							</div>
 							<div class="btn_type1" id ="btn_type1">							
-								<span class="txt_type"><button onclick="sendLogin();">로그인</button></span>						
+								<button class="txt_type">로그인</button>						
 							</div>
 						</form> 
 						<a class="btn_type2 btn_member"	href="index.jsp?folder=login&category=join"> <span class="txt_type">회원가입</span>
