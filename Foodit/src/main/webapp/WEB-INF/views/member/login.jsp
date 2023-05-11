@@ -76,7 +76,7 @@ function sendLogin() {
 							<div class="btn_type1" id ="btn_type1">							
 								<span class="txt_type"><button onclick="sendLogin();">로그인</button></span>						
 							</div>
-						</form>
+						</form> 
 						<a class="btn_type2 btn_member"	href="index.jsp?folder=login&category=join"> <span class="txt_type">회원가입</span>
 						</a>
 					</div>
