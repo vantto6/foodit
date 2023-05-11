@@ -23,8 +23,8 @@
 		<c:if test="${not empty sessionScope.member}">
 			<a href="#" title="알림"><i class="fa-regular fa-bell fa-lg"></i></a>
             	&nbsp;
-				<a href="${pageContext.request.contextPath}/" title="로그아웃"><i
-				class="fa-solid fa-arrow-right-from-bracket fa-lg"></i></a>
+				<a href="${pageContext.request.contextPath}/member/logout.do" title="로그아웃"><i
+				class="fa-solid fa-arrow-right-from-bracket fa-lg"></i></a> 
 		</c:if>
 		<c:if test="${sessionScope.member.memberId == 'admin'}">
             	&nbsp;
