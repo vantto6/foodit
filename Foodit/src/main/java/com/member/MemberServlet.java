@@ -28,7 +28,7 @@ public class MemberServlet extends MyServlet {
 			loginSubmit(req, resp);
 		} else if(uri.indexOf("logout.do")!=-1) {
 			logout(req, resp);
-		} else if(uri.indexOf("member.do")!=-1) {
+		} else if(uri.indexOf("join.do")!=-1) {
 			memberForm(req, resp);
 		} else if(uri.indexOf("member_ok.do")!=-1) {
 			memberSubmit(req, resp);
@@ -62,10 +62,10 @@ public class MemberServlet extends MyServlet {
 			return;
 		}
 		
-		String userId = req.getParameter("userId");
-		String userPwd = req.getParameter("userPwd");
+		String memberId = req.getParameter("memberId");
+		String pwd = req.getParameter("pwd");
 		
-		MemberDTO dto = dao.loginMember(userId, userPwd);
+		MemberDTO dto = dao.loginMember(memberId, pwd);
 		if(dto != null) {
 			// 로그인 성공 : 로그인정보를 서버에 저장
 			// 세션의 유지시간을 20분설정(기본 30분)
@@ -107,7 +107,8 @@ public class MemberServlet extends MyServlet {
 	}
 	
 	protected void memberForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		String path = "/WEB-INF/views/member/join.jsp";
+		forward(req, resp, path);
 	}
 
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -14,10 +14,10 @@
 	</div>
 	<div class="header-right">
 		<c:if test="${empty sessionScope.member}">
-			<a href="${pageContext.request.contextPath}/" title="로그인"><i
+			<a href="${pageContext.request.contextPath}/member/login.do" title="로그인"><i
 				class="fa-solid fa-arrow-right-to-bracket fa-lg"></i></a>
 				&nbsp;
-                <a href="${pageContext.request.contextPath}/"
+                <a href="${pageContext.request.contextPath}/member/join.do"
 				title="회원가입"><i class="fa-solid fa-user-plus fa-lg"></i></a>
 		</c:if>
 		<c:if test="${not empty sessionScope.member}">
