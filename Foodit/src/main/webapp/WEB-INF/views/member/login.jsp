@@ -70,7 +70,7 @@ function sendLogin() {
 								<div class="login_search">
 									<a class="link"	href="index.jsp?folder=login&category=Find_id"> 아이디 찾기 </a> <span class="bar"></span> 
 									<a class="link"	href="index.jsp?folder=login&category=Find_pw"> 비밀번호 찾기 </a>
-								</div>
+								</div> 
 							<div id="message"></div>
 							</div>
 							<div class="btn_type1" id ="btn_type1">							
