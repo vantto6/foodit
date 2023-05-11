@@ -108,6 +108,8 @@ public class MemberServlet extends MyServlet {
 	}
 	
 	protected void memberForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("title", "회원 가입");
+		req.setAttribute("mode", "member");
 		String path = "/WEB-INF/views/member/join.jsp";
 		forward(req, resp, path);
 	}
