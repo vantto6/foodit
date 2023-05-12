@@ -12,7 +12,7 @@
 
 <style type="text/css">
 .btn {
-	 color: #88b04B; 
+	 color: #88b04B;  
 	 border: 1px solid #88b04B; 
 	 background-color: #ffffff; 
 	 padding: 5px 10px; 
@@ -428,6 +428,90 @@ border: 1px solid white;
 
 
 </head>
+<script type="text/javascript">
+function memberOk() {
+	const f = document.memberForm;
+	let str;
+
+	str = f.memberId.value;
+	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
+		alert("아이디를 다시 입력 하세요. ");
+		f.memberId.focus();
+		return;
+	}
+
+	str = f.pwd.value;
+	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
+		alert("패스워드를 다시 입력 하세요. ");
+		f.pwd.focus();
+		return;
+	}
+
+	if( str !== f.pwd2.value ) {
+        alert("패스워드가 일치하지 않습니다. ");
+        f.pwd.focus();
+        return;
+	}
+	
+    str = f.name.value;
+    if( !/^[가-힣]{2,5}$/.test(str) ) {
+        alert("이름을 다시 입력하세요. ");
+        f.name.focus();
+        return;
+    }
+    
+    str = f.email.value;
+    if( !str ) {
+        alert("이메일을 입력하세요. ");
+        f.email.focus();
+        return;
+    }
+    
+    str = f.tel1.value;
+    if( !str ) {
+        alert("전화번호 앞 3자리를 입력하세요. ");
+        f.tel1.focus();
+        return;
+    }
+
+    str = f.tel2.value;
+    if( !/^\d{3,4}$/.test(str) ) {
+        alert("전화번호 가운데 4자리를 입력하세요. ");
+        f.tel2.focus();
+        return;
+    }
+
+    str = f.tel3.value;
+    if( !/^\d{4}$/.test(str) ) {
+    	alert("전화번호 마지막 4자리를 입력하세요. ");
+        f.tel3.focus();
+        return;
+    }
+   
+
+   	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
+    f.submit();
+}
+
+function changeEmail() {
+    const f = document.memberForm;
+	    
+    let str = f.selectEmail.value;
+    if(str !== "direct") {
+        f.email2.value = str; 
+        f.email2.readOnly = true;
+        f.email1.focus(); 
+    }
+    else {
+        f.email2.value = "";
+        f.email2.readOnly = false;
+        f.email1.focus();
+    }
+    
+}
+
+</script>
+
 <body>
 
 <header>
@@ -445,7 +529,7 @@ border: 1px solid white;
 
 <div class="page_article" >
 	<div class="type_form member_join">
-		<form action="index.jsp?folder=login&category=join_action" method="post" id="join">
+		<form  method="post" name="memberForm" id="join">
 			<input type="hidden" name="idCheckResult" id="idCheckResult" value="0"> 
 			<input type="hidden" name="emailCheckResult" id="emailCheckResult" value="0">
 			<p class="page_sub">
@@ -457,19 +541,19 @@ border: 1px solid white;
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
-						<input type="text" name="id" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"> 
+						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"> 
 					<button class="btn default" id="emailCheck">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
 					<td>
-						<input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요">
+						<input type="password" name="pwd" id="password" placeholder="비밀번호를 입력해주세요">
 					</td>
 				</tr>
 				<tr class="member_pwd">
 					<th>비밀번호확인<span class="ico">*</span></th>
 					<td>
-						<input type="password" name="repassword" id ="repassword"placeholder="비밀번호를 한번 더 입력해주세요">
+						<input type="password" name="pwd2" id ="repassword"placeholder="비밀번호를 한번 더 입력해주세요">
 					</td>
 				</tr>
 				<tr>
@@ -503,9 +587,9 @@ border: 1px solid white;
 				<tr class="field_phone">
 					<th>휴대폰<span class="ico">*</span></th>
 					<td>
-					<input type="text" name="mobile1" id="mobile1" maxlength="3" >
-					<input type="text" name="mobile2" id="mobile2" maxlength="4" >
-					<input type="text" name="mobile3" id="mobile3" maxlength="4" >
+					<input type="text" name="tel1" id="mobile1" maxlength="3" >
+					<input type="text" name="tel2" id="mobile2" maxlength="4" >
+					<input type="text" name="tel3" id="mobile3" maxlength="4" >
 				</tr>
 				<tr>
 					<th>주소<span class="ico">*</span></th>
@@ -515,7 +599,11 @@ border: 1px solid white;
 								<input type="text" name="zipcode" id="zipcode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
+
 								<button class="btn" id="emailCheck">주소검색</button>
+
+								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
+
 								</a>
 							</div>
 							<input type="text" name="address1" id="address1"
@@ -529,7 +617,7 @@ border: 1px solid white;
 				</tbody>
 			</table>
 			<div id="formSubmit" class="form_footer">
-				<button type="submit" class="btn active btn_join">가입하기</button>
+				<button type="button" class="btn active btn_join" name="btnOk" onclick="memberOk();">가입하기</button>
 			</div>
 		</form>
 	</div>
@@ -581,101 +669,7 @@ border: 1px solid white;
     }
 </script>
 
-<script type="text/javascript">
-function memberOk() {
-	const f = document.memberForm;
-	let str;
 
-	str = f.userId.value;
-	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-		alert("아이디를 다시 입력 하세요. ");
-		f.userId.focus();
-		return;
-	}
-
-	str = f.userPwd.value;
-	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-		alert("패스워드를 다시 입력 하세요. ");
-		f.userPwd.focus();
-		return;
-	}
-
-	if( str !== f.userPwd2.value ) {
-        alert("패스워드가 일치하지 않습니다. ");
-        f.userPwd.focus();
-        return;
-	}
-	
-    str = f.userName.value;
-    if( !/^[가-힣]{2,5}$/.test(str) ) {
-        alert("이름을 다시 입력하세요. ");
-        f.userName.focus();
-        return;
-    }
-
-    str = f.birth.value;
-    if( !str ) {
-        alert("생년월일를 입력하세요. ");
-        f.birth.focus();
-        return;
-    }
-    
-    str = f.tel1.value;
-    if( !str ) {
-        alert("전화번호를 입력하세요. ");
-        f.tel1.focus();
-        return;
-    }
-
-    str = f.tel2.value;
-    if( !/^\d{3,4}$/.test(str) ) {
-        alert("숫자만 가능합니다. ");
-        f.tel2.focus();
-        return;
-    }
-
-    str = f.tel3.value;
-    if( !/^\d{4}$/.test(str) ) {
-    	alert("숫자만 가능합니다. ");
-        f.tel3.focus();
-        return;
-    }
-    
-    str = f.email1.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email1.focus();
-        return;
-    }
-
-    str = f.email2.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email2.focus();
-        return;
-    }
-
-   	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
-    f.submit();
-}
-
-function changeEmail() {
-    const f = document.memberForm;
-	    
-    let str = f.selectEmail.value;
-    if(str !== "direct") {
-        f.email2.value = str; 
-        f.email2.readOnly = true;
-        f.email1.focus(); 
-    }
-    else {
-        f.email2.value = "";
-        f.email2.readOnly = false;
-        f.email1.focus();
-    }
-}
-
-</script>
 
 <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

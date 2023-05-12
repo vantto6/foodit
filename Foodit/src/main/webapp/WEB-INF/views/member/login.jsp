@@ -85,7 +85,7 @@ button {
 .btn_type2 .txt_type {
     color: #88b04B;
 }
-</style>
+</style> 
 
 <script type="text/javascript">
 	function sendLogin() {
