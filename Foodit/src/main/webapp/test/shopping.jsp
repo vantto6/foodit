@@ -17,7 +17,7 @@
 </header>
 
 <main>
-	<div class="things">
+	<div class="container body-container">
 	    <div class="content">
 	    	<div class= "banner">
 	    		<img src="add_photo.png" onclick = "">
@@ -31,126 +31,133 @@
 				<li><a href="#">해/수산물</a></li>
 				<li><a href="#">정육</a></li>
 			</ul>
-			<div>
-			</div>
-			
-	    
-		    <div class="goodslist">			
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
-						</div>
-					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
-				</div>
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
-						</div>
-					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
-				</div>
-					
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
-						</div>
-					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
-				</div>
-					
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
-						</div>
-					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
-				</div>
-					
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
-						</div>
-					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
+			<div class = "body-content">
+				<div class = "filter">
+					<ul class="filter-list">
+						<li><a href="#">가격별</a></li>
+						<li><a href="#">브랜드별</a></li>
+					</ul>
 				</div>
 				
-				<div class="item">
-					<div class="thumb">
-						<a class="img">
-							 <img src="add_photo.png" onclick = "">
-						</a>
-						
-						<div class="group_btn">
-							<button type="button" onclick = "" class="btn btn_cart">
-								<span class="screen_out"></span>
-							</button>
+				<div class="goodslist">
+							
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
 						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
 					</div>
-					<a class="info">
-						<span class="name">상품이름</span> 
-						<span class="price">상품가격</span> 
-						<span class="tag"></span>
-					</a>
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
+						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
+					</div>
+						
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
+						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
+					</div>
+						
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
+						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
+					</div>
+						
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
+						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
+					</div>
+					
+					<div class="item">
+						<div class="thumb">
+							<a class="img">
+								 <img src="add_photo.png" onclick = "">
+							</a>
+							
+							<div class="group_btn">
+								<button type="button" onclick = "" class="btn btn_cart">
+									<span class="screen_out"></span>
+								</button>
+							</div>
+						</div>
+						<a class="info">
+							<span class="name">상품이름</span> 
+							<span class="price">상품가격</span> 
+							<span class="tag"></span>
+						</a>
+					</div>
+			
+			
 				</div>
-			
-			
-			</div>
+	    	</div>
+		    
 				
 				
 				
