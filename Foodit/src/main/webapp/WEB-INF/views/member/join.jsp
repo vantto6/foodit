@@ -410,71 +410,58 @@ function memberOk() {
 	str = f.memberId.value;
 	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
 		alert("아이디를 다시 입력 하세요. ");
-		f.userId.focus();
+		f.memberId.focus();
 		return;
 	}
 
 	str = f.pwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
 		alert("패스워드를 다시 입력 하세요. ");
-		f.userPwd.focus();
+		f.pwd.focus();
 		return;
 	}
 
 	if( str !== f.pwd2.value ) {
         alert("패스워드가 일치하지 않습니다. ");
-        f.userPwd.focus();
+        f.pwd.focus();
         return;
 	}
 	
     str = f.name.value;
     if( !/^[가-힣]{2,5}$/.test(str) ) {
         alert("이름을 다시 입력하세요. ");
-        f.userName.focus();
+        f.name.focus();
         return;
     }
-
-    str = f.birth.value;
+    
+    str = f.email.value;
     if( !str ) {
-        alert("생년월일를 입력하세요. ");
-        f.birth.focus();
+        alert("이메일을 입력하세요. ");
+        f.email.focus();
         return;
     }
     
     str = f.tel1.value;
     if( !str ) {
-        alert("전화번호를 입력하세요. ");
+        alert("전화번호 앞 3자리를 입력하세요. ");
         f.tel1.focus();
         return;
     }
 
     str = f.tel2.value;
     if( !/^\d{3,4}$/.test(str) ) {
-        alert("숫자만 가능합니다. ");
+        alert("전화번호 가운데 4자리를 입력하세요. ");
         f.tel2.focus();
         return;
     }
 
     str = f.tel3.value;
     if( !/^\d{4}$/.test(str) ) {
-    	alert("숫자만 가능합니다. ");
+    	alert("전화번호 마지막 4자리를 입력하세요. ");
         f.tel3.focus();
         return;
     }
-    
-    str = f.email1.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email1.focus();
-        return;
-    }
-
-    str = f.email2.value.trim();
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email2.focus();
-        return;
-    }
+   
 
    	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
     f.submit();
@@ -494,6 +481,7 @@ function changeEmail() {
         f.email2.readOnly = false;
         f.email1.focus();
     }
+    
 }
 
 </script>
@@ -585,7 +573,7 @@ function changeEmail() {
 								<input type="text" name="zipcode" id="zipcode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
-								<button id="addressNo" class="address_no" data-text="재검색">주소 검색</button>
+								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
 								</a>
 							</div>
 							<input type="text" name="address1" id="address1"
@@ -599,7 +587,7 @@ function changeEmail() {
 				</tbody>
 			</table>
 			<div id="formSubmit" class="form_footer">
-				<button type="submit" class="btn active btn_join" name="btnOk" onclick="memberOk();">가입하기</button>
+				<button type="button" class="btn active btn_join" name="btnOk" onclick="memberOk();">가입하기</button>
 			</div>
 		</form>
 	</div>
