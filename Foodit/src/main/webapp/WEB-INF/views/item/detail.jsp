@@ -15,7 +15,7 @@
 * { padding: 0; margin: 0 auto; }
 *, *::after, *::before { box-sizing: border-box; }
 
-.product_view {position:relative; padding: 0 0 0 430px; width: 1050px; box-sizing: border-box;}
+.product_view {position:relative; padding: 0 0 0 430px; width: 1050px; box-sizing: border-box; margin-top: 130px}
 .img {position: absolute; left: 0; top: 0}
 .img > img { width: 3px solid #e8e8e8}
 .product_view h2{
