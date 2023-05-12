@@ -83,11 +83,10 @@
 					<div
 						style="display: block; align-items: center; padding: 18px 10px 16px 2px; font-size: 14px; line-height: 26px; font-weight: 500;">
 						<form method="get" action="form-action.html">
-							<p>전체선택</p>
-							<p>선택삭제</p>
 							<div>
 								<input type="checkbox" id="horns" name="horns"> <label
-									for="horns">뿔</label>
+									for="horns">전체선택</label>	<p>선택삭제</p>
+									
 							</div>
 						</form>
 						<label> <input type="checkbox"> <span

@@ -67,6 +67,12 @@ padding:10px;
 			</ul></li>
 		<li><a href="#">신상품</a></li>
 		<li><a href="#">베스트</a></li>
+				<li><a href="#">고객센터</a>
+			<ul class="sub-menu">
+				<li><a href="#" aria-label="subemnu">공지사항</a></li>
+				<li><a href="#" aria-label="subemnu">1:1문의</a></li>
+				<li><a href="#" aria-label="subemnu">Q&A</a></li>
+			</ul></li>
 
 	</ul>
 </nav>
