@@ -22,7 +22,12 @@ button {
 button.btn.active.btn_join {
 	line-height: 46px !important;
 }
-
+.type_form label {
+    font-size: 14px;
+    line-height: 22px;
+    padding-left: 13px;
+    font-size: 17px;
+    }
 .member_join .tbl_comm .fst th {
     padding-top: 29px;
 }
@@ -32,6 +37,7 @@ button.btn.active.btn_join {
 .tbl_comm > tbody > tr > td {
 	display: flex;
 }
+
 
 .tbl_comm > tbody > tr > td > input {
 	flex: 1;
@@ -447,14 +453,14 @@ button, input, optgroup, select, textarea {
 				</td>
 				</tr>
 				<tr>
-					<th>성별</th>
+					<th>성별<span class="ico">*</span></th>
 					<td>
 					 	<div style="padding-top: 7px;">
-							<label for="male">
-								<input type="radio" name="gender" id="male" value="1" checked  />남자 
+							<label for="male" style="padding:0">
+								<input style="margin-right: 5px;" type="radio" name="gender" id="male" value="1" checked />남자 
 							</label>
 							<label for="female">
-								<input type="radio" name="gender" id="female" value="0" />여자 
+								<input style="margin-right: 5px;" type="radio" name="gender" id="female" value="0" />여자 
 							</label>
 						</div>
 						
