@@ -11,8 +11,25 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+.btn {
+	 color: #88b04B; 
+	 border: 1px solid #88b04B; 
+	 background-color: #ffffff; 
+	 padding: 5px 10px; 
+	border-radius: 4px;
+	font-weight: 500;
+	cursor:pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+	text-align: center;
+}
+.member_join #addressSearch {
+border: 1px solid #88b04B;
+text-align: center;
+}
 
-button {
+.button {
 	background-color: transparent;
 	border: 0px solid transparent;
 	outline: none;
@@ -229,7 +246,7 @@ body, input, select, textarea, button {
     overflow: hidden;
     width: 332px;
     height: 44px;
-    border: 1px solid #5f0080;
+    border: 1px solid 88b04B;
     border-radius: 3px;
     text-align: center;
 }
@@ -284,6 +301,7 @@ cursor : pointer;
     height: 56px;
     font-size: 16px;
     line-height: 54px;
+
   
 }
 
@@ -318,7 +336,7 @@ cursor : pointer;
     cursor: pointer;
     margin-left: 10px;
     padding: 2px 10px;
-    border: 1px solid purple;
+    
 }
 .type_form .btn {
     display: block;
@@ -352,10 +370,13 @@ table {
     
 }
 .type_form .btn.default {
-    border: 1px solid #5f0080;
+
+    border: 1px solid #88b04B;
     background-color: #fff;
-    color: #5f0080;
+    color: #88b04B;
+
 }
+
 button, select {
     text-transform: none;
 }
@@ -382,9 +403,10 @@ button, input, optgroup, select, textarea {
     vertical-align: top;
 }
 .type_form .btn.active {
-    border: 1px solid #5f0081;
-    background-color: #5f0080;
-    color: #fff;
+    border: 1px solid #88b04B;
+    background-color: #88b04B;
+    color: white;
+
 }
 .member_join .form_footer {
     padding-top: 40px;
@@ -397,6 +419,10 @@ button, input, optgroup, select, textarea {
 	opacity: 1.0;
 	z-index: unset;
 }
+field_address__wrapper__button{
+border: 1px solid white;
+}
+
 
 </style>
 
@@ -489,7 +515,7 @@ button, input, optgroup, select, textarea {
 								<input type="text" name="zipcode" id="zipcode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
-								<button id="addressNo" class="address_no" data-text="재검색">주소 검색</button>
+								<button class="btn" id="emailCheck">주소검색</button>
 								</a>
 							</div>
 							<input type="text" name="address1" id="address1"
