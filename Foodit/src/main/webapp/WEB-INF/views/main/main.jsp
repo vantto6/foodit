@@ -7,7 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 </head>
 <script type="text/javascript"
@@ -58,6 +57,12 @@
 	transition: all .3s ease-in-out;
 	cursor: pointer;
 }
+
+.recommend-head, .recommend-container{
+	padding-bottom: 60px;
+}
+ 
+
 </style>
 
 <body>
@@ -67,7 +72,7 @@
 	</header>
 
 	<main>
-		<div class="container body-container">
+		<div class="container body-container" >
 			<div class="inner-page mx-auto">
 				<div id="content">
 					<div class="recommend-container">
@@ -78,41 +83,41 @@
 						<div class="slick-slider13">
 
 							<c:forEach var="a" begin="1" end="10">
-							<div class="container">
+								<div class="container">
 
-								<div class="product_container">
-									<div class="product">
-										<img class="product_img" src="/sambab/product_image/장어.JPG"
-											onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36">
-										<img
-											onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36'"
-											class="cart"></img>
+									<div class="product_container">
+										<div class="product">
+											<img class="product_img" src="/sambab/product_image/장어.JPG"
+												onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36">
+											<img
+												onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36'"
+												class="cart"></img>
 
-									</div>
-									<div class="description_list">
-										<h3>
-											<a
-												href="index.jsp?folder=product&category=Product_details&p_no=36"
-												class="product_name">국내산 손질 민물장어 600g 특미 2미 (생물)</a>
-										</h3>
-										<div class="product_price">
-											<div class="product_calcu">
-												<div class="coupon">0%</div>
-												<div class="price">
-													₩52,900<span>원</span>
+										</div>
+										<div class="description_list">
+											<h3>
+												<a
+													href="index.jsp?folder=product&category=Product_details&p_no=36"
+													class="product_name">국내산 손질 민물장어 600g 특미 2미 (생물)</a>
+											</h3>
+											<div class="product_price">
+												<div class="product_calcu">
+													<div class="coupon">0%</div>
+													<div class="price">
+														₩52,900<span>원</span>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-								</c:forEach>
-							</div>
-
+							</c:forEach>
 						</div>
-					</div>
 
-					<script>
+					</div>
+				</div>
+
+				<script>
 						$('.slick-slider13').slick({
 							  dots: true,
 							  infinite: false,
@@ -148,15 +153,15 @@
 							});
 					
 						</script>
-	
-					<div class="recommend-container">
-						<div class="recommend-head">
-							<span class="head">많이본 상품</span>
-						</div>
-						<div class="third_slick">
-							<c:forEach var="a" begin="1" end="10">
-						
-							<div class="container">
+
+				<div class="recommend-container" >
+					<div class="recommend-head">
+						<span class="head">많이본 상품</span>
+					</div>
+					<div class="third_slick">
+						<c:forEach var="a" begin="1" end="10">
+
+							<div class="container mx-auto">
 
 								<div class="product_container">
 									<div class="product">
@@ -184,10 +189,10 @@
 								</div>
 
 							</div>
-							</c:forEach>
-						</div>
+						</c:forEach>
 					</div>
-					<script>
+				</div>
+				<script>
 						$('.third_slick').slick({
 							  dots: true,
 							  infinite: false,
@@ -222,8 +227,8 @@
 							  ]
 							});
 					
-						</script>
-				</div>
+				</script>
+			</div>
 		</div>
 	</main>
 

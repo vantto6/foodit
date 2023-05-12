@@ -262,7 +262,7 @@ function searchList() {
 				
 				<td style="color: black">KurlyKurly</td>
 				
-				 
+				
 				<td>
 					
 						2022-07-03

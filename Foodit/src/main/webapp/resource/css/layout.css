@@ -52,7 +52,6 @@ header .logo a span {
 
 nav {
 	
-	width: 100%;
 	display: flex;
 	justify-content: center;
 	position: relative;
@@ -69,9 +68,6 @@ nav ul, nav li {
 
 .main-menu {
 	float: left;
-	margin-left: 35px;
-	margin-bottom: 15px;
-
 	display: flex;
 	align-items: center; /* 수직 가운데 */
 	/* justify-content: center; */ /* 수평(주축) 가운데 */
@@ -80,8 +76,6 @@ nav ul, nav li {
 
 .main-menu > li {
 	float: left;
-	margin-left: 35px;
-	margin-bottom: 15px;
 }
 
 .main-menu > li > a {
@@ -93,7 +87,7 @@ nav ul, nav li {
 	text-decoration: none;
 	letter-spacing: 0.05em;
 	display: block;
-	padding: 14px 36px;
+	padding: 10px 30px;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 

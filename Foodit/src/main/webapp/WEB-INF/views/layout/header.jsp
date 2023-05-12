@@ -5,6 +5,29 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
 
+<style>
+
+.header-right a{
+padding:10px;
+
+}
+
+
+.nav-container{
+width: 1110px; height: 100px; margin:0 auto; text-align: center;
+}
+
+.main-menu a{
+padding:10px;
+
+}
+</style>
+
+
+
+
+<div class="nav-container">
+
 <div class="header-top">
 	<div class="header-left">&nbsp;</div>
 	<div class="header-center">
@@ -14,11 +37,13 @@
 	</div>
 	<div class="header-right">
 		<c:if test="${empty sessionScope.member}">
+			
 			<a href="${pageContext.request.contextPath}/member/login.do" title="로그인"><i
-				class="fa-solid fa-arrow-right-to-bracket fa-lg"></i></a>
+				class="fa-solid fa-arrow-right-to-bracket fa-lg"></i></a> 
 				&nbsp;
                 <a href="${pageContext.request.contextPath}/member/join.do"
 				title="회원가입"><i class="fa-solid fa-user-plus fa-lg"></i></a>
+			
 		</c:if>
 		<c:if test="${not empty sessionScope.member}">
 			<a href="#" title="알림"><i class="fa-regular fa-bell fa-lg"></i></a>
@@ -32,10 +57,9 @@
 		</c:if>
 	</div>
 </div>
-
 <nav>
 	<ul class="main-menu">
-		<li><a href="#"><i class="fa-solid fa-bars"></i>카테고리</a>
+		<li><a href="#"><i class="fa-solid fa-bars" style="padding: 10px;"></i>카테고리</a>
 			<ul class="sub-menu">
 				<li><a href="#" aria-label="subemnu">야채/과일</a></li>
 				<li><a href="#" aria-label="subemnu">해/수산물</a></li>
@@ -46,3 +70,4 @@
 
 	</ul>
 </nav>
+	</div>
