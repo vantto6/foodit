@@ -73,8 +73,8 @@ function sendLogin() {
 				<div class="write_form">
 					<div class="write_view login_view">
 						<form  name="loginForm" id="form" method="post">
-							<input type="text" name="memberId" id ="id" size="20" placeholder="아이디를 입력해주세요" value = "">
-							<input type="password" name="pwd" id = "passwd" size="20" placeholder="비밀번호를 입력해주세요">
+							<input type="text" name="memberId" id ="memberId" size="20" placeholder="아이디를 입력해주세요" value = "">
+							<input type="password" name="pwd" id = "pwd" size="20" placeholder="비밀번호를 입력해주세요">
 							<div class="checkbox_save">
 								<div class="login_search">
 									<a class="link"	href="index.jsp?folder=login&category=Find_id"> 아이디 찾기 </a> <span class="bar"></span> 
@@ -83,10 +83,10 @@ function sendLogin() {
 							<div id="message"></div>
 							</div>
 							<div class="btn_type1" id ="btn_type1">							
-								<button class="txt_type">로그인</button>						
+								<button class="txt_type" onclick="sendLogin();">로그인</button>						
 							</div>
 						</form> 
-						<a class="btn_type2 btn_member"	href="index.jsp?folder=login&category=join"> <span class="txt_type">회원가입</span>
+						<a class="btn_type2 btn_member"	href="${pageContext.request.contextPath}/member/join.do"> <span class="txt_type">회원가입</span>
 						</a>
 					</div>
 				</div>
