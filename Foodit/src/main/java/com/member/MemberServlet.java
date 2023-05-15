@@ -40,6 +40,8 @@ public class MemberServlet extends MyServlet {
 			updateSubmit(req, resp);
 		} else if(uri.indexOf("userIdCheck.do")!=-1) {
 			userIdCheck(req, resp);
+		}else if(uri.indexOf("admin.do")!=-1) {
+			adminpage(req, resp);
 		}
 	}
 
@@ -134,4 +136,11 @@ public class MemberServlet extends MyServlet {
 	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}	
+	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("title", "관리자 페이지");
+		req.setAttribute("mode", "member");
+		
+		String path = "/WEB-INF/views/admin/admin.jsp";
+		forward(req, resp, path);
+	}
 }

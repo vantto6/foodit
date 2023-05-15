@@ -53,7 +53,7 @@ padding:10px;
 		</c:if>
 		<c:if test="${sessionScope.member.memberId == 'admin'}">
             	&nbsp;
-				<a href="#" title="관리자"><i class="fa-solid fa-gear fa-lg"></i></a>
+				<a href="${pageContext.request.contextPath}/member/admin.do" title="관리자"><i class="fa-solid fa-gear fa-lg"></i></a>
 		</c:if>
 	</div>
 </div>
