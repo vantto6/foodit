@@ -79,7 +79,7 @@
 
 			<li class="right-style"><a href="#">고객지원센터</a>
 				<ul class="sub-menu">
-					<li><a href="#">마이페이지</a></li>
+					<li><a href="#">마이 페이지</a></li>
 					<li><a href="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/notice/list.do"
