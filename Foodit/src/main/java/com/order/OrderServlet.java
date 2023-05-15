@@ -36,12 +36,7 @@ public class OrderServlet extends MyServlet {
 	}
 
 	private void list(HttpServletRequest req, HttpServletResponse resp) {
-		
-		
-	}
 
-	private void order(HttpServletRequest req, HttpServletResponse resp) {
-		
 		
 	}
 

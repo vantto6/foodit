@@ -5,7 +5,27 @@ public class BasketDTO {
 	private int basketCnt;
 	private String memberId;
 	private int itemNo;
+	private int price, discount;
+	private String itemName;
 	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 	public int getBasketNo() {
 		return basketNo;
 	}
