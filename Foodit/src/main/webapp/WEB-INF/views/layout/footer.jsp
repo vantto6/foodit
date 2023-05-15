@@ -53,24 +53,9 @@
 					</dl>
 				</div>
 				</div>
-				<div class="company">
-					법인명 (상호) : 주식회사 컬리컬리 <span class="bar">I</span> 사업자등록번호 : 000-00-0000
-					<a class="link">사업자정보 확인
-					</a> 
+				<div class="company" style="margin-top: 60px;">
+					법인명 (상호) : 주식회사 컬리컬리 <span class="bar"></span> 사업자등록번호 : 000-00-0000
 					<br> 통신판매업 : 제 2018-서울강남-01646 호 
-						<span class="bar">I</span>
-					<br>
-						주소 : 서울시 강남구 테헤란로 124 삼원타워 4층 아이티윌 
-						<span class="bar">I</span> 최종윤, 김소현,이상민 
-						<span class="bar">I</span>
-						마케팅제휴 : <a class="link">itwill@kurlykurlycorp.com</a>
-					<br> 채용문의 : <a class="link">recruit@kurlykurlycorp.com</a>
-					<br> 팩스: 000 - 0000 - 0000 
-						<span class="bar">I</span> 
-						이메일 : <a class="link">help@kurlykurlycorp.com</a>
-					<br> 대량주문 문의 : <a class="link">kurlygift@kurlykurlycorp.com</a> 
-					<br>
-						
 				</div>
 			</div>
 		</div>
