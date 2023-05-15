@@ -17,6 +17,16 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql;
 		
+//		try {
+//			sql = "SELECT itemName,price,discount,saleUnit,description,"
+//					+ " FROM items i "
+//					+ " JOIN brandNo b ON i.brandNo = b.brandNo"
+//					+ " JOIN categoryNo c ON i.categoryNo = c.categoryNo "
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+		
+		
 		return dto;
 	}
 

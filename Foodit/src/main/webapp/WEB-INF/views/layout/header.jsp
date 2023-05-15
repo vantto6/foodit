@@ -61,12 +61,12 @@ padding:10px;
 	<ul class="main-menu">
 		<li><a href="#"><i class="fa-solid fa-bars" style="padding: 10px;"></i>카테고리</a>
 			<ul class="sub-menu">
-				<li><a href="#" aria-label="subemnu">야채/과일</a></li>
-				<li><a href="#" aria-label="subemnu">해/수산물</a></li>
-				<li><a href="#" aria-label="subemnu">정육</a></li>
+				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">야채/과일</a></li>
+				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">해/수산물</a></li>
+				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">정육</a></li>
 			</ul></li>
-		<li><a href="#">신상품</a></li>
-		<li><a href="#">베스트</a></li>
+		<li><a href="${pageContext.request.contextPath}/item/item.do">신상품</a></li>
+		<li><a href="${pageContext.request.contextPath}/item/item.do">베스트</a></li>
 				<li><a href="#">고객센터</a>
 			<ul class="sub-menu">
 				<li><a href="#" aria-label="subemnu">공지사항</a></li>

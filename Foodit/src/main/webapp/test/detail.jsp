@@ -27,8 +27,8 @@
     letter-spacing: -0.5px;
     word-break: keep-all;
     margin: 20px; 
-    padding-bottom: 20px;
-    border-bottom: 2px solid #333}
+    padding-left: 30px;
+    }
 .product_view table {margin-left: 10px}  
 .product_view table th {    
     width: 128px;
@@ -162,8 +162,32 @@ button {
 	border-radius: 4px;
 }
 
+.discount {
+    padding-right: 9px;
+    font-size: 28px;
+    color: rgb(250, 98, 47);
+}
+
+.price {
+    padding-right: 4px;
+    font-size: 28px;
+    color: rgb(51, 51, 51);
+}
+
+.product_view tr {
+    width: 128px;
+    height: 100%;
+    color: rgb(102, 102, 102);
+    font-weight: 400;
+    line-height: 19px;
+}
 
 
+.count-wrap {position: relative;padding: 0 38px;border: 1px solid #ddd;overflow: hidden;width: 60px;}
+.count-wrap > button {border: 0;background: #ddd;color: #000;width: 38px;height: 38px;position: absolute;top: 0;font-size: 12px;}
+.count-wrap > button.minus {left: 0;}
+.count-wrap > button.plus {right: 0;}
+.count-wrap .inp {border: 0;height: 38px;text-align: center;display: block;width: 100%;}
 </style>
 
 </head>
@@ -179,6 +203,15 @@ button {
 
 		<tbody>
 		<tr>
+			
+			<h2>
+				<span class="discount">5%</span>
+				<span class="price">9000</span>
+				<span>원</span>
+			</h2>
+		</tr>
+		
+		<tr>
 			<th>브랜드명</th>
 			<td>비비고</td>
 		</tr>
@@ -193,23 +226,25 @@ button {
 		<tr>
 			<th>구매수량</th>
 			<td>
-				<input type="number" style="height: 30px">
-
+				<div class="count-wrap _count">
+                      <button type="button" class="minus">-</button>
+  					  <input type="text" class="inp" value="1" />
+  					  <button type="button" class="plus">+</button>
+				</div>
 			</td>
-		</tr>
-		<tr>
-			<th>가격</th>
-			<th>9000</th>
-		</tr>
-
-		<tr>
-			<th>총상품금액</th>
-			<th>9000</th>
 		</tr>
 
 		</tbody>		
 	</table>
-
+	
+	<div align="right" style="margin-right: 30px">
+	    <h2>
+			<span>총상품금액</span>
+			<span class="price">9000</span>
+			<span>원</span>
+		</h2>
+		
+	</div>
 	<div class="img">
 		<img src="image/item.jpg">
 	</div>
@@ -225,6 +260,9 @@ button {
 		<h3>상품설명</h3>
 	</div>
 </div>
+
+
+
 <div id="Review_list">
 	<div id="Review_title">상품 후기(게시글 : 16)</div>
 		<div class="review_text" >

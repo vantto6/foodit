@@ -9,6 +9,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>spring</title>
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
+<script type="text/javascript">
+.css-i804ml {
+    margin-top: 50px;
+    font-weight: 500;
+    font-size: 28px;
+    color: rgb(51, 51, 51);
+    line-height: 35px;
+    letter-spacing: -1px;
+    text-align: center;
+}
+
+</script>
 </head>
 <body>
 
@@ -16,28 +28,15 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 
-<main>
+<div style="margin: 100px">
+
+
 	<div class="container body-container">
+<div>
+	<h3 class="css-i804ml eaf14xt0">카테고리</h3>
+</div>
 	    <div class="content">
-	    	<div class= "banner">
-	    		<img src="add_photo.png" onclick = "">
-	    	</div>
-	    	<div class= "category">
-	    		<h3 class= "tit">카테고리명</h3>
-	    	</div>
-			<ul class="list on">
-				<li><a href="#">전체</a></li>
-				<li><a href="#">야채/과일</a></li>
-				<li><a href="#">해/수산물</a></li>
-				<li><a href="#">정육</a></li>
-			</ul>
 			<div class = "body-content">
-				<div class = "filter">
-					<ul class="filter-list">
-						<li><a href="#">가격별</a></li>
-						<li><a href="#">브랜드별</a></li>
-					</ul>
-				</div>
 				
 				<div class="goodslist">
 							
@@ -166,8 +165,7 @@
 		</div>
 
 	
-</main>
-
+</div>
 <footer>
 	<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
