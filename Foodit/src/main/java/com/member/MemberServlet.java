@@ -228,8 +228,9 @@ public class MemberServlet extends MyServlet {
 			}
 			if (mode.equals("delete")) {
 				// 회원탈퇴
-				dao.deleteMember(info.getMemberId());
-
+				dao.deleteMember(info.getMemberId(),info.getMemberNo());
+				
+				
 				session.removeAttribute("member");
 				session.invalidate();
 

@@ -22,6 +22,10 @@ public class SessionInfo {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+	public long getMemberNo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 }

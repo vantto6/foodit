@@ -60,6 +60,7 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 		
+		//insertAll로 다시 짜기 
 		try {
 			conn.setAutoCommit(false);
 			
@@ -184,15 +185,16 @@ public class MemberDAO {
 		return dto;
 	}	
 	
-	public void deleteMember(String userId) throws SQLException {
+	public void deleteMember(String memberId, long memberNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "";
+			sql = "DELETE FROM member WHERE memberId=? AND memberNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			
+			pstmt.setString(1, memberId);
+			pstmt.setLong(2, memberNo);
 			
 			pstmt.executeUpdate();
 			
@@ -202,7 +204,7 @@ public class MemberDAO {
 			sql = "DELETE FROM client WHERE memberNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			
+			pstmt.setLong(1, memberNo);
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
