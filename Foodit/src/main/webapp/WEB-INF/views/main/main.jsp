@@ -60,6 +60,7 @@
 
 .recommend-head, .recommend-container{
 	padding-bottom: 60px;
+	padding-top:30px
 }
  
 

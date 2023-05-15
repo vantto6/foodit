@@ -11,36 +11,87 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 
 <style type="text/css">
-.text-center {
-	text-align: center;
-}
-
-.text-right {
-	text-align: right;
-}
-
 .title {
-	overflow: hidden;
-	width: 1050px;
-	margin: 0 auto;
-	padding: 50px 0 51px;
+	style ="font-size: 14px;
+	align-items: center;
+	padding: 18px 10px 16px 2px;
+	font-size: 14px;
+	line-height: 26px;
+	font-weight: 500;
+}
+
+.cartList_left {
+	float: left;
+	width: 766px; min-height 300px;
+	float: left;
+	border-bottom: 1px solid black;
+}
+
+img {
+	display: block;
+	width: 80%;
+	height: 80px;
+	margin: auto;
+}
+
+.cart {
+	width: 80%;
+	margin: auto;
+	padding: 30px;
+}
+
+.cart ul {
+	background-color: whitesmoke;
+	padding: 30px;
+	margin-bottom: 50px;
+	border: whitesmoke solid 1px;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 300;
+}
+
+table {
+	border-top: solid 1.5px black;
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 14px;
+}
+
+thead {
 	text-align: center;
-	font-size: 20px;
+	font-weight: bold;
 }
 
-.flex-container {
-	display: flex;
-	letter-spacing: -0.5px;
+tbody {
+	font-size: 12px;
 }
 
-.flex-container .select-container {
-	flex-grow: 3;
+td {
+	padding: 15px 0px;
+	border-bottom: 1px solid lightgrey;
+}
+ 
+.cartList_detail :nth-child(3) p {
+	font-weight: bold;
 }
 
-.flex-container .cart_delivery {
-	flex-grow: 1;
-	position: relative;
-	z-index: 3
+.cartList_option {
+	padding: 20px;
+}
+
+.cartList_optionbtn {
+	background-color: white;
+	font-size: 10px;
+	border: lightgrey solid 1px;
+	padding: 7px;
+}
+
+.cartList_detail :nth-child(3), .cartList_detail :nth-child(4),.cartList_detail :nth-child(5) {
+	text-align: center;
+}
+
+.price {
+	font-weight: bold;
 }
 </style>
 
@@ -69,44 +120,116 @@
 
 </head>
 <body>
+
 	<header>
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</header>
 
 	<main>
-		<div class="container body-container">
-			<div class="title">
-				<h3>장바구니</h3>
-			</div>
-			<div class="flex-container">
-				<div class="select-container" style="border: 1px solid red">
-					<div
-						style="display: block; align-items: center; padding: 18px 10px 16px 2px; font-size: 14px; line-height: 26px; font-weight: 500;">
-						<form method="get" action="form-action.html">
-							<div>
-								<input type="checkbox" id="horns" name="horns"> <label
-									for="horns">전체선택</label>	<p>선택삭제</p>
-									
+
+
+		<div class="tit_page">
+			<h2 class="tit">장바구니</h2>
+		</div>
+
+		<div id="cartItemList" class="only_pc" style="min-height: 800px">
+			<div class="empty">
+				<div class="select-container">
+					<div class="cartList_left">
+						<div class="title">
+							<input id="cart_checkbox" type="checkbox" name="cart_checkbox"
+								value="TRUE"> <label>전체선택 | </label><span> 선택삭제</span>
+						</div>
+						<table class="cartList">
+							<thead>
+								<tr>
+									<td><input type="checkbox"></td>
+									<td colspan="2">상품정보</td>
+									<td>옵션</td>
+									<td>상품금액</td>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="n" begin="1" end="5" step="1">
+									<tr class="cartList_detail">
+										<td><input type="checkbox"></td>
+										<td><img src="galbitang.jpeg" alt="food_img"></td>
+										<td><a href="#"></a><span class="cartList_smartstore">
+										</span>
+											<p class="price">[사미헌]갈비탕</p></td>
+										<td class="cartList_option">
+											<button class="cartList_optionbtn">주문조건 추가/변경</button>
+										</td>
+										<td><span class="price">12,000원</span><span
+											style="text-decoration: line-through; color: lightgray;">13,000</span><br>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="3"><input type="checkbox">
+										<button class="cartList_optionbtn">선택상품 삭제</button>
+										<button class="cartList_optionbtn">선택상품 찜</button></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tfoot>
+
+						</table>
+
+					</div>
+				</div>
+
+				<div class="cart_result">
+					<div class="inner_result">
+						<div class="cart_delivery">
+							<h3 class="tit">배송지</h3>
+							<div class="address">
+								<p class="addr">경기 성남시 분당구 대왕판교로 372</p>
+								<p class="addr">11</p>
 							</div>
-						</form>
-						<label> <input type="checkbox"> <span
-							style="border-top: 1px solid bloack;">전체선택</span>
+						</div>
+						<div class="amount_view">
+							<dl class="amount">
+								<dt class="tit">상품금액</dt>
+								<dd class="price">
+									<span class="num">₩0</span><span class="won">원</span>
+								</dd>
+							</dl>
+							<dl class="amount">
+								<dt class="tit">상품할인금액</dt>
+								<dd class="price">
+									<span class="num">0</span><span class="won">원</span>
+								</dd>
+							</dl>
 
-						</label>
-					</div>
-				</div>
-				<!--  
-				<div class="cart_delivery">
-					<h3 class="title">배송지</h3>
-					<div class="address">
-						<p class="addr">경기 성남시 분당구 대왕판교로 372</p>
-						<p class="addr">11</p>
-					</div>
-				</div>
-				-->
-				<div class="cart_delivery" style="border: 1px solid blue">
-					<div></div>
+							<dl class="amount">
+								<dt class="tit">배송비</dt>
+								<dd class="price">
+									<span class="num">0</span><span class="won">원</span>
+								</dd>
+							</dl>
+							<dl class="amount lst">
+								<dt class="tit">결제예정금액</dt>
+								<dd class="price">
+									<span class="num">₩0</span><span class="won">원</span>
+								</dd>
+							</dl>
 
+							<div class="reserve"></div>
+						</div>
+						<div class="btn_submit">
+							<button type="button" class="btn active"
+								onclick="location.href='index.jsp?folder=pay&category=pay_page';">주문하기</button>
+						</div>
+						<div class="notice">
+							<span class="txt"><span class="ico">·</span>[배송준비중] 이전까지
+								주문 취소 가능합니다.</span><span class="txt"><span class="ico">·</span>[마이컬리
+								&gt; 개인정보수정 페이지] 에서 주소지를 변경하실수 있습니다.</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
