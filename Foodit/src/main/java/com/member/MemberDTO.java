@@ -8,7 +8,7 @@ public class MemberDTO {
 	private String gender;
 	private String name;
 	private String tel;
-	private String addressCode;
+	private String addressCode; 
 	private String address;
 	private String addressDetail;
 	private long clientNo;
