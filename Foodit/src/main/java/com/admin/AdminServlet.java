@@ -27,9 +27,12 @@ import com.util.MyServlet;
 			}else if (uri.indexOf("discount.do")!=-1){
 				discount(req, resp);
 			}else if(uri.indexOf("addProduct.do")!=-1){
-				addProduct_OK(req, resp);
+				addProductForm(req, resp);
+			}else if(uri.indexOf("admin_ok.do")!=-1){
+				addProductSubmit(req, resp);
 			}
 		}
+	
 		protected void admin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			req.setAttribute("title", "상품 할인");
 			req.setAttribute("mode", "admin");
@@ -47,10 +50,11 @@ import com.util.MyServlet;
 		protected void addProductForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			req.setAttribute("title", "품목 추가");
 			req.setAttribute("mode", "admin");
-
-			forward(req, resp, "/WEB-INF/views/member/addProduct.jsp");
+			
+			
+			forward(req, resp, "/WEB-INF/views/admin/addProduct.jsp");
 		}
-		protected void addProduct_OK(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		protected void addProductSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			AdminDAO dao = new AdminDAO();
 
 			String cp = req.getContextPath();
@@ -68,9 +72,9 @@ import com.util.MyServlet;
 				dto.setDeadline(req.getParameter("deadline"));
 				
 				dto.setCategoryNo(Integer.parseInt(req.getParameter("categoryNo")));
-				dto.setCategoryName(req.getParameter("categoryName"));
 				dto.setBrandNo(Integer.parseInt(req.getParameter("brandNo")));
-				dto.setBrandName(req.getParameter("brandName"));
+				//dto.setCategoryName(req.getParameter("categoryName"));
+				//dto.setBrandName(req.getParameter("brandName"));
 			/*	
 				dto.setSaveFilename(req.getParameter("saveFilename"));
 				dto.setThumbnail(Integer.parseInt(req.getParameter("thumbnail")));
@@ -92,8 +96,7 @@ import com.util.MyServlet;
 			req.setAttribute("title", "품목 추가");
 			req.setAttribute("mode", "admin");
 			
-			String path = "/WEB-INF/views/admin/addProduct.jsp";
-			forward(req, resp, path);
+			forward(req, resp, "/WEB-INF/views/admin/addProduct.jsp");
 		}
 	}
 

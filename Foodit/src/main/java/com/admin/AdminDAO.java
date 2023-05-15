@@ -13,33 +13,33 @@ public class AdminDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 		
-		try {
-			conn.setAutoCommit(false);
-			
-			sql = "INSERT INTO items(itemNo, itemName, price, discount, cnt, saleUnit, hitCount,description,createDate,updateDate,deadline,brandNo,categoryNo) VALUES (items_seq.NEXTVAL, ?, ?, ?, ?, ?, 0 ,?,SYSDATE, SYSDATE,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, dto.getItemName());
-			pstmt.setLong(2, dto.getPrice());
-			pstmt.setLong(3, dto.getDiscount());
-			pstmt.setInt(4, dto.getCnt());
-			pstmt.setString(5, dto.getSaleUnit());
-			pstmt.setString(6, dto.getDescription());
-			pstmt.setString(7, dto.getDeadline());
-			pstmt.setInt(8, dto.getBrandNo());
-			pstmt.setInt(9, dto.getCategoryNo());
-			
-			pstmt.executeUpdate();
+		try {		
+			sql = "INSERT INTO items (itemNo, itemName, price, discount, cnt, saleUnit, hitCount, description, " +
+				      "createDate, updateDate, deadline, categoryNo, brandNo) " +
+				      "VALUES (items_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, SYSDATE, SYSDATE, ?, ?, brand_seq.NEXTVAL)";
+
+				pstmt = conn.prepareStatement(sql);
+
+				// PreparedStatement에 값을 설정합니다.
+				pstmt.setString(1, dto.getItemName());
+				pstmt.setLong(2, dto.getPrice());
+				pstmt.setLong(3, dto.getDiscount());
+				pstmt.setInt(4, dto.getCnt());
+				pstmt.setString(5, dto.getSaleUnit());
+				pstmt.setString(6, dto.getDescription());
+				pstmt.setString(7, dto.getDeadline());
+				pstmt.setInt(8, dto.getCategoryNo());
+				pstmt.setInt(9, dto.getBrandNo());
+
+				pstmt.executeUpdate();
 					
-			pstmt.close();
-			pstmt = null;
 			
-			sql = "INSERT INTO brand(brandNo, brandName ) VALUES (brand_seq.NEXTVAL,?)";
-			pstmt=conn.prepareStatement(sql);
+			//sql = "INSERT INTO brand(brandNo, brandName ) VALUES (brand_seq.NEXTVAL,?)";
+			//pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getBrandName());
+			//pstmt.setString(1, dto.getBrandName());
 			
-			pstmt.executeUpdate();
+			//pstmt.executeUpdate();
 			
 			/*
 			sql = "INSERT INTO category(categoryNo, categoryName) VALUES (?, ?)";
@@ -96,4 +96,6 @@ public class AdminDAO {
 		}
 		
 	}
+
+	
 }
