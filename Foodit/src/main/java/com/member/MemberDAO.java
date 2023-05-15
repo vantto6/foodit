@@ -139,10 +139,11 @@ public class MemberDAO {
 			pstmt.setString(1, memberId);
 			
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {
 				dto = new MemberDTO();
 				
+				dto.setMemberNo(rs.getInt("memberNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setPwd(rs.getString("pwd"));
 				dto.setName(rs.getString("name"));
@@ -160,7 +161,7 @@ public class MemberDAO {
 				dto.setAddressCode(rs.getString("addressCode"));
 				dto.setAddress(rs.getString("address"));
 				dto.setAddressDetail(rs.getString("addressDetail"));
-				dto.setPwd(rs.getString("pwd"));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

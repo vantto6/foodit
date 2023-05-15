@@ -40,7 +40,7 @@ public class MemberServlet extends MyServlet {
 		} else if(uri.indexOf("update_ok.do")!=-1) {
 			updateSubmit(req, resp);
 		} else if(uri.indexOf("userIdCheck.do")!=-1) {
-			userIdCheck(req, resp);
+			memberIdCheck(req, resp);
 		}else if(uri.indexOf("admin.do")!=-1) {
 			adminpage(req, resp);
 		}
@@ -254,7 +254,7 @@ public class MemberServlet extends MyServlet {
 
 	}
 
-	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void memberIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}	
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

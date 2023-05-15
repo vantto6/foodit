@@ -524,7 +524,7 @@ function changeEmail() {
 		
 		
 <div class="tit_page" >
-	<h2 class="tit">회원가입</h2>
+	<h2 class="tit"> ${title} </h2>
 </div>
 
 <div class="page_article" >
@@ -541,14 +541,18 @@ function changeEmail() {
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
-						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"> 
-					<button class="btn default" id="emailCheck">중복확인</button></td>
+						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합" value="${dto.memberId}" ${mode=="update" ? "readonly='readonly' ":""}> 
+						<c:if test="${mode=='member'}">
+							<p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
+						</c:if>
+					<button class="btn default" id="memberIdCheck">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
 					<td>
 						<input type="password" name="pwd" id="password" placeholder="비밀번호를 입력해주세요">
 					</td>
+					
 				</tr>
 				<tr class="member_pwd">
 					<th>비밀번호확인<span class="ico">*</span></th>
