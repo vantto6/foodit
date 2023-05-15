@@ -29,7 +29,7 @@ import com.util.MyServlet;
 			}else if(uri.indexOf("addProduct.do")!=-1){
 				addProductForm(req, resp);
 			}else if(uri.indexOf("admin_ok.do")!=-1){
-				addProductSubmit(req, resp);
+				addProductSubmit(req, resp); 
 			}
 		}
 	

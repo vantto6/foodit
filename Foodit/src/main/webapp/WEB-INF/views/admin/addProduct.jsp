@@ -133,7 +133,7 @@
                           
                             <tr>
                                 <th>카테고리</th>
-                                <td>
+                                <td> 
                                     <div>
                                         <span>
                                             <select name="categoryNo" id="categoryNo" class="product_category">

@@ -13,7 +13,7 @@ public class AdminDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 		
-		try {		
+		try {		 
 			sql = "INSERT INTO items (itemNo, itemName, price, discount, cnt, saleUnit, hitCount, description, " +
 				      "createDate, updateDate, deadline, categoryNo, brandNo) " +
 				      "VALUES (items_seq.NEXTVAL, ?, ?, ?, ?, 0, ?, SYSDATE, SYSDATE, ?, ?, brand_seq.NEXTVAL)";
