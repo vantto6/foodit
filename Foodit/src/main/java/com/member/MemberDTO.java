@@ -8,7 +8,7 @@ public class MemberDTO {
 	private String gender;
 	private String name;
 	private String tel;
-	private int addressCode;
+	private String addressCode;
 	private String address;
 	private String addressDetail;
 	private long clientNo;
@@ -65,10 +65,10 @@ public class MemberDTO {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public int getAddressCode() {
+	public String getAddressCode() {
 		return addressCode;
 	}
-	public void setAddressCode(int addressCode) {
+	public void setAddressCode(String addressCode) {
 		this.addressCode = addressCode;
 	}
 	public String getAddress() {
