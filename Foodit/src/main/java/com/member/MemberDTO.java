@@ -8,6 +8,9 @@ public class MemberDTO {
 	private String gender;
 	private String name;
 	private String tel;
+	private String addressCode;
+	private String address;
+	private String addressDetail;
 	private long clientNo;
 	private String createDate;
 	private String updateDate;
@@ -61,6 +64,24 @@ public class MemberDTO {
 	}
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+	public String getAddressCode() {
+		return addressCode;
+	}
+	public void setAddressCode(String addressCode) {
+		this.addressCode = addressCode;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
 	}
 	public long getClientNo() {
 		return clientNo;
