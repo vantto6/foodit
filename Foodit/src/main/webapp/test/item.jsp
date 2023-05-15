@@ -83,7 +83,7 @@
 </div>
 	<div class="container">
 		<div class="box">
-		<a href="detail.jsp" target="_blank">
+		<a href="${pageContext.request.contextPath}/item/detail.do" target="_blank">
 			<img class="imgtest" src="imgtest/도라에몽.png">
 		</a>
 			<h2 class="product-name">상품이름</h2> 

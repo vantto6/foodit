@@ -82,16 +82,19 @@
 	<h3 class="css-i804ml eaf14xt0">카테고리</h3>
 </div>
 	<div class="container">
+	
+	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="box">
-		<a href="detail.jsp" target="_blank">
+		<a href="{articleUrl}&itemNo=${dto.itemNo }" target="_blank">
 			<img class="imgtest" src="imgtest/도라에몽.png">
 		</a>
-			<h2 class="product-name">상품이름</h2> 
+			<h2 class="product-name">${dto.itemName }</h2> 
 			<div class="price">
-				<span class="discount">33%</span>
-				<span>9000 <span>원</span> </span>
+				<span class="discount">${dto.discount }%</span>
+				<span>${dto.price } <span>원</span> </span>
 			</div>
 		</div>
+	</c:forEach>
 		<div class="box"><img class="imgtest" src="imgtest/도라에몽.png"></div>
 		<div class="box">Box 6</div>
 		<div class="box">Box 7</div>
