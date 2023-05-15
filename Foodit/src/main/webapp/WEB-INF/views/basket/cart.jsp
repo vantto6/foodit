@@ -150,20 +150,21 @@ td {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="n" begin="1" end="5" step="1">
+						        <c:set var="totalPrice" value="0" />
+								<c:forEach var="dto" items="${list}">
 									<tr class="cartList_detail">
 										<td><input type="checkbox"></td>
 										<td><img src="galbitang.jpeg" alt="food_img"></td>
 										<td><a href="#"></a><span class="cartList_smartstore">
 										</span>
-											<p class="price">[사미헌]갈비탕</p></td>
+											<p class="price">${dto.itemName}</p></td>
 										<td class="cartList_option">
 											<button class="cartList_optionbtn">주문조건 추가/변경</button>
 										</td>
-										<td><span class="price">12,000원</span><span
+										<td><span class="price">${dto.price}</span><span
 											style="text-decoration: line-through; color: lightgray;">13,000</span><br>
 									</tr>
-
+									<c:set var="totalPrice" value="${totalPrice + dto.price}" />
 								</c:forEach>
 							</tbody>
 							<tfoot>
@@ -195,7 +196,7 @@ td {
 							<dl class="amount">
 								<dt class="tit">상품금액</dt>
 								<dd class="price">
-									<span class="num">₩0</span><span class="won">원</span>
+									<span class="num">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 							<dl class="amount">
@@ -214,7 +215,7 @@ td {
 							<dl class="amount lst">
 								<dt class="tit">결제예정금액</dt>
 								<dd class="price">
-									<span class="num">₩0</span><span class="won">원</span>
+									<span class="num">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 
