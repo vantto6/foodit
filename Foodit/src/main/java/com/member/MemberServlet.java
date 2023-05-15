@@ -265,4 +265,5 @@ public class MemberServlet extends MyServlet {
 		String path = "/WEB-INF/views/admin/admin.jsp";
 		forward(req, resp, path);
 	}
+	
 }
