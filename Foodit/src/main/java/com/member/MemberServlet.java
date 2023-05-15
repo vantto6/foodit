@@ -1,6 +1,7 @@
 package com.member;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -118,15 +119,135 @@ public class MemberServlet extends MyServlet {
 	}
 
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		MemberDAO dao = new MemberDAO();
+		
+		String cp = req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+			
+		}
+		String message = "";
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setMemberId(req.getParameter("memberId"));
+			dto.setPwd(req.getParameter("pwd"));
+			dto.setName(req.getParameter("name"));
+			dto.setGender(req.getParameter("gender"));
+			dto.setEmail(req.getParameter("email"));
+			
+			String tel1 = req.getParameter("tel1");
+			String tel2 = req.getParameter("tel2");
+			String tel3 = req.getParameter("tel3");
+			dto.setTel(tel1 + "-" + tel2 + "-" + tel3);
+			
+			dto.setAddressCode(req.getParameter("addressCode"));
+			dto.setAddress(req.getParameter("address"));
+			dto.setAddressDetail(req.getParameter("addressCode"));
+			
+			dao.insertMember(dto);
+			resp.sendRedirect(cp + "/");
+			return;
+		} catch (SQLException e) {
+			if (e.getErrorCode() == 1)
+				message = "아이디 중복으로 회원 가입이 실패 했습니다.";
+			else if (e.getErrorCode() == 1400)
+				message = "필수 사항을 입력하지 않았습니다.";
+			else if (e.getErrorCode() == 1840 || e.getErrorCode() == 1861)
+				message = "날짜 형식이 일치하지 않습니다.";
+			else
+				message = "회원 가입이 실패 했습니다.";
+			// 기타 - 2291:참조키 위반, 12899:폭보다 문자열 입력 값이 큰경우
+		} catch (Exception e) {
+			message = "회원 가입이 실패 했습니다.";
+			e.printStackTrace();
+		}
+		req.setAttribute("title", "회원 가입");
+		req.setAttribute("mode", "member");
+		req.setAttribute("message", message);
+		forward(req, resp, "/WEB-INF/views/member/join.jsp");
+		
 	}
 	
 	protected void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		if(info == null) {
+			resp.sendRedirect(cp + "/member/login.do");
+			return;
+		}
+		String mode = req.getParameter("mode");
+		if (mode.equals("update")) {
+			req.setAttribute("title", "회원 정보 수정");
+		} else {
+			req.setAttribute("title", "회원 탈퇴");
+		}
+		req.setAttribute("mode", mode);
 
+		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
 	}
 
 	protected void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		MemberDAO dao = new MemberDAO();
+		HttpSession session = req.getSession();
+		
+		String cp = req.getContextPath();
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+		
+		try {
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			if(info == null) {
+				resp.sendRedirect(cp + "/member/login.jsp");
+				return;
+			}
+			MemberDTO dto = dao.readMember(info.getMemberId());
+			if (dto == null) {
+				session.invalidate();
+				resp.sendRedirect(cp + "/");
+				return;
+			}
+			String Pwd = req.getParameter("pwd");
+			String mode = req.getParameter("mode");
+			if (!dto.getPwd().equals(Pwd)) {
+				if (mode.equals("update")) {
+					req.setAttribute("title", "회원 정보 수정");
+				} else {
+					req.setAttribute("title", "회원 탈퇴");
+				}
 
+				req.setAttribute("mode", mode);
+				req.setAttribute("message", "패스워드가 일치하지 않습니다.");
+				forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+				return;
+			}
+			if (mode.equals("delete")) {
+				// 회원탈퇴
+				dao.deleteMember(info.getMemberId());
+
+				session.removeAttribute("member");
+				session.invalidate();
+
+				resp.sendRedirect(cp + "/");
+				return;
+			}
+
+			// 회원정보수정 - 회원수정폼으로 이동
+			req.setAttribute("title", "회원 정보 수정");
+			req.setAttribute("dto", dto);
+			req.setAttribute("mode", "update");
+			forward(req, resp, "/WEB-INF/views/member/member.jsp");
+			return;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/");
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

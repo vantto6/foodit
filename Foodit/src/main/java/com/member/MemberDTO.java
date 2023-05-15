@@ -7,7 +7,7 @@ public class MemberDTO {
 	private String email;
 	private String gender;
 	private String name;
-	private String tel;
+	private String tel, tel1, tel2, tel3;
 	private String addressCode; 
 	private String address;
 	private String addressDetail;
@@ -17,6 +17,25 @@ public class MemberDTO {
 	private String deleteDate;
 	private String gubun;
 	private String birth;
+	
+	public String getTel1() {
+		return tel1;
+	}
+	public void setTel1(String tel1) {
+		this.tel1 = tel1;
+	}
+	public String getTel2() {
+		return tel2;
+	}
+	public void setTel2(String tel2) {
+		this.tel2 = tel2;
+	}
+	public String getTel3() {
+		return tel3;
+	}
+	public void setTel3(String tel3) {
+		this.tel3 = tel3;
+	}
 	public String getBirth() {
 		return birth;
 	}
