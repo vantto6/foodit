@@ -23,7 +23,9 @@
 .main-menu a {
 	padding: 10px;
 }
-
+.main-menu {
+	box-shadow: 10px 10px 10px #F7F7F7;
+}
 .right-style {
 	margin-left: 580px;
 }
@@ -61,30 +63,11 @@
 			</c:if>
 			<c:if test="${sessionScope.member.memberId == 'admin'}">
             	&nbsp;
-				<a href="${pageContext.request.contextPath}/member/admin.do" title="관리자"><i class="fa-solid fa-gear fa-lg"></i></a>
+				<a href="#" title="관리자"><i class="fa-solid fa-gear fa-lg"></i></a>
 			</c:if>
 		</div>
 	</div>
-<<<<<<< HEAD
-</div>
-<nav>
-	<ul class="main-menu">
-		<li><a href="#"><i class="fa-solid fa-bars" style="padding: 10px;"></i>카테고리</a>
-			<ul class="sub-menu">
-				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">야채/과일</a></li>
-				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">해/수산물</a></li>
-				<li><a href="${pageContext.request.contextPath}/item/item.do" aria-label="subemnu">정육</a></li>
-			</ul></li>
-		<li><a href="${pageContext.request.contextPath}/item/item.do">신상품</a></li>
-		<li><a href="${pageContext.request.contextPath}/item/item.do">베스트</a></li>
-				<li><a href="#">고객센터</a>
-			<ul class="sub-menu">
-				<li><a href="#" aria-label="subemnu">공지사항</a></li>
-				<li><a href="#" aria-label="subemnu">1:1문의</a></li>
-				<li><a href="#" aria-label="subemnu">Q&A</a></li>
-			</ul></li>
-=======
-	<nav class="nav">
+	<nav class="nav" >
 		<ul class="main-menu">
 			<li><a href="#"><i class="fa-solid fa-bars"
 					style="padding: 10px;"></i>카테고리</a>
@@ -95,12 +78,9 @@
 				</ul></li>
 			<li><a href="#">신상품</a></li>
 			<li><a href="#">베스트</a></li>
->>>>>>> branch 'main' of https://github.com/vantto6/foodit.git
 
 			<li class="right-style"><a href="#">고객지원센터</a>
 				<ul class="sub-menu">
-					<li><a href="#">마이페이지</a></li>
-					<li><a href="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/notice/list.do"
 						aria-label="submenu">공지사항</a></li>
