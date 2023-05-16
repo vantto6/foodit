@@ -106,6 +106,8 @@ public class MemberDAO {
 		}
 		}
 	
+	
+	
 	public MemberDTO readMember(String memberId) {
 		MemberDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -113,11 +115,11 @@ public class MemberDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT m.clientNo, memberId, pwd, name, ");
-			sb.append("      gender ,email, tel, addressCode, address, addressDetail");
-			sb.append("  FROM member m");
-			sb.append("  LEFT OUTER JOIN client c ON m.clientNo= c.clientNo ");
-			sb.append("  WHERE m.memberId = ?");
+			sb.append("SELECT m.clientNo, memberId, pwd, name, gender ,email, tel, addressCode, address, addressDetail ");
+			sb.append(" FROM member m ");
+			sb.append(" LEFT JOIN client c ON m.clientNo= c.clientNo ");
+			sb.append(" LEFT JOIN addressinfo ai on c.clientNo = ai.clientNo ");
+			sb.append(" WHERE m.memberId = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -135,14 +137,6 @@ public class MemberDAO {
 				dto.setGender(rs.getString("gender"));
 				dto.setEmail(rs.getString("email"));
 				dto.setTel(rs.getString("tel"));
-				if(dto.getTel() != null) {
-					String[] ss = dto.getTel().split("-");
-					if(ss.length == 3) {
-						dto.setTel1(ss[0]);
-						dto.setTel2(ss[1]);
-						dto.setTel3(ss[2]);
-					}
-				}
 				dto.setAddressCode(rs.getString("addressCode"));
 				dto.setAddress(rs.getString("address"));
 				dto.setAddressDetail(rs.getString("addressDetail"));
