@@ -25,18 +25,38 @@ public class BasketServlet extends MyServlet {
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
 		try {
 			String memberId = info.getMemberId();
+			Long clientNo = info.getClientNo();
 			List<BasketDTO> list = dao.listBasket(memberId);
-			
+			List<AddressDTO> addressList = dao.listAddress(clientNo);
 			req.setAttribute("list", list);
+			req.setAttribute("adressList", addressList);
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		forward(req, resp, "/WEB-INF/views/basket/cart.jsp");
+	}
+	
+	protected void sendAddress(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8"); 
+  
+		BasketDAO dao = new BasketDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		try {
+			Long clientNo = info.getClientNo();
+			List<AddressDTO> addressList = dao.listAddress(clientNo);
+			req.setAttribute("adressList", addressList);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		forward(req, resp, "/WEB-INF/views/basket/popUp.jsp");
 	}
 
 }

@@ -93,6 +93,14 @@ td {
 .price {
 	font-weight: bold;
 }
+.product_count{
+	display: flex;
+}
+input[type=checkbox] {
+   opacity: 1;
+   position: relative;
+   z-index: 10;
+}
 </style>
 
 <script type="text/javascript">
@@ -115,6 +123,11 @@ td {
 
 		f.action = "${pageContext.request.contextPath}/member/login_ok.do";
 		f.submit();
+	}
+	
+	function openPopup() {
+		// 팝업 창을 띄우는 코드
+		window.open("popup.jsp", "팝업 제목", "width=500,height=300");
 	}
 </script>
 
@@ -159,7 +172,13 @@ td {
 										</span>
 											<p class="price">${dto.itemName}</p></td>
 										<td class="cartList_option">
-											<button class="cartList_optionbtn">주문조건 추가/변경</button>
+											<div class="product_count">
+												<button class="count_down"></button>
+												<div class="count">
+													
+												</div>
+												<button class="count_up"></button>
+											</div>
 										</td>
 										<td><span class="price">${dto.price}</span><span
 											style="text-decoration: line-through; color: lightgray;">13,000</span><br>
@@ -190,6 +209,8 @@ td {
 							<div class="address">
 								<p class="addr">경기 성남시 분당구 대왕판교로 372</p>
 								<p class="addr">11</p>
+								<button type="button" class="btn active"
+								onclick="openPopup()">주문하기</button>
 							</div>
 						</div>
 						<div class="amount_view">
