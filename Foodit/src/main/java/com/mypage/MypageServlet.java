@@ -1,8 +1,8 @@
 package com.mypage;
 
 import java.io.IOException;
+import java.util.List;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +13,7 @@ import com.member.MemberDAO;
 import com.member.MemberDTO;
 import com.member.SessionInfo;
 import com.util.MyServlet;
+import com.util.MyUtil;
 
 @WebServlet("/mypage/*")
 public class MypageServlet extends MyServlet {
@@ -35,12 +36,25 @@ public class MypageServlet extends MyServlet {
 		} else if(uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req,resp);
 		} else if(uri.indexOf("order.do") != -1) {
-			
-		} else if(uri.indexOf("addrManage.do") != -1) {
-			
+			mypageForm(req,resp);
+		} else if(uri.indexOf("addrmanage.do") != -1) {
+			list(req,resp);
 		}
 		
  	}
+	
+	protected void mypageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 마이페이지 폼 , 주문내역 창으로 바로 들어감
+		String path = "/WEB-INF/views/mypage/order.jsp";
+		
+		forward(req, resp, path);
+	}
+	protected void addrManageFORM(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 마이페이지 폼 , 주문내역 창으로 바로 들어감
+		String path = "/WEB-INF/views/mypage/addrManage.jsp";
+		
+		forward(req, resp, path);
+	}
 	
 	protected void checkPw(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 로그인 폼
@@ -55,12 +69,6 @@ public class MypageServlet extends MyServlet {
 	    // 읽어온 속성 값 적용
 	    req.setAttribute("username", str);
 	    System.out.println(str);
-		
-		forward(req, resp, path);
-	}
-	protected void mypageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 마이페이지 폼 , 주문내역 창으로 바로 들어감
- 		String path = "/WEB-INF/views/mypage/order.jsp";
 		
 		forward(req, resp, path);
 	}
@@ -122,7 +130,7 @@ public class MypageServlet extends MyServlet {
 		
 		try {
 			MemberDTO dto = new MemberDTO();
-			MemberDAO dao = new MemberDAO();
+			MypageDAO dao = new MypageDAO();
 			
 			dto.setMemberId(req.getParameter("memberId"));
 			dto.setPwd(req.getParameter("after_pwd"));
@@ -149,4 +157,59 @@ public class MypageServlet extends MyServlet {
 	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}	
+	
+	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 리스트
+		MypageDAO dao = new MypageDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
+		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+		
+			// 전체 데이터 개수
+			int dataCount = dao.dataCount();
+			
+			// 전체 페이지 수
+			int size = 2;
+			int total_page = util.pageCount(dataCount, size);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			// 게시물 가져오기
+			int offset = (current_page - 1) * size;
+			if(offset < 0) offset = 0;
+			
+			List<addrmanageDTO> list = null;
+			
+			list = dao.listBoard(offset, size);
+
+			// 페이징 처리
+			String listUrl = cp + "/mypage/addrmanage.do";
+			/* String articleUrl = cp + "/page/article.do?page=" + current_page; */
+
+			String paging = util.paging(current_page, total_page, listUrl);
+
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("size", size);
+			// req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/views/mypage/addrmanage.jsp");
+	}
 }

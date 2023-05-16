@@ -67,6 +67,21 @@
 .body-container2 {
 	height: 900px;
 }
+
+.table-border-addrmanage thead > tr { border-bottom: 1px solid #ced4da; }
+
+.table-list .addr {
+	width: 200px; color: #787878;
+}
+.table-list .sender {
+	color: #787878;
+}
+.table-list .tel {
+    color: #787878;
+}
+
+
+
 </style>
 <script type="text/javascript">
 
@@ -81,34 +96,51 @@
 	
 <main>
 	<div class="tit_page" >
-		<h2 class="tit">마이 페이지</h2>
+		<h2 class="tit">배송지 관리</h2>
 	</div>
 	<div class="container body-container">
 		<div class = "abc">
 			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
-						<li><a>주문내역</a></li>				
-						<li><a>장바구니</a></li>				
-						<li><a>개인정보수정</a></li>				
-						<li><a>배송지관리</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
+						<li><a href ="#">장바구니</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/addrmanage.do">배송지관리</a></li>				
 						<li><a>내가쓴후기</a></li>				
 					</ul>
 				</div>
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<h2> 주문 내역 </h2> <span style="font-size : 14px;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span>
-				<select style="display : inline; float : right">
-					<option>3개월</option>
-					<option>6개월</option>
-					<option>1년</option>
-					<option>3년</option>
-				</select>
+				<span> 배송지 내역 </span> 
+				<button type="button" style="float: right"> 새 배송지 추가 </button>
 			</div>
 			
 			<div class ="mypage-right-content">
+			
+				<table class="table table-border-addrmanage table-list">
+					<thead>
+						<tr>
+							<th class="addr">주소</th>
+							<th class="sender">받으실 분</th>
+							<th class="tel">연락처</th>
+						</tr>
+					</thead>
 				
+					<tbody>
+						<c:forEach var="dto" items="${list}" varStatus="status">
+							<tr>
+								<td class="addr">${dto.address}&nbsp;${dto.addressDetail}</td>
+								<td>${dataCount - (page-1) * size - status.index}</td>
+								<td class="sender"></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			<div class="page-navigation">
+				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+			</div>
 			</div>
 		</div>
 	</div>

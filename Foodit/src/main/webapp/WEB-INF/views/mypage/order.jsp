@@ -93,10 +93,10 @@
 			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_mypage.do">주문내역</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>			
-						<li><a href ="${pageContext.request.contextPath}/mypage/addrManage.jsp">배송지관리</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/addrmanage.do">배송지관리</a></li>				
 						<li><a>내가쓴후기</a></li>				
 					</ul>
 				</div>
