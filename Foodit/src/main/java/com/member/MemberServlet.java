@@ -1,6 +1,7 @@
 package com.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import com.util.MyServlet;
 
@@ -122,6 +125,7 @@ public class MemberServlet extends MyServlet {
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		MemberDAO dao = new MemberDAO();
 		
+		
 		String cp = req.getContextPath();
 		if(req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp + "/");
@@ -131,6 +135,8 @@ public class MemberServlet extends MyServlet {
 		String message = "";
 		try {
 			MemberDTO dto = new MemberDTO();
+			
+			dto.setClientNo(Long.parseLong(req.getParameter("clientNo")));
 			dto.setMemberId(req.getParameter("memberId"));
 			dto.setPwd(req.getParameter("pwd"));
 			dto.setName(req.getParameter("name"));
@@ -229,7 +235,7 @@ public class MemberServlet extends MyServlet {
 			}
 			if (mode.equals("delete")) {
 				// 회원탈퇴
-				dao.deleteMember(info.getMemberId(),info.getMemberNo());
+				dao.deleteMember(info.getMemberId(),info.getClientNo());
 				
 				
 				session.removeAttribute("member");
@@ -257,8 +263,35 @@ public class MemberServlet extends MyServlet {
 	}
 
 	protected void idCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		      // 게시글 공감 저장: AJAX-JSON
+			//자바로 id유효성 체크하기 
+		      MemberDAO dao = new MemberDAO();
+		     
+		      String state = "false";
+		      
+		      try {
+		         String id =req.getParameter("id");
+		         
+	             MemberDTO member = dao.readMember(id); // 아이디를 readMemb에 넣어서 객체가 있는지 없는 확
+		         
+	             System.out.println(member);
+	             
+	             if (member == null) {
+	            	 state = "true";
+	             }
+		         
+		         
+		      } catch (Exception e) {
+		         e.printStackTrace();
+		      }
+		      
+		      JSONObject job = new JSONObject();
+		      job.put("state", state);
+		      
+		      PrintWriter out = resp.getWriter();
+		      out.print(job.toString());
+   }
 
-	}	
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("title", "관리자 페이지");
 		req.setAttribute("mode", "member");
