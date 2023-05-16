@@ -64,11 +64,11 @@ button.btn.active.btn_join {
 	display: flex;
 }
 
-#address1,
-#address2 {
+#address,
+#addressDetail {
 	width: 100%;
 }
-#zipcode {
+#addressCode {
 	flex: 1;
 }
 
@@ -251,7 +251,7 @@ body, input, select, textarea, button {
     text-align: center;
 }
 
-#zipcode {
+#addressCode {
 	width: 181px !important;
 }
 
@@ -429,6 +429,7 @@ border: 1px solid white;
 
 </head>
 <script type="text/javascript">
+
 function memberOk() {
 	const f = document.memberForm;
 	let str;
@@ -489,7 +490,7 @@ function memberOk() {
     }
    
 
-   	f.action = "${pageContext.request.contextPath}/member/${mode}_ok.do";
+   	f.action = "${pageContext.request.contextPath}/WEB-INF/views/main.jsp";
     f.submit();
 }
 
@@ -509,6 +510,60 @@ function changeEmail() {
     }
     
 }
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,		// 메소드(get, post, put, delete)
+		url:url,			// 요청 받을 서버주소
+		data:query,			// 서버에 전송할 파라미터
+		dataType:dataType,	// 서버에서 응답하는 형식(json, xml, text)
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) { 
+			jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+//아이디 중복 검사 
+$(function() {
+   $("#idCheck").click(function() {
+	   const $i = $(this).find("i");
+      let url = "${pageContext.request.contextPath}/member/memberServlet.do";
+      let num = ${dto.memberId}
+      let qs = "num=" + num + "&isNoLike=" + isNoLike;
+      
+      const fn = function(data) {
+         let state = data.state;
+         if(state === "true"){
+            let color = "black";
+            if(isNoLike){
+               color = "blue";
+            }
+            $i.css("color",color);
+            
+            let count = data.boardLikeCount;
+            $("#boardLikeCount").text(count);
+         }else if(state === "liked"){
+            alert("좋아요는 한번만 가능합니다.");
+         }
+      };
+      
+      ajaxFun(url,"post",qs,"json",fn);
+      
+   });
+});
+    
+    
 
 </script>
 
@@ -541,13 +596,13 @@ function changeEmail() {
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
-						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합" value="${dto.memberId}" > 
-					<button class="btn default" id="emailCheck">중복확인</button></td>
+						<input type="text" name="memberId" id="id" 	placeholder="아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다." value="${dto.memberId}" > 
+					<button class="btn default" id="idCheck">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
 					<td>
-						<input type="password" name="pwd" id="password" placeholder="비밀번호를 입력해주세요">
+						<input type="password" name="pwd" id="password" placeholder="비밀번호는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.">
 					</td>
 				</tr>
 				<tr class="member_pwd">
@@ -596,23 +651,15 @@ function changeEmail() {
 					<td class="field_address">
 						<div class="field_address__wrapper">
 							<div id="wrapper">
-								<input type="text" name="zipcode" id="zipcode" size="7"
+								<input type="text" name="addressCode" id="addressCode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
-
-
-								<button class="btn" id="emailCheck">주소검색</button>
-
-								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
-
-
-								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
-
+								<button type="button" class="btn" onclick="daumPostcode();">주소검색</button>
 								</a>
 							</div>
-							<input type="text" name="address1" id="address1"
+							<input type="text" name="address" id="address"
 								readonly="readonly"  placeholder="주소를 검색해주세요."> 
-							<input type="text" name="address2" id="address2" placeholder="나머지 주소를 입력해주세요">
+							<input type="text" name="addressDetail" id="addressDetail" placeholder="나머지 주소를 입력해주세요">
 							
 						</div>
 					</td>
@@ -630,7 +677,7 @@ function changeEmail() {
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
-    function daumPostcode() {
+function daumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -663,11 +710,11 @@ function changeEmail() {
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('zip').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('addr1').value = fullAddr;
+                document.getElementById('addressCode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('address').value = fullAddr;
 
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById('addr2').focus();
+                document.getElementById('addressDetail').focus();
             }
         }).open();
     }
