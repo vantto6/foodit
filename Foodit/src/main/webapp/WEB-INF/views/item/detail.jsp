@@ -234,7 +234,8 @@ function sendBasket() {
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp">
+    </jsp:include>
 </header>
 
 <div class="product_view">
