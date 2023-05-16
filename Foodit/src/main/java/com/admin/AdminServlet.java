@@ -3,20 +3,22 @@ package com.admin;
 	import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.Map;
 
 import javax.servlet.ServletException;
-	import javax.servlet.annotation.WebServlet;
-	import javax.servlet.http.HttpServletRequest;
-	import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.Part;
 
 import com.member.SessionInfo;
-import com.util.MyServlet;
+import com.util.MyUploadServlet;
 
+	@MultipartConfig
 	@WebServlet("/admin/*")
-	public class AdminServlet extends MyServlet {
+	public class AdminServlet extends MyUploadServlet {
 		private static final long serialVersionUID = 1L;
 		private String pathname;
 		
@@ -76,16 +78,21 @@ import com.util.MyServlet;
 		}
 		protected void addProductSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			AdminDAO dao = new AdminDAO();
+			//상품 추가
 			
-			HttpSession session= req.getSession();
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			//HttpSession session= req.getSession();
+			//SessionInfo info = (SessionInfo)session.getAttribute("member");
 
 			String cp = req.getContextPath();
-			
+			if (req.getMethod().equalsIgnoreCase("GET")) {
+				resp.sendRedirect(cp + "/admin/addProduct.do");
+				return;
+			}
 
 			String message = "";
 			try {
 				AdminDTO dto = new AdminDTO();
+				
 				dto.setItemName(req.getParameter("itemName"));
 				dto.setPrice(Long.parseLong(req.getParameter("price")));
 				dto.setDiscount(Long.parseLong(req.getParameter("discount")));
@@ -95,14 +102,16 @@ import com.util.MyServlet;
 				dto.setDeadline(req.getParameter("deadline"));
 				
 				dto.setCategoryNo(Integer.parseInt(req.getParameter("categoryNo")));
-				dto.setBrandNo(Integer.parseInt(req.getParameter("brandNo")));
+				dto.setBrandNo(Integer.parseInt(req.getParameter("brandNo")));	
 				
-				dto.setSaveFilename(req.getParameter("saveFilename"));
-				dto.setThumbnail(Integer.parseInt(req.getParameter("thumbnail")));
-				dto.setFileSize(Long.parseLong(req.getParameter("fileSize")));
-				dto.setItemNo(Long.parseLong(req.getParameter("itemNo")));			
-				
+				Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
+				if (map != null) {
+					String[] saveFiles = map.get("saveFilenames");
+					dto.setSaveFiles(saveFiles);
+				}
+			
 				dao.insertItems(dto);
+				
 				resp.sendRedirect(cp + "/admin/admin.do");
 				return;
 			} catch (SQLException e) {
@@ -119,6 +128,11 @@ import com.util.MyServlet;
 			forward(req, resp, "/WEB-INF/views/admin/addProduct.jsp");
 		
 	}
-
-
-}
+		protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		}
+		
+		protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			
+		}
+		}
