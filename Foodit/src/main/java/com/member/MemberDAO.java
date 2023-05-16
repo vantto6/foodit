@@ -205,6 +205,52 @@ public class MemberDAO {
 
 	}
 	
+	// 마이페이지 회원정보 수정
+	public void updateMember(MemberDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE member SET pwd = ? ,email = ?, gender = ? ,name = ? ,tel = ?  WHERE memberId = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getPwd());
+			pstmt.setString(2, dto.getEmail());
+			pstmt.setString(3, dto.getGender());
+			pstmt.setString(4, dto.getName());
+			pstmt.setString(5, dto.getTel());
+			pstmt.setString(6, dto.getMemberId());
+			
+			System.out.println(dto.getMemberId() + dto.getPwd());
+			
+			pstmt.executeUpdate();
+			
+			/*
+			 * pstmt.close(); pstmt = null;
+			 * 
+			 * sql = "UPDATE client SET updateDate = SYSDATE WHERE memberNo = ?"; pstmt =
+			 * conn.prepareStatement(sql);
+			 * 
+			 * pstmt.setString(1, dto.getMemberId());
+			 * 
+			 * pstmt.executeUpdate();
+			 */
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+	}
+	
 		
 		
 	}
