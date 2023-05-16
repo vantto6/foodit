@@ -38,7 +38,7 @@
             </div>
 
             <div class="list_order">
-              <form name="addProductForm" method="post" class="">
+              <form name="addProductForm" method="post" encType="multipart/form-data" class="">
                 <div class="size">
                   <div class="p_board">
                     <table width="100%"> 
@@ -164,7 +164,7 @@
                                 <td colspan="2"> 
                                     <div>
                                         <span>
-                                            <input type="file" name="brandNo" id="brandNo" class="form-control">
+                                            <input type="file" name="selectFile" accept="image/*" class="form-control" multiple="multiple">
                                         </span>
                                     </div>
 

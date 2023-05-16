@@ -39,8 +39,8 @@ public class MemberServlet extends MyServlet {
 			pwdSubmit(req, resp);
 		} else if(uri.indexOf("update_ok.do")!=-1) {
 			updateSubmit(req, resp);
-		} else if(uri.indexOf("userIdCheck.do")!=-1) {
-			memberIdCheck(req, resp);
+		} else if(uri.indexOf("memberIdCheck.do")!=-1) {
+			idCheck(req, resp);
 		}else if(uri.indexOf("admin.do")!=-1) {
 			adminpage(req, resp);
 		}
@@ -76,6 +76,7 @@ public class MemberServlet extends MyServlet {
 			
 			// 세션에 저장할 내용
 			SessionInfo info = new SessionInfo();
+			info.setClientNo(dto.getClientNo());
 			info.setMemberId(dto.getMemberId());
 			info.setName(dto.getName());
 			info.setPwd(dto.getPwd());
@@ -255,7 +256,7 @@ public class MemberServlet extends MyServlet {
 
 	}
 
-	protected void memberIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void idCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	}	
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
