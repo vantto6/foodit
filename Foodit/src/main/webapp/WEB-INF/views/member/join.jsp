@@ -510,14 +510,20 @@ function changeEmail() {
     }
     
 }
-function ajaxFun(url, method, query, dataType, fn) {
+function ajaxFun(url, method, query, dataType) {		
 	$.ajax({
 		type:method,		// 메소드(get, post, put, delete)
 		url:url,			// 요청 받을 서버주소
 		data:query,			// 서버에 전송할 파라미터
 		dataType:dataType,	// 서버에서 응답하는 형식(json, xml, text)
 		success:function(data) {
-			fn(data);
+	         let state = data.state;
+	         
+	         if(state === "false"){
+	            alert('이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요.');
+	         } else if(state === "true"){
+	            alert("사용 가능한 아이디입니다. ");
+	         }
 		},
 		beforeSend:function(jqXHR) { 
 			jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
@@ -534,31 +540,39 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
+
+
 //아이디 중복 검사 
 $(function() {
    $("#idCheck").click(function() {
-	   const $i = $(this).find("i");
-      let url = "${pageContext.request.contextPath}/member/memberServlet.do";
-      let num = ${dto.memberId}
-      let qs = "num=" + num + "&isNoLike=" + isNoLike;
+      let url = "${pageContext.request.contextPath}/member/memberIdCheck.do";
+      let id = $('#memberId').val();
+      let qs = "id=" + id;
       
-      const fn = function(data) {
+       /* const fn = function(data) {
+    	 console.log(data);
          let state = data.state;
+         console.log(state);
          if(state === "true"){
-            let color = "black";
-            if(isNoLike){
-               color = "blue";
-            }
-            $i.css("color",color);
-            
-            let count = data.boardLikeCount;
-            $("#boardLikeCount").text(count);
-         }else if(state === "liked"){
-            alert("좋아요는 한번만 가능합니다.");
+            alert('이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요.');
+         }else if(state === "false"){
+            alert("사용 가능한 아이디입니다. ");
          }
-      };
+      }; */
       
-      ajaxFun(url,"post",qs,"json",fn);
+      //조금 더 세분화 해서 막기 
+  	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(id) ) {
+  		if (id.length <= 4) {
+  			alert("아이디는 최소4글자 이");
+  			return;
+  		}
+  		else {
+  			alert("아이디를 다시 입력 하세요. ");
+  			return;	
+  		}
+		
+	}
+      ajaxFun(url,"post",qs,"json"); 
       
    });
 });
@@ -596,8 +610,8 @@ $(function() {
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
-						<input type="text" name="memberId" id="id" 	placeholder="아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다." value="${dto.memberId}" > 
-					<button class="btn default" id="idCheck">중복확인</button></td>
+						<input type="text" name="memberId" id="memberId" 	placeholder="아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다." value="" > 
+					<button type="button" class="btn default" id="idCheck">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
