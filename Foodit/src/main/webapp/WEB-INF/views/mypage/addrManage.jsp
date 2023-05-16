@@ -11,6 +11,14 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+.members-form { max-width: 360px; margin: 0 auto; background: #fefeff;}
+.members-form .row { margin-bottom: 1.5rem; }
+.members-form label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-family: Verdana, sans-serif; }
+.members-form input { display: block; width: 100%; padding: 7px 5px; }
+.members-form button { padding: 8px 30px; font-size: 15px; width: 97%; }
+
+.members-message { margin: 0 auto; padding: 20px 5px; }
+.members-message p { color: #023b6d; }
 
 .text-center { text-align: center; }
 .text-right { text-align: right; }
@@ -49,28 +57,15 @@
 	display: block;
 }
 
-.mypage-right {margin-left : 100px; width : 800px; height : 500px; float : left; 1px solid black;}
+.mypage-right {margin-left : 100px; width : 800px; height : 100% ; float : left; 1px solid black;}
 .mypage-right-subject { height : 50px ; border-bottom : 2px solid black;}
 .mypage-right-content { height : 100% ; }
-.mypage-right:after {clear : both}
+
 .mypage-left-subject { width : 150px; height : 50px; text-align : center; vertical-align: center;}
 
 .abc {witdh : 120px; height : 100%; float: left;}
 .body-container2 {
 	height: 900px;
-
-.right-content-orderinfo img {
-	widith : 50px;
-	height : 60px;
-}
-
-.right-content-orderinfo {
-	width: 100px; 
-	height : 50px;
-	display: inline;
-	float : left;
-	margin-left : 5px;
-	overflow: hidden;
 }
 </style>
 <script type="text/javascript">
@@ -93,10 +88,10 @@
 			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_mypage.do">주문내역</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>			
-						<li><a href ="${pageContext.request.contextPath}/mypage/addrManage.jsp">배송지관리</a></li>				
+						<li><a>주문내역</a></li>				
+						<li><a>장바구니</a></li>				
+						<li><a>개인정보수정</a></li>				
+						<li><a>배송지관리</a></li>				
 						<li><a>내가쓴후기</a></li>				
 					</ul>
 				</div>
@@ -113,27 +108,7 @@
 			</div>
 			
 			<div class ="mypage-right-content">
-				<div class="right-content-orderinfo">
-					<div class="right-content-orderinfo">
-					123
-					</div>
-					<div class="right-content-orderinfo">
-						<ul>
-							<li>상품명: </li>
-							<li>주문번호: </li>
-							<li>신용카드: </li>
-							<li>결제금액: </li>
-						</ul>
-					</div>
-					<div style="width:100px; display: inline-block; float : right">
-						<span>배송완료</span>
-						<div style="display: inline-block;">
-							<button type="button">
-								<span>구매 확정</span>	
-							</button>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>

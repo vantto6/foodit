@@ -36,6 +36,8 @@ public class MypageServlet extends MyServlet {
 			updateSubmit(req,resp);
 		} else if(uri.indexOf("order.do") != -1) {
 			
+		} else if(uri.indexOf("addrManage.do") != -1) {
+			
 		}
 		
  	}
