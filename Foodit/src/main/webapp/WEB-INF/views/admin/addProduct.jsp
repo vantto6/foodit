@@ -159,9 +159,19 @@
 
                                 </td>
                             </tr>
-                            
-                       
-                            
+                     		  <tr>
+                                <th >첨부</th>
+                                <td colspan="2"> 
+                                    <div>
+                                        <span>
+                                            <input type="file" name="brandNo" id="brandNo" class="form-control">
+                                        </span>
+                                    </div>
+
+                                </td>
+                            </tr>
+              
+                     
                         </tbody>
                     </table>
                   </div>

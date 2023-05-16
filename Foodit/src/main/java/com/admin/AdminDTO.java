@@ -31,6 +31,7 @@ public class AdminDTO {
 	private String[] saveFiles;
 	private long fileSize;
 	private int thumbnail;
+	
 	public long getImageNo() {
 		return imageNo;
 	}

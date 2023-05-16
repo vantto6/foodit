@@ -1,25 +1,45 @@
 package com.admin;
 
-	import java.io.IOException;
+	import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+
 
 import javax.servlet.ServletException;
 	import javax.servlet.annotation.WebServlet;
 	import javax.servlet.http.HttpServletRequest;
 	import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+
+import com.member.SessionInfo;
 import com.util.MyServlet;
 
 	@WebServlet("/admin/*")
 	public class AdminServlet extends MyServlet {
 		private static final long serialVersionUID = 1L;
+		private String pathname;
+		
 
 		@Override
 		protected void execute(HttpServletRequest req, HttpServletResponse resp)
 				throws ServletException, IOException {
 			req.setCharacterEncoding("utf-8");
 			
+			String cp = req.getContextPath();
 			String uri = req.getRequestURI();
+			
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			if(info == null) {
+				forward(req, resp, "/WEB-INF/views/member/login.jsp");
+				return;
+			}
+
+			// 이미지를 저장할 경로(pathname)
+			String root = session.getServletContext().getRealPath("/");
+			pathname = root + "uploads" + File.separator + "admin";
 			
 			// uri에 따른 작업 구분
 			if(uri.indexOf("admin.do")!=-1) {
@@ -56,6 +76,9 @@ import com.util.MyServlet;
 		}
 		protected void addProductSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			AdminDAO dao = new AdminDAO();
+			
+			HttpSession session= req.getSession();
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
 
 			String cp = req.getContextPath();
 			
@@ -73,15 +96,12 @@ import com.util.MyServlet;
 				
 				dto.setCategoryNo(Integer.parseInt(req.getParameter("categoryNo")));
 				dto.setBrandNo(Integer.parseInt(req.getParameter("brandNo")));
-				//dto.setCategoryName(req.getParameter("categoryName"));
-				//dto.setBrandName(req.getParameter("brandName"));
-			/*	
+				
 				dto.setSaveFilename(req.getParameter("saveFilename"));
 				dto.setThumbnail(Integer.parseInt(req.getParameter("thumbnail")));
 				dto.setFileSize(Long.parseLong(req.getParameter("fileSize")));
+				dto.setItemNo(Long.parseLong(req.getParameter("itemNo")));			
 				
-
-			*/
 				dao.insertItems(dto);
 				resp.sendRedirect(cp + "/admin/admin.do");
 				return;
@@ -97,6 +117,8 @@ import com.util.MyServlet;
 			req.setAttribute("mode", "admin");
 			
 			forward(req, resp, "/WEB-INF/views/admin/addProduct.jsp");
-		}
+		
 	}
 
+
+}
