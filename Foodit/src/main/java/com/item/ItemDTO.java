@@ -5,6 +5,7 @@ public class ItemDTO {
 	private String itemName;
 	private long price;
 	private long discount;
+	private long discountPrice;
 	private int cnt;
 	private String saleUnit;
 	private int hitCount;
@@ -26,6 +27,16 @@ public class ItemDTO {
 	private String rqupdateDate; // 문의 수정날짜
 	private String imgcreateDate;
 	private String imgupdateDate;
+	
+	
+	public long getDiscountPrice() {
+		return discountPrice;
+	}
+	public void setDiscountPrice() {
+		double result = price - (price * discount/100.0);
+		
+		this.discountPrice =  (long)Math.floor(result);
+	}
 	public long getItemNo() {
 		return itemNo;
 	}

@@ -71,7 +71,9 @@
 	color: rgb(250, 98, 47)
 }
 </style>
+<script type="text/javascript">
 
+</script>
 </head>
 <body>
 
@@ -79,33 +81,25 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 <div>
-	<h3 class="css-i804ml eaf14xt0">카테고리</h3>
+	<h3 class="css-i804ml eaf14xt0">${category==1 ? "야채/과일" : (category==2? "해/수산물" : "정육")}</h3>
 </div>
 	<div class="container">
 	
 	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="box">
-		<a href="{articleUrl}&itemNo=${dto.itemNo }" target="_blank">
+		<a href="${detailUrl}&itemNo=${dto.itemNo}" target="_blank">
 			<img class="imgtest" src="imgtest/도라에몽.png">
 		</a>
 			<h2 class="product-name">${dto.itemName }</h2> 
 			<div class="price">
-				<span class="discount">${dto.discount }%</span>
-				<span>${dto.price } <span>원</span> </span>
+			<script type="text/javascript">
+			</script>
+				<span class="discount">${dto.discount}%</span>
+				<span id="price">${dto.discountPrice }<span>원</span></span>
 			</div>
 		</div>
 	</c:forEach>
-		<div class="box"><img class="imgtest" src="imgtest/도라에몽.png"></div>
-		<div class="box">Box 6</div>
-		<div class="box">Box 7</div>
-		<div class="box">Box 8</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div>
-		<div class="box">Box 9</div><div class="box">Box 9</div>
+
 		
 	</div>
 

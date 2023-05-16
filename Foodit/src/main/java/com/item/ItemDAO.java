@@ -12,7 +12,7 @@ import com.util.DBConn;
 public class ItemDAO {
 	private Connection conn = DBConn.getConnection();
 	
-	public List<ItemDTO> listBoard() {
+	public List<ItemDTO> listBoard(int category, int offset, int size) {
 		List<ItemDTO> list = new ArrayList<ItemDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -23,11 +23,14 @@ public class ItemDAO {
 			sb.append(" FROM items i ");
 			sb.append(" JOIN brand b ON i.brandNo = b.brandNo");
 			sb.append(" JOIN category c ON i.categoryNo = c.categoryNo");
+			sb.append( " WHERE i.categoryNo = ? ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
 			
-//			pstmt.setInt(1, offset);
-//			pstmt.setInt(2, size);
+			pstmt.setInt(1, category);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
 
 			rs = pstmt.executeQuery();
 			
@@ -43,6 +46,7 @@ public class ItemDAO {
 				dto.setSaleUnit(rs.getString("saleUnit"));
 				dto.setDescription(rs.getString("description"));
 				dto.setDeadline(rs.getString("deadline"));
+				dto.setDiscountPrice();
 				list.add(dto);
 			}
 
@@ -105,7 +109,44 @@ public class ItemDAO {
 		return result;
 	}
 	
-	
+	public int dataCount(int category) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM items WHERE categoryNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, result);
+
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}	
 	
 	// 상품보기 (상품눌렀을때)
 	public ItemDTO readItem(long itemNo) {
@@ -114,10 +155,10 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql = "SELECT brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
+			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
 					+ " FROM items i "
-					+ " JOIN brandNo b ON i.brandNo = b.brandNo"
-					+ " JOIN categoryNo c ON i.categoryNo = c.categoryNo "
+					+ " JOIN brand b ON i.brandNo = b.brandNo"
+					+ " JOIN category c ON i.categoryNo = c.categoryNo "
 					+ " WHERE itemNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -128,6 +169,7 @@ public class ItemDAO {
 			if(rs.next()) {
 				dto = new ItemDTO();
 				
+				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
 				dto.setItemName(rs.getString("itemName"));
@@ -136,7 +178,7 @@ public class ItemDAO {
 				dto.setSaleUnit(rs.getString("saleUnit"));
 				dto.setDescription(rs.getString("description"));
 				dto.setDeadline(rs.getString("deadline"));
-				
+				dto.setDiscountPrice();
 			}
 			
 		} catch (Exception e) {
@@ -159,6 +201,24 @@ public class ItemDAO {
 		
 		
 		return dto;
+	}
+	
+	public void insertBasket(ItemDTO dto) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO basket(basketNo,basketCnt,memberId,itemNo) VALUES(basket_seq.NEXTVAL,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			rs = pstmt.executeQuery();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 
 }

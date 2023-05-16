@@ -27,8 +27,8 @@
     letter-spacing: -0.5px;
     word-break: keep-all;
     margin: 20px; 
-    padding-bottom: 20px;
-    border-bottom: 2px solid #333}
+    padding-left: 30px;
+    }
 .product_view table {margin-left: 10px}  
 .product_view table th {    
     width: 128px;
@@ -162,9 +162,73 @@ button {
 	border-radius: 4px;
 }
 
+.discount {
+    padding-right: 9px;
+    font-size: 28px;
+    color: rgb(250, 98, 47);
+}
+
+.price {
+    padding-right: 4px;
+    font-size: 28px;
+    color: rgb(51, 51, 51);
+}
+
+.product_view tr {
+    width: 128px;
+    height: 100%;
+    color: rgb(102, 102, 102);
+    font-weight: 400;
+    line-height: 19px;
+}
 
 
+.count-wrap {position: relative;padding: 0 38px;border: 1px solid #ddd;overflow: hidden;width: 60px;}
+.count-wrap > button {border: 0;background: #ddd;color: #000;width: 38px;height: 38px;position: absolute;top: 0;font-size: 12px;}
+.count-wrap > button.minus {left: 0;}
+.count-wrap > button.plus {right: 0;}
+.count-wrap .inp {border: 0;height: 38px;text-align: center;display: block;width: 100%;}
 </style>
+
+<script type="text/javascript">
+
+
+$(function() {
+	$("#plus").click(function() {
+		let count = $("#count").text();
+		let price = $("#price").text();
+		$("#count").text(++count);
+		
+		$("#hiddencount").val(count);
+		
+		let result = count*price;
+		
+		$("#totprice").text(result);
+	});
+	
+	$("#minus").click(function() {
+		let count = $("#count").text();
+		let price = $("#price").text();
+		if(count > 1){
+			$("#count").text(--count);
+			
+			$("#hiddencount").val(count);
+			
+			let result = count*price;
+			
+			$("#totprice").text(result);
+		}
+	});
+
+});
+
+function sendBasket() {
+	const f = document.myDetailForm;
+	
+	f.action = "${pageContext.request.contextPath}/item/basket_ok.do";
+	f.submit();
+}
+</script>
 
 </head>
 <body>
@@ -174,50 +238,74 @@ button {
 </header>
 
 <div class="product_view">
-	<h2>[상품]상품 이름</h2>
+	<h2>[${dto.brandName }] ${dto.itemName }</h2>
+	<form name="myDetailForm" method="post">
+	<input type="hidden" name="itemNo">
 	<table>
 
 		<tbody>
+		<tr>			
+			<h2>
+				<span class="discount">${dto.discount }%</span>
+				<span class="price" id="price">${dto.discountPrice}</span>
+				<span>원</span>
+			</h2>
+		</tr>
+		
 		<tr>
 			<th>브랜드명</th>
-			<td>비비고</td>
+			<td>${dto.brandName }</td>
 		</tr>
 		<tr>
 			<th>판매단위</th>
-			<td>500g</td>
+			<td>${dto.saleUnit }</td>
 		</tr>
 		<tr>
-			<th>원산지</th>
-			<td>국산</td>
+			<th>상품 설명</th>
+			<td>${dto.description }</td>
 		</tr>
+		<tr>
+			<th>유통기한</th>
+			<td>${dto.deadline}</td>
+		</tr>
+
+
 		<tr>
 			<th>구매수량</th>
 			<td>
-				<input type="number" style="height: 30px">
-
+				<div>
+                      <button type="button" id="minus" style="border: none">
+                      	<i class="fa-solid fa-minus"></i>
+                      </button>
+  					  <span id="count" style="font-size: 20px;">1</span>
+  					  <input type="hidden" id="hiddencount" name="basketCnt">
+                      <button type="button" id="plus" style="border: none">
+                      	<i class="fa-solid fa-plus"></i>
+                      </button>
+				</div>
 			</td>
-		</tr>
-		<tr>
-			<th>가격</th>
-			<th>9000</th>
-		</tr>
-
-		<tr>
-			<th>총상품금액</th>
-			<th>9000</th>
 		</tr>
 
 		</tbody>		
 	</table>
-
+	
+	<div align="right" style="margin-right: 30px">
+	    <h2>
+			<span>총상품금액</span>
+			<span id="totprice">${dto.discountPrice}</span>
+			<span>원</span>
+		</h2>
+		
+	</div>
 	<div class="img">
 		<img src="image/item.jpg">
 	</div>
 	
 	<div class="btns">
 		<a href="#" class="btn1"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>
-		<a href="#" class="btn2">구매하기</a>
+		<a href="#" class="btn2" onclick="sendBasket();">장바구니</a>
 	</div>
+	</form>
 </div>
 
 <div class="detail">
@@ -225,6 +313,9 @@ button {
 		<h3>상품설명</h3>
 	</div>
 </div>
+
+
+
 <div id="Review_list">
 	<div id="Review_title">상품 후기(게시글 : 16)</div>
 		<div class="review_text" >
