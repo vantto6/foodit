@@ -80,13 +80,15 @@
 			<li><a href="#">베스트</a></li>
 
 			<li class="right-style"><a href="#">고객지원센터</a>
-				<ul class="sub-menu">
-					<li><a
-						href="${pageContext.request.contextPath}/notice/list.do"
-						aria-label="submenu">공지사항</a></li>
-					<li><a href="#" aria-label="submenu">1:1문의</a></li>
-					<li><a href="#" aria-label="submenu">자주묻는질문</a></li>
-				</ul></li>
+            <ul class="sub-menu">
+               <li><a href="#">마이페이지</a></li>
+               <li><a href="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>
+               <li><a
+                  href="${pageContext.request.contextPath}/notice/list.do"
+                  aria-label="submenu">공지사항</a></li>
+               <li><a href="#" aria-label="submenu">1:1문의</a></li>
+               <li><a href="#" aria-label="submenu">자주묻는질문</a></li>
+            </ul></li>
 		</ul>
 	</nav>
 </div>
