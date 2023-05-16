@@ -63,5 +63,47 @@ public class BasketDAO {
 		return list;
 	}
 	
+	public List<AddressDTO> listAddress(long clientNo) {
+		List<AddressDTO> list = new ArrayList<AddressDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT FROM addressCode, address, addressdetail FROM addressinfo WHERE clientNo = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, clientNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				AddressDTO dto = new AddressDTO();
+				dto.setAddressCode(rs.getString("addressCode"));
+				dto.setAddress(rs.getString("address"));
+				dto.setAddressDetail(rs.getString("addressdetail"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}		
+		
+		return list;
+	}
 
 }

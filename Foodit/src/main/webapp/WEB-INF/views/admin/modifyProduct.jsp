@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>품목 추가</title>
+  <title>품목 수정</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/admin/reset.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/admin/admin_page_prd_upload.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/admin/css/admin_common.css">
@@ -176,7 +176,7 @@
                     </table>
                   </div>
 					<div id="product_submit" class="pd_submit">
-                    <button type="button" onclick="itemsinsertOk();">등록하기</button>
+                    <button type="button" onclick="itemsinsertOk();">수정하기</button>
                   </div>
 
                 </div>

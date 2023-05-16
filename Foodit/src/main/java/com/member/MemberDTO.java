@@ -1,7 +1,7 @@
 package com.member;
 
 public class MemberDTO {
-	private long memberNo;
+	
 	private String memberId;
 	private String pwd;
 	private String email;
@@ -42,12 +42,7 @@ public class MemberDTO {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
-	public long getMemberNo() {
-		return memberNo;
-	}
-	public void setMemberNo(long memberNo) {
-		this.memberNo = memberNo;
-	}
+
 	public String getMemberId() {
 		return memberId;
 	}

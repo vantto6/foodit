@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -11,25 +11,64 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-.btn {
-	 color: #88b04B;  
-	 border: 1px solid #88b04B; 
-	 background-color: #ffffff; 
-	 padding: 5px 10px; 
-	border-radius: 4px;
-	font-weight: 500;
-	cursor:pointer;
-	font-size: 14px;
-	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
-	vertical-align: baseline;
-	text-align: center;
-}
-.member_join #addressSearch {
-border: 1px solid #88b04B;
-text-align: center;
+.members-form { max-width: 360px; margin: 0 auto; background: #fefeff;}
+.members-form .row { margin-bottom: 1.5rem; }
+.members-form label { display: block; font-weight: 500; margin-bottom: 0.5rem; font-family: Verdana, sans-serif; }
+.members-form input { display: block; width: 100%; padding: 7px 5px; }
+.members-form button { padding: 8px 30px; font-size: 15px; width: 97%; }
+
+.members-message { margin: 0 auto; padding: 20px 5px; }
+.members-message p { color: #023b6d; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.margin-top5 { margin-top: 5px; }
+.margin-top10 { margin-top: 10px; }
+
+.mypage-selectbox { width : 150px;}
+.mypage-selectbox .mypage-ul {  list-style: none; }
+.mypage-selectbox .mypage-ul li {
+	border: 1px solid #ccc;
+    font-size: 18px;
+    color: #333;
+    line-height: 20px;
+    background: #fff;
+    outline: none;
+    vertical-align: top;
+    border-bottom: 0;
+	
+  }
+
+.mypage-selectbox .mypage-ul li:last-child {
+	border-bottom: 1px solid #ccc !important;
+} 
+  
+
+.mypage-ul > li { 
+	height : 50px; 
+	background : white; 
+	text-align : center; 
+	font-size: 15px; 
+	border : 1px solid gray;
 }
 
-.button {
+.mypage-ul > li a {
+	margin-top : 14px;
+	display: block;
+}
+
+.mypage-right {margin-left : 100px; width : 800px; height : 100% ; float : left; 1px solid black;}
+.mypage-right-subject { height : 50px ; border-bottom : 2px solid black;}
+.mypage-right-content { height : 100% ; }
+
+.mypage-left-subject { width : 150px; height : 50px; text-align : center; vertical-align: center;}
+
+.abc {witdh : 120px; height : 100%; float: left;}
+.body-container2 {
+	height: 900px;
+}
+
+button {
 	background-color: transparent;
 	border: 0px solid transparent;
 	outline: none;
@@ -64,11 +103,11 @@ button.btn.active.btn_join {
 	display: flex;
 }
 
-#address,
-#addressDetail {
+#address1,
+#address2 {
 	width: 100%;
 }
-#addressCode {
+#zipcode {
 	flex: 1;
 }
 
@@ -246,12 +285,12 @@ body, input, select, textarea, button {
     overflow: hidden;
     width: 332px;
     height: 44px;
-    border: 1px solid 88b04B;
+    border: 1px solid #5f0080;
     border-radius: 3px;
     text-align: center;
 }
 
-#addressCode {
+#zipcode {
 	width: 181px !important;
 }
 
@@ -279,7 +318,7 @@ cursor : pointer;
 .type_form {
 
 	
-	width: 817px;
+	width: 100%;
 	margin: 0 auto;	
 
 }
@@ -301,7 +340,6 @@ cursor : pointer;
     height: 56px;
     font-size: 16px;
     line-height: 54px;
-
   
 }
 
@@ -336,7 +374,7 @@ cursor : pointer;
     cursor: pointer;
     margin-left: 10px;
     padding: 2px 10px;
-    
+    border: 1px solid purple;
 }
 .type_form .btn {
     display: block;
@@ -370,13 +408,10 @@ table {
     
 }
 .type_form .btn.default {
-
-    border: 1px solid #88b04B;
+    border: 1px solid #5f0080;
     background-color: #fff;
-    color: #88b04B;
-
+    color: #5f0080;
 }
-
 button, select {
     text-transform: none;
 }
@@ -403,10 +438,9 @@ button, input, optgroup, select, textarea {
     vertical-align: top;
 }
 .type_form .btn.active {
-    border: 1px solid #88b04B;
-    background-color: #88b04B;
-    color: white;
-
+    border: 1px solid #5f0081;
+    background-color: #5f0080;
+    color: #fff;
 }
 .member_join .form_footer {
     padding-top: 40px;
@@ -419,38 +453,38 @@ button, input, optgroup, select, textarea {
 	opacity: 1.0;
 	z-index: unset;
 }
-field_address__wrapper__button{
-border: 1px solid white;
-}
 
 
 </style>
-
-
-</head>
 <script type="text/javascript">
-
 function memberOk() {
 	const f = document.memberForm;
 	let str;
 
-	str = f.memberId.value;
+	/* str = f.memberId.value;
 	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
 		alert("아이디를 다시 입력 하세요. ");
 		f.memberId.focus();
 		return;
-	}
+	} */
 
-	str = f.pwd.value;
+	/* str = f.before_pwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
 		alert("패스워드를 다시 입력 하세요. ");
-		f.pwd.focus();
+		f.before_pwd.focus();
+		return;
+	} */
+	
+	str = f.after_pwd.value;
+	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
+		alert("패스워드를 다시 입력 하세요. ");
+		f.after_pwd.focus();
 		return;
 	}
 
-	if( str !== f.pwd2.value ) {
+	if( str !== f.re_pwd.value ) {
         alert("패스워드가 일치하지 않습니다. ");
-        f.pwd.focus();
+        f.re_pwd.focus();
         return;
 	}
 	
@@ -489,84 +523,13 @@ function memberOk() {
         return;
     }
    
-
-   	f.action = "${pageContext.request.contextPath}/WEB-INF/views/main.jsp";
+   	f.action = "${pageContext.request.contextPath}/mypage/update_ok.do";
     f.submit();
-}
-
-function changeEmail() {
-    const f = document.memberForm;
-	    
-    let str = f.selectEmail.value;
-    if(str !== "direct") {
-        f.email2.value = str; 
-        f.email2.readOnly = true;
-        f.email1.focus(); 
-    }
-    else {
-        f.email2.value = "";
-        f.email2.readOnly = false;
-        f.email1.focus();
-    }
     
 }
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,		// 메소드(get, post, put, delete)
-		url:url,			// 요청 받을 서버주소
-		data:query,			// 서버에 전송할 파라미터
-		dataType:dataType,	// 서버에서 응답하는 형식(json, xml, text)
-		success:function(data) {
-			fn(data);
-		},
-		beforeSend:function(jqXHR) { 
-			jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
-		},
-		error:function(jqXHR) {
-			if(jqXHR.status === 403) {
-				login();
-				return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-			}
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-//아이디 중복 검사 
-$(function() {
-   $("#idCheck").click(function() {
-	   const $i = $(this).find("i");
-      let url = "${pageContext.request.contextPath}/member/memberServlet.do";
-      let num = ${dto.memberId}
-      let qs = "num=" + num + "&isNoLike=" + isNoLike;
-      
-      const fn = function(data) {
-         let state = data.state;
-         if(state === "true"){
-            let color = "black";
-            if(isNoLike){
-               color = "blue";
-            }
-            $i.css("color",color);
-            
-            let count = data.boardLikeCount;
-            $("#boardLikeCount").text(count);
-         }else if(state === "liked"){
-            alert("좋아요는 한번만 가능합니다.");
-         }
-      };
-      
-      ajaxFun(url,"post",qs,"json",fn);
-      
-   });
-});
-    
-    
-
 </script>
 
+</head>
 <body>
 
 <header>
@@ -574,153 +537,102 @@ $(function() {
 </header>
 	
 <main>
-
-
-		
-		
-<div class="tit_page" >
-	<h2 class="tit">회원가입</h2>
-</div>
-
-<div class="page_article" >
-	<div class="type_form member_join">
-		<form  method="post" name="memberForm" id="join">
-			<input type="hidden" name="idCheckResult" id="idCheckResult" value="0"> 
-			<input type="hidden" name="emailCheckResult" id="emailCheckResult" value="0">
-			<p class="page_sub">
-				<span class="ico">*</span>필수입력사항
-			</p>
-			<hr>
-			<table class="tbl_comm" style="margin:30px 0; border:none	">
-				<tr class="fst">
-					<th>아이디<span class="ico">*</span></th>
-					
-					<td>
-						<input type="text" name="memberId" id="id" 	placeholder="아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다." value="${dto.memberId}" > 
-					<button class="btn default" id="idCheck">중복확인</button></td>
-				</tr>
-				<tr>
-					<th>비밀번호<span class="ico">*</span></th>
-					<td>
-						<input type="password" name="pwd" id="password" placeholder="비밀번호는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.">
-					</td>
-				</tr>
-				<tr class="member_pwd">
-					<th>비밀번호확인<span class="ico">*</span></th>
-					<td>
-						<input type="password" name="pwd2" id ="repassword"placeholder="비밀번호를 한번 더 입력해주세요">
-					</td>
-				</tr>
-				<tr>
-					<th>이름<span class="ico">*</span></th>
-					<td>
-						<input type="text" name="name" id="name" 	placeholder="이름을 입력해주세요">
-				</td>
-				</tr>
-				<tr>
-					<th>성별<span class="ico">*</span></th>
-					<td>
-					 	<div style="padding-top: 7px;">
-							<label for="male" style="padding:0">
-								<input style="margin-right: 5px;" type="radio" name="gender" id="male" value="1" checked />남자 
-							</label>
-							<label for="female">
-								<input style="margin-right: 5px;" type="radio" name="gender" id="female" value="0" />여자 
-							</label>
-						</div>
-						
-					</td>
-				</tr>
-				
-						<tr>
-						<th>이메일<span class="ico">*</span></th>
-					<td>
-						<input type="text" name="email" class="email" id="email" placeholder="예: marketkurly@kurly.com">
-					<button class="btn default" id="emailCheck">중복확인</button>
-					</td>
-				</tr>
-				<tr class="field_phone">
-					<th>휴대폰<span class="ico">*</span></th>
-					<td>
-					<input type="text" name="tel1" id="mobile1" maxlength="3" >
-					<input type="text" name="tel2" id="mobile2" maxlength="4" >
-					<input type="text" name="tel3" id="mobile3" maxlength="4" >
-				</tr>
-				<tr>
-					<th>주소<span class="ico">*</span></th>
-					<td class="field_address">
-						<div class="field_address__wrapper">
-							<div id="wrapper">
-								<input type="text" name="addressCode" id="addressCode" size="7"
-									readonly="readonly" placeholder="번지를 검색해 주세요."> 
-								<a id="addressSearch" class="search"> 
-								<button type="button" class="btn" onclick="daumPostcode();">주소검색</button>
-								</a>
-							</div>
-							<input type="text" name="address" id="address"
-								readonly="readonly"  placeholder="주소를 검색해주세요."> 
-							<input type="text" name="addressDetail" id="addressDetail" placeholder="나머지 주소를 입력해주세요">
-							
-						</div>
-					</td>
-					
-				</tr>
-				</tbody>
-			</table>
-			<div id="formSubmit" class="form_footer">
-				<button type="button" class="btn active btn_join" name="btnOk" onclick="memberOk();">가입하기</button>
-			</div>
-		</form>
+	<div class="tit_page" >
+		<h2 class="tit">마이 페이지</h2>
 	</div>
-</div>
+	<div class="container body-container2">
+		<div class = "abc">
+			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
+				<div class ="mypage-selectbox">
+					<ul class="mypage-ul">
+						<li><a href ="${pageContext.request.contextPath}/mypage/modify_mypage.do">주문내역</a></li>				
+						<li><a>장바구니</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
+						<li><a>내가쓴후기</a></li>				
+					</ul>
+				</div>
+		</div>
+		<div class="mypage-right">		
+			<div class ="mypage-right-subject">
+				<h2> 개인정보수정 </h2> <span style="font-size : 14px;"></span>
+				
+			</div>
+					<div class ="mypage-right-content">
+						<div class="page_article" >
+							<div class="type_form member_join">
+						<form method="post" name = "memberForm">
+							<input type="hidden" name="idCheckResult" id="idCheckResult" value="0"> 
+							<input type="hidden" name="emailCheckResult" id="emailCheckResult" value="0">
+							<table class="tbl_comm">
+								<tr class="fst">
+									<th>아이디<span class="ico">*</span></th>
+									<td>
+										<input type="text" name="memberId" id="id" value = "${username}" readonly>
+								</tr>
+								<tr>
+									<th>현재 비밀번호<span class="ico">*</span></th>
+									<td>
+										<input type="password" name="before_pwd" id="password" placeholder="비밀번호를 입력해주세요">
+									</td>
+								</tr>
+								<tr>
+									<th>변경할 비밀번호<span class="ico">*</span></th>
+									<td>
+										<input type="password" name="after_pwd" id="password" placeholder="비밀번호를 입력해주세요">
+									</td>
+								</tr>
+								<tr class="member_pwd">
+									<th>비밀번호 확인<span class="ico">*</span></th>
+									<td>
+										<input type="password" name="re_pwd" id ="repassword"placeholder="비밀번호를 한번 더 입력해주세요">
+									</td>
+								</tr>
+								<tr>
+									<th>이름<span class="ico">*</span></th>
+									<td>
+										<input type="text" name="name" id="name" 	placeholder="이름을 입력해주세요">
+								</tr>
+								<tr>
+									<th>이메일<span class="ico">*</span></th>
+									<td>
+										<input type="text" name="email" class="email" id="email" placeholder="예: marketkurly@kurly.com">
+									<span class="btn default" id="emailCheck">중복확인</span>
+									</td>
+								</tr>
+								<tr class="field_phone">
+									<th>휴대폰<span class="ico">*</span></th>
+									<td>
+									<input type="text" name="tel1" id="mobile1" maxlength="3" >
+									<input type="text" name="tel2" id="mobile2" maxlength="4" >
+									<input type="text" name="tel3" id="mobile3" maxlength="4" >
+								</tr>
+								<tr>
+									<th>성별<span class="ico">*</span></th>
+										<td>
+										 	<div style="padding-top: 7px;">
+												<label for="male" style="padding:0">
+													<input style="margin-right: 5px;" type="radio" name="gender" id="male" value="1" checked />남자 
+												</label>
+												<label for="female">
+													<input style="margin-right: 5px;" type="radio" name="gender" id="female" value="0" />여자 
+												</label>
+											</div>
+											
+										</td>
+								</tr>
+								</tbody>
+							</table>
+							<div id="formSubmit" class="form_footer">
+								<button type="button" class="btn active btn_join" onclick="memberOk();">회원정보수정</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </main>
-
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
-function daumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var fullAddr = ''; // 최종 주소 변수
-                var extraAddr = ''; // 조합형 주소 변수
-
-                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    fullAddr = data.roadAddress;
-
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    fullAddr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
-                if(data.userSelectedType === 'R'){
-                    //법정동명이 있을 경우 추가한다.
-                    if(data.bname !== ''){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있을 경우 추가한다.
-                    if(data.buildingName !== ''){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('addressCode').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('address').value = fullAddr;
-
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById('addressDetail').focus();
-            }
-        }).open();
-    }
-</script>
-
-
 
 <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

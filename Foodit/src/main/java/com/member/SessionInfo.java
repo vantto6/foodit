@@ -1,9 +1,11 @@
 package com.member;
 
 public class SessionInfo {
+	private long clientNo;
 	private String memberId;
 	private String name;
 	private String pwd;
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -25,6 +27,12 @@ public class SessionInfo {
 	public long getMemberNo() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	public long getClientNo() {
+		return clientNo;
+	}
+	public void setClientNo(long clientNo) {
+		this.clientNo = clientNo;
 	}
 	
 	

@@ -58,7 +58,7 @@
         <li><a href="${pageContext.request.contextPath}/admin/discount.do">상품할인</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/addProduct.do">품목추가</a></li>
         <li><a href="deleteProduct.jsp">품목삭제</a></li>
-        <li><a href="modifyProduct.jsp">품목수정</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/updateForm.do"">품목수정</a></li>
     </ul>
     
     <h2>판매관리</h2>

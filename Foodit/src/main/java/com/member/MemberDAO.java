@@ -17,7 +17,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT memberId, pwd,email , birth, gender,name,tel "
+			sql = " SELECT clientNo, memberId, pwd,email , birth, gender,name,tel "
 					+ " FROM member"
 					+ " WHERE memberId = ? AND pwd = ?";
 			
@@ -30,7 +30,7 @@ public class MemberDAO {
 			
 			if(rs.next()) {
 				dto = new MemberDTO();
-				
+				dto.setClientNo(rs.getLong("clientNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setPwd(rs.getString("pwd"));
 				dto.setName(rs.getString("name"));
@@ -63,8 +63,11 @@ public class MemberDAO {
 		//insertAll로 다시 짜기 
 		try {
 			conn.setAutoCommit(false);
-			
-			sql = "INSERT INTO member(memberNo, memberId, pwd, gender, email, tel) VAULES (member_seq.NEXTVAL,?,?,?,?,?)";
+			  sql = "INSERT ALL "
+				 + " INTO member(clientNo, memberId, pwd, gender, email, tel) VAULES (client_seq.NEXTVAL,?,?,?,?,?)"
+				 + " INSERT INTO Addressinfo(addressNo, addressCode, address, addressDetail, clientNo) VALUES (address_seq.NEXTVAL,?,?,?, client_seq.CURRVAL) "
+				 + " INSERT INTO client(clientNo, addressCode, address, addressDetail) VALUES (client_seq.CURRVAL, ?, ?, ?)"	    
+				 + " SELECT * FROM dual";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberId());
@@ -72,29 +75,10 @@ public class MemberDAO {
 			pstmt.setString(3, dto.getGender());
 			pstmt.setString(4, dto.getEmail());
 			pstmt.setString(5, dto.getTel());
+			pstmt.setString(6, dto.getAddressCode());
+			pstmt.setString(7, dto.getAddress());
+			pstmt.setString(8, dto.getAddressDetail());
 			
-			pstmt.executeUpdate();
-			
-			pstmt.close();
-			pstmt = null;
-			
-			sql = "INSERT INTO Addressinfo(clientNo, addressCode, address, addressDetail)"
-					+ " VALUES (client_seq.NEXTVAL, member_seq.NEXTVAL, SYSDATE)";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.executeUpdate();
-			
-			pstmt.close();
-			pstmt = null;
-			
-			
-			sql = "INSERT INTO client(key2, clientNo, addressCode, address, addressDetail, tel) "
-					+ "VALUES (key2_seq.NEXTVAL, client_seq.CURRVAL, ?, ?, ?, ?)";
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1, dto.getAddressCode());
-			pstmt.setString(2, dto.getAddress());
-			pstmt.setString(3, dto.getAddressDetail());
 			
 			pstmt.executeUpdate();			
 			
@@ -129,10 +113,10 @@ public class MemberDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT m.memberNo, memberId, pwd, name, ");
+			sb.append("SELECT m.clientNo, memberId, pwd, name, ");
 			sb.append("      gender ,email, tel, addressCode, address, addressDetail");
 			sb.append("  FROM member m");
-			sb.append("  LEFT OUTER JOIN client c ON m.memberNo= c.memberNo ");
+			sb.append("  LEFT OUTER JOIN client c ON m.clientNo= c.clientNo ");
 			sb.append("  WHERE m.memberId = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -144,7 +128,7 @@ public class MemberDAO {
 			if(rs.next()) {
 				dto = new MemberDTO();
 				
-				dto.setMemberNo(rs.getInt("memberNo"));
+				dto.setClientNo(rs.getInt("clientNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setPwd(rs.getString("pwd"));
 				dto.setName(rs.getString("name"));
@@ -185,26 +169,26 @@ public class MemberDAO {
 		return dto;
 	}	
 	
-	public void deleteMember(String memberId, long memberNo) throws SQLException {
+	public void deleteMember(String memberId, long clientNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "DELETE FROM member WHERE memberId=? AND memberNo=?";
+			sql = "DELETE FROM member WHERE memberId=? AND clientNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, memberId);
-			pstmt.setLong(2, memberNo);
+			pstmt.setLong(2, clientNo);
 			
 			pstmt.executeUpdate();
 			
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "DELETE FROM client WHERE memberNo=?";
+			sql = "DELETE FROM client WHERE clientNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, memberNo);
+			pstmt.setLong(1, clientNo);
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -220,7 +204,6 @@ public class MemberDAO {
 		}
 
 	}
-	
 		
 		
 	}
