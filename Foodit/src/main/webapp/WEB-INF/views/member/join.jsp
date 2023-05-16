@@ -541,7 +541,7 @@ function changeEmail() {
 					<th>아이디<span class="ico">*</span></th>
 					
 					<td>
-						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"> 
+						<input type="text" name="memberId" id="id" 	placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합" value="${dto.memberId}" > 
 					<button class="btn default" id="emailCheck">중복확인</button></td>
 				</tr>
 				<tr>
@@ -599,15 +599,15 @@ function changeEmail() {
 								<input type="text" name="zipcode" id="zipcode" size="7"
 									readonly="readonly" placeholder="번지를 검색해 주세요."> 
 								<a id="addressSearch" class="search"> 
-<<<<<<< HEAD
+
 
 								<button class="btn" id="emailCheck">주소검색</button>
 
 								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
 
-=======
+
 								<button  type="button" id="addressNo" class="address_no" data-text="재검색" onclick="daumPostcode();">주소 검색</button>
->>>>>>> branch 'main' of https://github.com/vantto6/foodit.git
+
 								</a>
 							</div>
 							<input type="text" name="address1" id="address1"

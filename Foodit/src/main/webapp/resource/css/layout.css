@@ -72,12 +72,9 @@ nav ul, nav li {
 	align-items: center; /* 수직 가운데 */
 	/* justify-content: center; */ /* 수평(주축) 가운데 */
 	flex-wrap: wrap; /* 폭이 넘치는 경우 여러행으로 출력 */
+	
 }
-
-.main-menu > li {
-	float: left;
-}
-
+ 
 .main-menu > li > a {
 	font-family: "NanumGothic", "나눔고딕", "Malgun Gothic", "맑은 고딕", 돋움, sans-serif;
 	font-size: 15px;
@@ -88,9 +85,8 @@ nav ul, nav li {
 	letter-spacing: 0.05em;
 	display: block;
 	padding: 10px 30px;
-	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+	
 }
-
  
 
 .main-menu .sub-menu {
@@ -99,6 +95,7 @@ nav ul, nav li {
 	opacity: 0;
 	visibility: hidden;
 	transition: all 0.15s ease-in;
+	
 	  /* 트랜지션은 CSS 프로퍼티 변경에 따른 표시의 변화를 부드럽게 하기 위해 애니메이션 속도를 조절 */
 }
 

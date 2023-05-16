@@ -150,6 +150,7 @@ td {
 								</tr>
 							</thead>
 							<tbody>
+						        <c:set var="totalPrice" value="0" />
 								<c:forEach var="dto" items="${list}">
 									<tr class="cartList_detail">
 										<td><input type="checkbox"></td>
@@ -163,7 +164,7 @@ td {
 										<td><span class="price">${dto.price}</span><span
 											style="text-decoration: line-through; color: lightgray;">13,000</span><br>
 									</tr>
-
+									<c:set var="totalPrice" value="${totalPrice + dto.price}" />
 								</c:forEach>
 							</tbody>
 							<tfoot>
@@ -195,7 +196,7 @@ td {
 							<dl class="amount">
 								<dt class="tit">상품금액</dt>
 								<dd class="price">
-									<span class="num">₩0</span><span class="won">원</span>
+									<span class="num">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 							<dl class="amount">
@@ -214,7 +215,7 @@ td {
 							<dl class="amount lst">
 								<dt class="tit">결제예정금액</dt>
 								<dd class="price">
-									<span class="num">₩0</span><span class="won">원</span>
+									<span class="num">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 
