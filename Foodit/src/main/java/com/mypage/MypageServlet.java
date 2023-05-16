@@ -37,7 +37,7 @@ public class MypageServlet extends MyServlet {
 			updateSubmit(req,resp);
 		} else if(uri.indexOf("order.do") != -1) {
 			mypageForm(req,resp);
-		} else if(uri.indexOf("addrmanage.do") != -1) {
+		} else if(uri.indexOf("addr.do") != -1) {
 			list(req,resp);
 		}
 		
@@ -49,12 +49,13 @@ public class MypageServlet extends MyServlet {
 		
 		forward(req, resp, path);
 	}
-	protected void addrManageFORM(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 마이페이지 폼 , 주문내역 창으로 바로 들어감
-		String path = "/WEB-INF/views/mypage/addrManage.jsp";
-		
-		forward(req, resp, path);
-	}
+	/*
+	 * protected void addrManageFORM(HttpServletRequest req, HttpServletResponse
+	 * resp) throws ServletException, IOException { // 마이페이지 폼 , 주문내역 창으로 바로 들어감
+	 * String path = "/WEB-INF/views/mypage/addrManage.jsp";
+	 * 
+	 * forward(req, resp, path); }
+	 */
 	
 	protected void checkPw(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 로그인 폼
@@ -191,7 +192,7 @@ public class MypageServlet extends MyServlet {
 			list = dao.listBoard(offset, size);
 
 			// 페이징 처리
-			String listUrl = cp + "/mypage/addrmanage.do";
+			String listUrl = cp + "/mypage/addr.do";
 			/* String articleUrl = cp + "/page/article.do?page=" + current_page; */
 
 			String paging = util.paging(current_page, total_page, listUrl);
@@ -210,6 +211,6 @@ public class MypageServlet extends MyServlet {
 		}
 
 		// JSP로 포워딩
-		forward(req, resp, "/WEB-INF/views/mypage/addrmanage.jsp");
+		forward(req, resp, "/WEB-INF/views/mypage/addr.jsp");
 	}
 }

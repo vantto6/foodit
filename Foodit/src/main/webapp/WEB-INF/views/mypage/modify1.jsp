@@ -111,7 +111,7 @@ function sendLogin() {
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_mypage.do">주문내역</a></li>				
 						<li><a>장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/addrmanage.do">배송지관리</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
 						<li><a href ="#">내가쓴후기</a></li>				
 					</ul>
 				</div>
