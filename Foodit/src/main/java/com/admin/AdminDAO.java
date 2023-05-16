@@ -2,7 +2,10 @@ package com.admin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.util.DBConn;
 
@@ -74,6 +77,52 @@ public class AdminDAO {
 		}
 		
 	}
+	public List<AdminDTO> listProduct(long itemNo) {
+		List<AdminDTO> list = new ArrayList<AdminDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
 
+		try {
+			
+			sql="SELECT i.itemNo,itemName, price, createDate, upadateDate"
+					+ "  ,categoryNo ,brandNo"
+					+ "  FROM items i"
+					+ "  JOIN category c ON i.categoryNo = c.categoryNo "
+					+ "  JOIN brand b ON i.brandNo = b.brandNo"
+					+ "  WHERE i.itemNo = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				AdminDTO dto = new AdminDTO();
+				
+
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return list;
+	}	
+		
 	
 }

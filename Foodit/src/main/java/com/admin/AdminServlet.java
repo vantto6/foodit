@@ -52,6 +52,10 @@ import com.util.MyUploadServlet;
 				addProductForm(req, resp);
 			}else if(uri.indexOf("admin_ok.do")!=-1){
 				addProductSubmit(req, resp); 
+			}else if(uri.indexOf("updateForm.do")!=-1){
+				updateForm(req, resp);
+			}else if(uri.indexOf("update_ok.do")!=-1){
+				updateSubmit(req, resp);
 			}
 		}
 	
@@ -129,10 +133,15 @@ import com.util.MyUploadServlet;
 		
 	}
 		protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+			req.setAttribute("title", "품목 수정");
+			req.setAttribute("mode", "admin");
+			
+			
+			forward(req, resp, "/WEB-INF/views/admin/modifyProduct.jsp");
 		}
 		
 		protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
 		}
+		
 		}
