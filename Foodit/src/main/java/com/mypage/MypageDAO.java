@@ -58,7 +58,7 @@ public class MypageDAO {
 			}
 
 		}
-	// 데이터 개수
+	// 배송지 데이터 개수
 	public int dataCount() {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -93,6 +93,47 @@ public class MypageDAO {
 			}
 		}
 
+		return result;
+	}
+	
+	public int orderDataCount(String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM ordering od"
+					+ " JOIN client c ON od.clientno = c.clientno"
+					+ " JOIN member m ON c.clientno = m.clientno"
+					+ " WHERE m.memberid = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
 		return result;
 	}
 
@@ -130,6 +171,68 @@ public class MypageDAO {
 				dto.setAddress(rs.getString("address"));
 				dto.setAddressDetail(rs.getString("addressDetail"));
 				dto.setClientNo(rs.getString("clientNo"));
+				
+				list.add(dto);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+
+		return list;
+	}
+	
+	public List<orderDTO> orderListBoard(String memberId, int offset, int size) {
+		List<orderDTO> list = new ArrayList<orderDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename"
+					+ " FROM ordering od"
+					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
+					+ " JOIN items i ON odt.itemNo = i.itemNo"
+					+ " JOIN itemsimg img ON i.itemNo = img.itemNo"
+					+ " JOIN client c ON od.clientno = c.clientno"
+					+ " JOIN member m ON c.clientno = m.clientno"
+					+ " WHERE odt.ordetailno = ("
+					+ "  SELECT MIN(ordetailno)"
+					+ "  FROM orderdetail"
+					+ "  WHERE orderNo = od.orderNo"
+					+ " ) AND m.memberid = ? "
+					+ " ORDER BY od.orderNo DESC"
+					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
+
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				orderDTO dto = new orderDTO();
+
+				dto.setItemName(rs.getString("itemName"));
+				dto.setOrderNo(rs.getInt("orderNo"));
+				dto.setPayOption(rs.getString("payment"));
+				dto.setTotPrice(rs.getInt("totPrice"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				
 				
 				list.add(dto);
 			}

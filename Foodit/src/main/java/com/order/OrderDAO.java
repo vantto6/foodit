@@ -19,8 +19,8 @@ public class OrderDAO {
 		
 		String sql, sql2;
 		try {
-			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, confirm, field)"
-					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, confirm, payment, cnt, sender, recipient, tel, request)"
+					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -30,7 +30,12 @@ public class OrderDAO {
 			pstmt.setString(4, dto.getAddressDetail());
 			pstmt.setInt(5, dto.getTotPrice());
 			pstmt.setInt(6, dto.getConfirm());
-			pstmt.setInt(7, dto.getField());
+			pstmt.setInt(7, dto.getPayment());
+			pstmt.setInt(8, dto.getCnt());
+			pstmt.setInt(9, dto.getSender());
+			pstmt.setInt(10, dto.getRecipient());
+			pstmt.setInt(11, dto.getTel());
+			pstmt.setInt(12, dto.getRequest());
 			
 			pstmt.executeUpdate();
 			
@@ -43,9 +48,9 @@ public class OrderDAO {
 			pstmt2.setLong(2, dto.getItemNo());
 			pstmt2.setLong(3, dto.getOrdetailCnt());
 			pstmt2.setInt(4, dto.getPrice());
-			pstmt2.setString(5, dto.getPayOption());
-			pstmt2.setString(6, dto.getPayDate());
-			pstmt2.setInt(7, dto.getDisPrice());
+			pstmt2.setString(5, dto.getPayDate());
+			pstmt2.setInt(6, dto.getDisPrice());
+			pstmt2.setInt(7, dto.getClientNo());
 			
 			pstmt2.executeUpdate();
 			

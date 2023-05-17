@@ -281,10 +281,11 @@ $(function() {
 		
 		let url = "${pageContext.request.contextPath}/item/insertItemLike.do";
 		let itemNo = "${dto.itemNo}";
-		let category = "${category}";
+//		let category = "${category}";
 		let page = "${page}";
+//		let num = "${num}";
 		
-		let qs = "category="+category + "&page="+page + "&itemNo=" + itemNo + "&isNoLike=" + isNoLike;;
+		let qs = "page="+page + "&itemNo=" + itemNo + "&isNoLike=" + isNoLike;
 		
 		const fn = function(data) {
 			let state = data.state;
@@ -322,6 +323,7 @@ $(function() {
 	<input type="hidden" name="itemNo" value="${dto.itemNo}">
 	<input type="hidden" name="category" value="${category}">
 	<input type="hidden" name="page" value="${page}">
+	<input type="hidden" name="num" value="${num}">
 	<table>
 
 		<tbody>

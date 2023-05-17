@@ -81,7 +81,7 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 <div>
-	<h3 class="css-i804ml eaf14xt0">신상품</h3>
+	<h3 class="css-i804ml eaf14xt0">베스트</h3>
 </div>
 	<div class="container">
 	

@@ -32,13 +32,13 @@ public class MypageServlet extends MyServlet {
 		} else if(uri.indexOf("modify_checkPw.do") != -1) {
 			checkPw(req,resp);
 		} else if(uri.indexOf("mypage.do") != -1) {
-			mypageForm(req,resp);
+			orderList(req,resp);
 		} else if(uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req,resp);
 		} else if(uri.indexOf("order.do") != -1) {
-			mypageForm(req,resp);
+			orderList(req,resp);
 		} else if(uri.indexOf("addr.do") != -1) {
-			list(req,resp);
+			addrList(req,resp);
 		}
 		
  	}
@@ -159,7 +159,7 @@ public class MypageServlet extends MyServlet {
 
 	}	
 	
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void addrList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
 		MypageDAO dao = new MypageDAO();
 		MyUtil util = new MyUtil();
@@ -177,7 +177,7 @@ public class MypageServlet extends MyServlet {
 			int dataCount = dao.dataCount();
 			
 			// 전체 페이지 수
-			int size = 2;
+			int size = 5;
 			int total_page = util.pageCount(dataCount, size);
 			if (current_page > total_page) {
 				current_page = total_page;
@@ -212,5 +212,66 @@ public class MypageServlet extends MyServlet {
 
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/mypage/addr.jsp");
+	}
+	protected void orderList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 리스트
+		MypageDAO dao = new MypageDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		System.out.println(session);
+		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("member");
+
+		String memberId = sessionInfo.getMemberId();
+		
+		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 전체 데이터 개수
+			int dataCount = dao.orderDataCount(memberId);
+			
+			// 전체 페이지 수
+			int size = 3;
+			int total_page = util.pageCount(dataCount, size);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			// 게시물 가져오기
+			int offset = (current_page - 1) * size;
+			if(offset < 0) offset = 0;
+			
+			List<orderDTO> list = null;
+			
+			list = dao.orderListBoard(memberId, offset, size);
+			
+			// 페이징 처리
+			String listUrl = cp + "/mypage/order.do";
+			/* String articleUrl = cp + "/page/article.do?page=" + current_page; */
+			
+			String paging = util.paging(current_page, total_page, listUrl);
+			
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("size", size);
+			// req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/views/mypage/order.jsp");
 	}
 }

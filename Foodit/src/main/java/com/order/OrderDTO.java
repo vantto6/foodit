@@ -8,12 +8,52 @@ public class OrderDTO {
 	private String addressDetail;
 	private int totPrice;
 	private int confirm;
-	private int field;
+	private int payment;
+	private int cnt;
+	private int sender;
+	public int getPayment() {
+		return payment;
+	}
+	public void setPayment(int payment) {
+		this.payment = payment;
+	}
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public int getSender() {
+		return sender;
+	}
+	public void setSender(int sender) {
+		this.sender = sender;
+	}
+	public int getRecipient() {
+		return recipient;
+	}
+	public void setRecipient(int recipient) {
+		this.recipient = recipient;
+	}
+	public int getTel() {
+		return tel;
+	}
+	public void setTel(int tel) {
+		this.tel = tel;
+	}
+	public int getRequest() {
+		return request;
+	}
+	public void setRequest(int request) {
+		this.request = request;
+	}
+	private int recipient;
+	private int tel;
+	private int request;
 	private int ordetailNo;
 	private int itemNo;
 	private int ordetailCnt;
 	private int price;
-	private String payOption;
 	private String payDate;
 	private int disPrice;
 	public int getOrderNo() {
@@ -82,12 +122,6 @@ public class OrderDTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getPayOption() {
-		return payOption;
-	}
-	public void setPayOption(String payOption) {
-		this.payOption = payOption;
-	}
 	public String getPayDate() {
 		return payDate;
 	}
@@ -100,10 +134,5 @@ public class OrderDTO {
 	public void setDisPrice(int disPrice) {
 		this.disPrice = disPrice;
 	}
-	public int getField() {
-		return field;
-	}
-	public void setField(int field) {
-		this.field = field;
-	}
+
 }
