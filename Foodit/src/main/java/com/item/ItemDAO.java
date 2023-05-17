@@ -212,7 +212,7 @@ public class ItemDAO {
 	
 	
 	
-	// 상품보기 (상품눌렀을때)
+	// 상품보기 (카테고리 상품눌렀을때)
 	public ItemDTO readItem(int category,long itemNo) {
 		ItemDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -269,6 +269,63 @@ public class ItemDAO {
 		return dto;
 	}
 	
+
+	// 상품보기 (카테고리 상품눌렀을때)
+	public ItemDTO newReadItem(long itemNo) {
+		ItemDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
+					+ " FROM items i "
+					+ " JOIN brand b ON i.brandNo = b.brandNo"
+					+ " JOIN category c ON i.categoryNo = c.categoryNo "
+					+ " WHERE i.itemNo = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, itemNo);
+			
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ItemDTO();
+				
+				dto.setItemNo(rs.getLong("itemNo"));
+				dto.setBrandName(rs.getString("brandName"));
+				dto.setCategoryName(rs.getString("categoryName"));
+				dto.setItemName(rs.getString("itemName"));
+				dto.setPrice(rs.getLong("price"));
+				dto.setDiscount(rs.getLong("discount"));
+				dto.setSaleUnit(rs.getString("saleUnit"));
+				dto.setDescription(rs.getString("description"));
+				dto.setDeadline(rs.getString("deadline"));
+				dto.setDiscountPrice();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+		}
+		
+		
+		return dto;
+	}
+
 	public void insertBasket(ItemDTO dto) {
 		PreparedStatement pstmt = null;
 		

@@ -41,7 +41,7 @@ public class ItemServlet extends MyServlet{
 		if(uri.indexOf("item.do")!=-1) {
 			itemList(req, resp);
 		} else if(uri.indexOf("detail.do")!=-1) {
-			detail(req, resp);
+			categoryDetail(req, resp);
 		} else if(uri.indexOf("basket_ok.do")!=-1) {
 			basketSubmit(req, resp);
 		} else if(uri.indexOf("insertItemLike.do") != -1) {
@@ -49,6 +49,8 @@ public class ItemServlet extends MyServlet{
 			insertItemLike(req, resp);
 		} else if(uri.indexOf("newItem.do") != -1) {
 			newitemList(req, resp);
+		} else if(uri.indexOf("detail2.do") != -1) {
+			detail(req, resp);
 		}		
 	}
 	protected void itemList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -156,8 +158,8 @@ public class ItemServlet extends MyServlet{
 			list = dao.listBoard2(num,offset,size);
 
 			// 페이징 처리
-			String listUrl = cp + "/item/item.do?num="+num;
-			String detailUrl = cp + "/item/detail.do?num="+num+ "&page=" + current_page;
+			String listUrl = cp + "/item/newItem.do?num="+num;
+			String detailUrl = cp + "/item/detail2.do?num="+num+ "&page=" + current_page;
 		
 			String paging = util.paging(current_page, total_page, listUrl);
 			
@@ -180,8 +182,8 @@ public class ItemServlet extends MyServlet{
 
 	
 
-	protected void detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 상품상세
+	protected void categoryDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 상품상세(카테고리)
 		ItemDAO dao = new ItemDAO();
 		MyUtil util = new MyUtil();
 		
@@ -228,28 +230,76 @@ public class ItemServlet extends MyServlet{
 		
 		resp.sendRedirect(cp + "/item/item.do?category=" + category + query);
 	}
-	
+
+	protected void detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 상품상세(카테고리 아닌거)
+		ItemDAO dao = new ItemDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+
+		String page = req.getParameter("page");
+		
+		String query = "page=" + page;
+		
+		try {
+			long itemNo = Long.parseLong(req.getParameter("itemNo"));
+			long num = Long.parseLong(req.getParameter("num"));
+			// 게시물 가져오기
+			// 신상품
+			ItemDTO dto = dao.newReadItem(itemNo);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/item/item.do?" + query);
+				return;
+			}
+			dto.setContent(util.htmlSymbols(dto.getContent()));
+			
+			// 로그인 유저의 게시글 공감 여부
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
+
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("num", num);
+			req.setAttribute("query", query);
+			req.setAttribute("isMemberLike", isMemberLike);
+
+			// 포워딩
+			forward(req, resp, "/WEB-INF/views/item/detail.jsp");
+			return;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/item/item.do?"  + query);
+	}
 	// 장바구니 저장
 	protected void basketSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ItemDAO dao = new ItemDAO();
-		
+		String query = "";
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String gubun = req.getParameter("category");
 		int category = 1;
-		if(gubun != null) {
-			category = Integer.parseInt(gubun);
-		}
 		String cp = req.getContextPath();
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp + "/bbs/list.do");
 			return;
 		}
-
-		
 		String page = req.getParameter("page");
 		int basketCnt = Integer.parseInt( req.getParameter("basketCnt"));
 		long itemNo = Integer.parseInt( req.getParameter("itemNo"));
+		long num = Integer.parseInt( req.getParameter("num"));
+		
+		if(gubun != null) { // 카테고리일때
+			category = Integer.parseInt(gubun);
+			query += "category=" + category + "&page="+page + "&itemNo="+itemNo;
+		} else { // 아닐때
+			query += "num=" + num + "&page="+page + "&itemNo="+itemNo;
+		}
 		String memberId = info.getMemberId();
 
 		try {
@@ -265,7 +315,12 @@ public class ItemServlet extends MyServlet{
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp + "/item/item.do?category=" + category + "&page="+page + "&itemNo="+itemNo);
+		if(gubun != null) {
+			resp.sendRedirect(cp + "/item/detail.do?" + query);
+		} else {
+			resp.sendRedirect(cp + "/item/detail2.do?" + query);
+		}
+		
 	}
 	
 	protected void insertItemLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
