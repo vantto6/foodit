@@ -188,9 +188,53 @@ button {
 .count-wrap > button.minus {left: 0;}
 .count-wrap > button.plus {right: 0;}
 .count-wrap .inp {border: 0;height: 38px;text-align: center;display: block;width: 100%;}
+.original-price {
+    padding-top: 1px;
+    color: rgb(181, 181, 181);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    text-decoration: line-through;
+}
+
+.likeBtn {
+	height:40px;
+	width:60px;
+	background:none;
+	border:none;
+	
+}
+
+.likeBtn i {
+	font-size:40px
+}
 </style>
 
 <script type="text/javascript">
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,		// 메소드(get, post, put, delete)
+		url:url,			// 요청 받을 서버주소
+		data:query,			// 서버에 전송할 파라미터
+		dataType:dataType,	// 서버에서 응답하는 형식(json, xml, text)
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) { 
+			jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
 
 
 $(function() {
@@ -227,21 +271,57 @@ function sendBasket() {
 	
 	f.action = "${pageContext.request.contextPath}/item/basket_ok.do";
 	f.submit();
+	alert("상품이 장바구니에 담겼습니다");
 }
+
+$(function() {
+	$(".btnSendItemLike").click(function() {
+		const $i = $(this).find("i");
+		let isNoLike = $i.css("color") == "rgb(0, 0, 0)";
+		
+		let url = "${pageContext.request.contextPath}/item/insertItemLike.do";
+		let itemNo = "${dto.itemNo}";
+		let category = "${category}";
+		let page = "${page}";
+		
+		let qs = "category="+category + "&page="+page + "&itemNo=" + itemNo + "&isNoLike=" + isNoLike;;
+		
+		const fn = function(data) {
+			let state = data.state;
+			if(state === "true"){
+				let color = "black";
+				if(isNoLike){
+					color = "red";
+				}
+				$i.css("color",color);
+				
+				//let count = data.boardLikeCount;
+				//$("#boardLikeCount").text(count);
+			}else if(state === "liked"){
+				alert("좋아요는 한번만 가능합니다.");
+			}
+
+		};
+		
+		ajaxFun(url,"post",qs,"json",fn);
+	});
+	
+})
 </script>
 
 </head>
 <body>
 
 <header>
-    <jsp:include page="/WEB-INF/views/layout/header.jsp">
-    </jsp:include>
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 
 <div class="product_view">
 	<h2>[${dto.brandName }] ${dto.itemName }</h2>
 	<form name="myDetailForm" method="post">
-	<input type="hidden" name="itemNo">
+	<input type="hidden" name="itemNo" value="${dto.itemNo}">
+	<input type="hidden" name="category" value="${category}">
+	<input type="hidden" name="page" value="${page}">
 	<table>
 
 		<tbody>
@@ -250,6 +330,7 @@ function sendBasket() {
 				<span class="discount">${dto.discount }%</span>
 				<span class="price" id="price">${dto.discountPrice}</span>
 				<span>원</span>
+				<span class="original-price">${dto.price }<span class="won">원</span></span>
 			</h2>
 		</tr>
 		
@@ -303,8 +384,8 @@ function sendBasket() {
 	</div>
 	
 	<div class="btns">
-		<a href="#" class="btn1"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>
-		<a href="#" class="btn2" onclick="sendBasket();">장바구니</a>
+		<button type="button" class="likeBtn btnSendItemLike" title="좋아요" style="width: 30px"><i class="fa-sharp fa-regular fa-heart fa-2xl" style="color: ${isMemberLike ? 'red':'black'}"></i></button>
+		<button type="button" class="btn2" onclick="sendBasket();">장바구니</button>
 	</div>
 	</form>
 </div>

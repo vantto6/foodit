@@ -76,8 +76,8 @@
 					<li><a href="${pageContext.request.contextPath}/item/item.do?category=2" aria-label="submenu">해/수산물</a></li>
 					<li><a href="${pageContext.request.contextPath}/item/item.do?category=3" aria-label="submenu">정육</a></li>
 				</ul></li>
-			<li><a href="${pageContext.request.contextPath}/item/item.do">신상품</a></li>
-			<li><a href="${pageContext.request.contextPath}/item/item.do">베스트</a></li>
+			<li><a href="${pageContext.request.contextPath}/item/newItem.do?num=1">신상품</a></li>
+			<li><a href="${pageContext.request.contextPath}/item/item.do?num=2">베스트</a></li>
 
 			<li class="right-style"><a href="#">고객지원센터</a>
             <ul class="sub-menu">
