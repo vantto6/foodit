@@ -16,8 +16,7 @@ public class MemberDTO {
 	private String updateDate;
 	private String deleteDate;
 	private String gubun;
-	private String birth;
-	
+
 	
 	
 	
@@ -26,8 +25,7 @@ public class MemberDTO {
 		return "MemberDTO [memberId=" + memberId + ", pwd=" + pwd + ", email=" + email + ", gender=" + gender
 				+ ", name=" + name + ", tel=" + tel + ", addressCode=" + addressCode + ", address=" + address
 				+ ", addressDetail=" + addressDetail + ", clientNo=" + clientNo + ", createDate=" + createDate
-				+ ", updateDate=" + updateDate + ", deleteDate=" + deleteDate + ", gubun=" + gubun + ", birth=" + birth
-				+ "]";
+				+ ", updateDate=" + updateDate + ", deleteDate=" + deleteDate + ", gubun=" + gubun + "]";
 	}
 	public String getMemberId() {
 		return memberId;
@@ -113,14 +111,7 @@ public class MemberDTO {
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
 	}
-	public String getBirth() {
-		return birth;
-	}
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
-	
-	
+
 	
 	
 }

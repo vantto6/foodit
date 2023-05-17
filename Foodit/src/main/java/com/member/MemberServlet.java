@@ -17,8 +17,8 @@ import com.util.MyServlet;
 @WebServlet("/member/*")
 public class MemberServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
-
-	@Override
+      
+	@Override     
 	protected void execute(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
@@ -42,8 +42,10 @@ public class MemberServlet extends MyServlet {
 			pwdSubmit(req, resp);
 		} else if(uri.indexOf("update_ok.do")!=-1) {
 			updateSubmit(req, resp);
-		} else if(uri.indexOf("memberIdCheck.do")!=-1) {
+		} else if(uri.indexOf("memberIdCheck_ok.do")!=-1) {
 			idCheck(req, resp);
+		}else if(uri.indexOf("emailCheck_ok.do")!=-1) {
+			emailCheck(req, resp);
 		}else if(uri.indexOf("admin.do")!=-1) {
 			adminpage(req, resp);
 		}
@@ -136,7 +138,6 @@ public class MemberServlet extends MyServlet {
 		try {
 			MemberDTO dto = new MemberDTO();
 			
-			dto.setClientNo(Long.parseLong(req.getParameter("clientNo")));
 			dto.setMemberId(req.getParameter("memberId"));
 			dto.setPwd(req.getParameter("pwd"));
 			dto.setName(req.getParameter("name"));
@@ -150,9 +151,12 @@ public class MemberServlet extends MyServlet {
 			
 			dto.setAddressCode(req.getParameter("addressCode"));
 			dto.setAddress(req.getParameter("address"));
-			dto.setAddressDetail(req.getParameter("addressCode"));
+			dto.setAddressDetail(req.getParameter("addressDetail"));
+			
+			System.out.println(dto);
 			
 			dao.insertMember(dto);
+			
 			resp.sendRedirect(cp + "/");
 			return;
 		} catch (SQLException e) {
@@ -263,35 +267,46 @@ public class MemberServlet extends MyServlet {
 	}
 
 	protected void idCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		      // 게시글 공감 저장: AJAX-JSON
-			//자바로 id유효성 체크하기 
-		      MemberDAO dao = new MemberDAO();
-		     
-		      String state = "false";
-		      
-		      try {
-		         String id =req.getParameter("id");
-		         
-	             MemberDTO member = dao.readMember(id); // 아이디를 readMemb에 넣어서 객체가 있는지 없는 확
-		         
-	             System.out.println(member);
-	             
-	             if (member == null) {
-	            	 state = "true";
-	             }
-		         
-		         
-		      } catch (Exception e) {
-		         e.printStackTrace();
-		      }
-		      
-		      JSONObject job = new JSONObject();
-		      job.put("state", state);
-		      
-		      PrintWriter out = resp.getWriter();
-		      out.print(job.toString());
-   }
+		// 게시글 공감 저장: AJAX-JSON
 
+		MemberDAO dao = new MemberDAO();
+		
+		String memberId = req.getParameter("memberId");
+		MemberDTO dto = dao.readMember(memberId);
+		
+		String passed = "false";
+		if(dto == null) {
+			passed = "true";
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("passed", passed);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
+	}
+   
+	protected void emailCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		MemberDAO dao = new MemberDAO();
+		
+		String email = req.getParameter("email");
+		boolean result = dao.emailCheck(email);
+		
+		String passed = "";
+		if(result == false) {
+			passed = "true";
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("passed", passed);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
+	}
+	
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("title", "관리자 페이지");
 		req.setAttribute("mode", "member");

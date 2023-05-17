@@ -58,25 +58,25 @@ public class MemberDAO {
 	}	
 	public void insertMember(MemberDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
-		String sql = "";
+		String sql;
 		
 		//insertAll로 다시 짜기 
 		try {
 			conn.setAutoCommit(false);
 			
-			sql += "INSERT ALL"
-             + "INTO member (clientNo, memberId, pwd, gender, email,name, tel) VALuES (client_seq.NEXTVAL, ?, ?, ?, ?, ?, ?"
-             + "INTO client (clientNo,createDate,updateDate,deleteDate,gubun) VALUES (client_seq.CURRVAL, SYSDATE, SYSDATE, null, 1)"
-             + "INTO Addressinfo (addrNo, addressCode, address, addressDetail, clientNo) VALUES (address_seq.NEXTVAL , ?, ?, ?, client_seq.CURRVAL)"
-             + "SELECT * FROM dual;";
+			sql = "INSERT ALL"
+             + " INTO member (clientNo, memberId, pwd, name, gender,  email, tel) VALUES (client_seq.NEXTVAL, ?, ?, ?, ?, ?, ?)"
+             + " INTO client (clientNo,createDate,updateDate,deleteDate,gubun) VALUES (client_seq.CURRVAL, SYSDATE, SYSDATE, null, 1)"
+             + " INTO Addressinfo (addrNo, addressCode, address, addressDetail, clientNo) VALUES (address_seq.NEXTVAL , ?, ?, ?, client_seq.CURRVAL)"
+             + " SELECT * FROM dual";
              
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberId());
 			pstmt.setString(2, dto.getPwd());
-			pstmt.setString(3, dto.getGender());
-			pstmt.setString(4, dto.getEmail());
-			pstmt.setString(5,  dto.getName());
+			pstmt.setString(3, dto.getName());
+			pstmt.setInt(4, Integer.parseInt(dto.getGender()));
+			pstmt.setString(5, dto.getEmail());
 			pstmt.setString(6, dto.getTel());
 			pstmt.setString(7, dto.getAddressCode());
 			pstmt.setString(8, dto.getAddress());

@@ -428,158 +428,7 @@ border: 1px solid white;
 
 
 </head>
-<script type="text/javascript">
 
-function memberOk() {
-	const f = document.memberForm;
-	let str;
-
-	str = f.memberId.value;
-	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-		alert("아이디를 다시 입력 하세요. ");
-		f.memberId.focus();
-		return;
-	}
-
-	str = f.pwd.value;
-	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-		alert("패스워드를 다시 입력 하세요. ");
-		f.pwd.focus();
-		return;
-	}
-
-	if( str !== f.pwd2.value ) {
-        alert("패스워드가 일치하지 않습니다. ");
-        f.pwd.focus();
-        return;
-	}
-	
-    str = f.name.value;
-    if( !/^[가-힣]{2,5}$/.test(str) ) {
-        alert("이름을 다시 입력하세요. ");
-        f.name.focus();
-        return;
-    }
-    
-    str = f.email.value;
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email.focus();
-        return;
-    }
-    
-    str = f.tel1.value;
-    if( !str ) {
-        alert("전화번호 앞 3자리를 입력하세요. ");
-        f.tel1.focus();
-        return;
-    }
-
-    str = f.tel2.value;
-    if( !/^\d{3,4}$/.test(str) ) {
-        alert("전화번호 가운데 4자리를 입력하세요. ");
-        f.tel2.focus();
-        return;
-    }
-
-    str = f.tel3.value;
-    if( !/^\d{4}$/.test(str) ) {
-    	alert("전화번호 마지막 4자리를 입력하세요. ");
-        f.tel3.focus();
-        return;
-    }
-   
-
-   	f.action = "${pageContext.request.contextPath}/WEB-INF/views/main.jsp";
-    f.submit();
-}
-
-function changeEmail() {
-    const f = document.memberForm;
-	    
-    let str = f.selectEmail.value;
-    if(str !== "direct") {
-        f.email2.value = str; 
-        f.email2.readOnly = true;
-        f.email1.focus(); 
-    }
-    else {
-        f.email2.value = "";
-        f.email2.readOnly = false;
-        f.email1.focus();
-    }
-    
-}
-function ajaxFun(url, method, query, dataType) {		
-	$.ajax({
-		type:method,		// 메소드(get, post, put, delete)
-		url:url,			// 요청 받을 서버주소
-		data:query,			// 서버에 전송할 파라미터
-		dataType:dataType,	// 서버에서 응답하는 형식(json, xml, text)
-		success:function(data) {
-	         let state = data.state;
-	         
-	         if(state === "false"){
-	            alert('이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요.');
-	         } else if(state === "true"){
-	            alert("사용 가능한 아이디입니다. ");
-	         }
-		},
-		beforeSend:function(jqXHR) { 
-			jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
-		},
-		error:function(jqXHR) {
-			if(jqXHR.status === 403) {
-				login();
-				return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-			}
-			console.log(jqXHR.responseText);
-		}
-	});
-}
-
-
-//아이디 중복 검사 
-$(function() {
-   $("#idCheck").click(function() {
-      let url = "${pageContext.request.contextPath}/member/memberIdCheck.do";
-      let id = $('#memberId').val();
-      let qs = "id=" + id;
-      
-       /* const fn = function(data) {
-    	 console.log(data);
-         let state = data.state;
-         console.log(state);
-         if(state === "true"){
-            alert('이미 사용중인 아이디 입니다. 다른 아이디를 사용해주세요.');
-         }else if(state === "false"){
-            alert("사용 가능한 아이디입니다. ");
-         }
-      }; */
-      
-      //조금 더 세분화 해서 막기 
-  	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(id) ) {
-  		if (id.length <= 4) {
-  			alert("아이디는 최소4글자 이");
-  			return;
-  		}
-  		else {
-  			alert("아이디를 다시 입력 하세요. ");
-  			return;	
-  		}
-		
-	}
-      ajaxFun(url,"post",qs,"json"); 
-      
-   });
-});
-    
-    
-
-</script>
 
 <body>
 
@@ -599,8 +448,7 @@ $(function() {
 <div class="page_article" >
 	<div class="type_form member_join">
 		<form  method="post" name="memberForm" id="join">
-			<input type="hidden" name="idCheckResult" id="idCheckResult" value="0"> 
-			<input type="hidden" name="emailCheckResult" id="emailCheckResult" value="0">
+			
 			<p class="page_sub">
 				<span class="ico">*</span>필수입력사항
 			</p>
@@ -611,7 +459,7 @@ $(function() {
 					
 					<td>
 						<input type="text" name="memberId" id="memberId" 	placeholder="아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다." value="" > 
-					<button type="button" class="btn default" id="idCheck">중복확인</button></td>
+					<button type="button" class="btn default" id="idCheck" onclick="memberIdCheck();">중복확인</button></td>
 				</tr>
 				<tr>
 					<th>비밀번호<span class="ico">*</span></th>
@@ -650,7 +498,7 @@ $(function() {
 						<th>이메일<span class="ico">*</span></th>
 					<td>
 						<input type="text" name="email" class="email" id="email" placeholder="예: marketkurly@kurly.com">
-					<button class="btn default" id="emailCheck">중복확인</button>
+						<button type="button"  class="btn default" id="emailCheck" onclick="emailch();">중복확인</button>
 					</td>
 				</tr>
 				<tr class="field_phone">
@@ -682,6 +530,9 @@ $(function() {
 				</tbody>
 			</table>
 			<div id="formSubmit" class="form_footer">
+				<input type="hidden" name="memberIdValid" id="memberIdValid" value="false">
+				<input type="hidden" name="emailValid" id="emailValid" value="false">
+			
 				<button type="button" class="btn active btn_join" name="btnOk" onclick="memberOk();">가입하기</button>
 			</div>
 		</form>
@@ -734,6 +585,212 @@ function daumPostcode() {
     }
 </script>
 
+<script type="text/javascript">
+
+	function memberOk() {
+		const f = document.memberForm;
+		let str;
+	
+		str = f.memberId.value;
+		if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
+			alert("아이디를 다시 입력 하세요. ");
+			f.memberId.focus();
+			return;
+		}
+		
+		let mode = "${mode}";
+		if(mode === "member" && f.memberIdValid.value === "false") {
+			alert('아이디 중복 검사가 실행되지 않았습니다.');
+			f.memberId.focus();
+			return;
+		}
+		if(mode === "email" && f.emailValid.value === "false") {
+			alert('이메일 중복 검사가 실행되지 않았습니다.');
+			f.memberId.focus();
+			return;
+		}
+		
+	
+		str = f.pwd.value;
+		if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
+			alert("패스워드를 입력 하세요. ");
+			f.pwd.focus();
+			return;
+		}
+	
+		if( str !== f.pwd2.value ) {
+	        alert("패스워드가 일치하지 않습니다. ");
+	        f.pwd.focus();
+	        return;
+		}
+		
+	    str = f.name.value;
+	    if( !/^[가-힣]{2,5}$/.test(str) ) {
+	        alert("이름을 입력하세요. ");
+	        f.name.focus();
+	        return;
+	    }
+	    
+	    str = f.email.value;
+	    if( !str ) {
+	        alert("이메일을 입력하세요. ");
+	        f.email.focus();
+	        return;
+	    }
+	    
+	    str= f.addressCode.value;
+	    if( ! str ){
+	    	alert("주소를 선택하세요 ");
+	    	f.addressCode.focus();
+	    	return;
+	    	
+	    }
+	    str= f.address.value;
+	    if( ! str ){
+	    	alert("주소를 선택하세요 ");
+	    	f.address.focus();
+	    	return;
+	    }
+	    str= f.addressDetail.value;
+	    if( ! str ){
+	    	alert("상세주소를 입력하세요 ");
+	    	f.addressDetail.focus();
+	    	return;
+	    }
+	    
+	    str = f.tel1.value;
+	    if( !str ) {
+	        alert("전화번호 앞 3자리를 입력하세요. ");
+	        f.tel1.focus();
+	        return;
+	    }
+	
+	    str = f.tel2.value;
+	    if( !/^\d{3,4}$/.test(str) ) {
+	        alert("전화번호 가운데 4자리를 입력하세요. ");
+	        f.tel2.focus();
+	        return;
+	    }
+	
+	    str = f.tel3.value;
+	    if( !/^\d{4}$/.test(str) ) {
+	    	alert("전화번호 마지막 4자리를 입력하세요. ");
+	        f.tel3.focus();
+	        return;
+	    }
+	   
+	
+	   	f.action = "${pageContext.request.contextPath}/member/member_ok.do";
+	    f.submit();
+	}
+	
+	function changeEmail() {
+	    const f = document.memberForm;
+		    
+	    let str = f.selectEmail.value;
+	    if(str !== "direct") {
+	        f.email2.value = str; 
+	        f.email2.readOnly = true;
+	        f.email1.focus(); 
+	    }
+	    else {
+	        f.email2.value = "";
+	        f.email2.readOnly = false;
+	        f.email1.focus();
+	    }
+	    
+	}
+	
+	function memberIdCheck() {
+		// 아이디 중복 검사
+		let memberId = $("#memberId").val();
+	
+		//세분화 하기 
+		if(memberId == ""){
+			alert('아이디를 입력해주세요.');
+			return;
+		}
+		if(!/^[a-z][a-z0-9_]{4,9}$/i.test(memberId)) { 
+			alert( '아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.');
+			$("#memberId").focus();
+			
+			return;
+			
+		}
+		
+		let url = "${pageContext.request.contextPath}/member/memberIdCheck_ok.do";
+		let query = "memberId=" + memberId;
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				let passed = data.passed;
+	
+				if(passed === "true") {
+					alert('사용가능 한 아이디입니다. ');
+					$("#memberIdValid").val("true");
+					$("#memberId").prop("readonly",true);
+				} else {
+					alert('이미 사용중인 아이디입니다. 다른 아이디를 선택해주세요. ');
+					$("#memberId").val("");
+					$("#memberIdValid").val("false");
+					$("#memberId").focus();
+				}
+			}
+		});
+	}
+	
+	
+	function emailch() {
+		// 이메일 중복 검사
+		let email = $("#email").val();
+		 var valid_txt = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; 
+			//(알파벳,숫자)@(알파벳,숫자).(알파벳,숫자)
+			 if(email == ""){
+				 alert('이메일을 입력해주세요.');
+				 
+				 return;
+			 }
+			 if(valid_txt.test(email)==false){ 
+				  
+				 alert("이메일 주소가 올바르지 않습니다."); 
+				 $("#email").focus();
+				 
+				 return;
+			 }
+			
+	
+		let url = "${pageContext.request.contextPath}/member/emailCheck_ok.do";
+		let query = "email=" + email;
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				let passed = data.passed;
+	
+				if(passed === "true") {
+					alert('사용가능 한 이메일입니다. ');
+					$("#emailValid").val("true");
+					$("#email").prop("readonly",true);
+					
+					
+					
+				} else {
+					alert('이미 사용중인 이메일 입니다. 다른 이메일을 선택해주세요. ');
+					$("#email").val("");
+					$("#emailValid").val("false");
+					$("#emailCheck").focus();
+				}
+			}
+		});
+	}
+	
+
+</script>
 
 
 <footer>
