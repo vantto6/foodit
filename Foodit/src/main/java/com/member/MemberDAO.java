@@ -17,7 +17,7 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT clientNo, memberId, pwd,email , birth, gender,name,tel "
+			sql = " SELECT clientNo, memberId ,name, pwd "
 					+ " FROM member"
 					+ " WHERE memberId = ? AND pwd = ?";
 			
@@ -58,26 +58,29 @@ public class MemberDAO {
 	}	
 	public void insertMember(MemberDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
-		String sql;
+		String sql = "";
 		
 		//insertAll로 다시 짜기 
 		try {
 			conn.setAutoCommit(false);
-			  sql = "INSERT ALL "
-				 + " INTO member(clientNo, memberId, pwd, gender, email, tel) VAULES (client_seq.NEXTVAL,?,?,?,?,?)"
-				 + " INSERT INTO Addressinfo(addressNo, addressCode, address, addressDetail, clientNo) VALUES (address_seq.NEXTVAL,?,?,?, client_seq.CURRVAL) "
-				 + " INSERT INTO client(clientNo, addressCode, address, addressDetail) VALUES (client_seq.CURRVAL, ?, ?, ?)"	    
-				 + " SELECT * FROM dual";
+			
+			sql += "INSERT ALL"
+             + "INTO member (clientNo, memberId, pwd, gender, email,name, tel) VALuES (client_seq.NEXTVAL, ?, ?, ?, ?, ?, ?"
+             + "INTO client (clientNo,createDate,updateDate,deleteDate,gubun) VALUES (client_seq.CURRVAL, SYSDATE, SYSDATE, null, 1)"
+             + "INTO Addressinfo (addrNo, addressCode, address, addressDetail, clientNo) VALUES (address_seq.NEXTVAL , ?, ?, ?, client_seq.CURRVAL)"
+             + "SELECT * FROM dual;";
+             
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberId());
 			pstmt.setString(2, dto.getPwd());
 			pstmt.setString(3, dto.getGender());
 			pstmt.setString(4, dto.getEmail());
-			pstmt.setString(5, dto.getTel());
-			pstmt.setString(6, dto.getAddressCode());
-			pstmt.setString(7, dto.getAddress());
-			pstmt.setString(8, dto.getAddressDetail());
+			pstmt.setString(5,  dto.getName());
+			pstmt.setString(6, dto.getTel());
+			pstmt.setString(7, dto.getAddressCode());
+			pstmt.setString(8, dto.getAddress());
+			pstmt.setString(9, dto.getAddressDetail());
 			
 			
 			pstmt.executeUpdate();			
@@ -162,7 +165,6 @@ public class MemberDAO {
 		
 		return dto;
 	}	
-	
 	public void deleteMember(String memberId, long clientNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -198,7 +200,52 @@ public class MemberDAO {
 		}
 
 	}
+	public Boolean emailCheck(String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		Boolean result = false;
 		
+		try {
+			sb.append("select count(*) as cnt "
+					+ " from member"
+					+ " where email = ? ");
+			
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, email);
+			
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				
+				if(rs.getInt("cnt") == 1) {
+					result = true;
+				}
+				
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}	
 		
 	}
 
