@@ -105,7 +105,7 @@ button {
 			return;
 		}
 
-		f.action = "${pageContext.request.contextPath}/member/find_ok.do";
+		f.action = "${pageContext.request.contextPath}/member/login_ok.do";
 		f.submit();
 	}
 </script>
