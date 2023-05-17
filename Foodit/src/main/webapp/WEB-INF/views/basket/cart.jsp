@@ -95,40 +95,123 @@ td {
 }
 .product_count{
 	display: flex;
+	justify-content: center;
 }
 input[type=checkbox] {
    opacity: 1;
    position: relative;
    z-index: 10;
 }
+
+/* 모달대화상자 */
+.ui-widget-header { /* 타이틀바 */
+	background: none;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
+}
+.ui-dialog .ui-dialog-title {
+	padding-top: 5px; padding-bottom: 5px;
+}
+.ui-widget-content { /* 내용 */
+   /* border: none; */
+   border-color: #ccc; 
+}
+.form-control{
+	width: 30px;
+}
 </style>
 
 <script type="text/javascript">
-	function sendLogin() {
-		const f = document.loginForm;
-
-		let str = f.userId.value;
-		if (!str) {
-			alert("아이디를 입력하세요. ");
-			f.userId.focus();
-			return;
-		}
-
-		str = f.userPwd.value;
-		if (!str) {
-			alert("패스워드를 입력하세요. ");
-			f.userPwd.focus();
-			return;
-		}
-
-		f.action = "${pageContext.request.contextPath}/member/login_ok.do";
-		f.submit();
+function sendOrder() {
+	const f = document.orderForm;
+	
+	
+	
+	if(! f.address.value) {
+		alert("배송지를 선택하세요 ...");
+		return;
 	}
 	
-	function openPopup() {
-		// 팝업 창을 띄우는 코드
-		window.open("popup.jsp", "팝업 제목", "width=500,height=300");
-	}
+	// f.action="";
+	// f.submit();
+}
+
+$(function(){
+	$(".count_down").click(function(){
+		let count = parseInt($(this).closest("div").find("input[name=count]").val());
+		
+		if(count <= 1) {
+			return false;
+		}
+		
+		count--;
+		$(this).closest("div").find("input[name=count]").val(count);
+
+		let $el = $(this).closest("tbody").find(".product_count");
+		let total = 0;
+		$el.each(function(index, item){
+			let price = parseInt($(item).attr("data-price"));
+			let c = parseInt($(item).find("input[name=count]").val());
+			total += price * c;
+		});
+		
+		$(".totalPrice").text(total);
+		$(".realTotalPrice").text(total);
+
+	});
+	
+	$(".count_up").click(function(){
+		let count = parseInt($(this).closest("div").find("input[name=count]").val());
+		
+		if(count >= 10) {
+			return false;
+		}
+		
+		count++;
+		$(this).closest("div").find("input[name=count]").val(count);
+
+		let $el = $(this).closest("tbody").find(".product_count");
+		let total = 0;
+		$el.each(function(index, item){
+			let price = parseInt($(item).attr("data-price"));
+			let c = parseInt($(item).find("input[name=count]").val());
+			total += price * c;
+		});
+
+		$(".totalPrice").text(total);
+		$(".realTotalPrice").text(total);
+
+	});	
+});
+
+function openAddress() {
+	
+	$(".dialog-address").dialog({
+		title:"배송지",
+		width: 600,
+		height: 530,
+		modal: true
+	});	
+}
+
+$(function(){
+	$(".btnAddressOk").click(function(){
+		const $td = $(this).closest("tr").find("td");
+		let addressCode = $td.eq(0).text();
+		let address = $td.eq(1).text();
+		let addressDetail = $td.eq(2).text();
+		
+		$(".addr-basic").text(address);
+		$(".addr-detail").text(addressDetail);
+		
+		$("form input[name=addressCode]").val(addressCode);
+		$("form input[name=address]").val(address);		
+		$("form input[name=addressDetail]").val(addressDetail);
+		
+		$( ".dialog-address" ).dialog( "close" );
+	});
+});
 </script>
 
 </head>
@@ -153,52 +236,58 @@ input[type=checkbox] {
 							<input id="cart_checkbox" type="checkbox" name="cart_checkbox"
 								value="TRUE"> <label>전체선택 | </label><span> 선택삭제</span>
 						</div>
-						<table class="cartList">
-							<thead>
-								<tr>
-									<td><input type="checkbox"></td>
-									<td colspan="2">상품정보</td>
-									<td>옵션</td>
-									<td>상품금액</td>
-								</tr>
-							</thead>
-							<tbody>
-						        <c:set var="totalPrice" value="0" />
-								<c:forEach var="dto" items="${list}">
-									<tr class="cartList_detail">
+						
+						<form name="orderForm" method="post">
+							<table class="cartList">
+								<thead>
+									<tr>
 										<td><input type="checkbox"></td>
-										<td><img src="galbitang.jpeg" alt="food_img"></td>
-										<td><a href="#"></a><span class="cartList_smartstore">
-										</span>
-											<p class="price">${dto.itemName}</p></td>
-										<td class="cartList_option">
-											<div class="product_count">
-												<button class="count_down"></button>
-												<div class="count">
-													
-												</div>
-												<button class="count_up"></button>
-											</div>
-										</td>
-										<td><span class="price">${dto.price}</span><span
-											style="text-decoration: line-through; color: lightgray;">13,000</span><br>
+										<td colspan="2">상품정보</td>
+										<td>수량</td>
+										<td>상품금액</td>
 									</tr>
-									<c:set var="totalPrice" value="${totalPrice + dto.price}" />
-								</c:forEach>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="3"><input type="checkbox">
-										<button class="cartList_optionbtn">선택상품 삭제</button>
-										<button class="cartList_optionbtn">선택상품 찜</button></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tfoot>
-
-						</table>
-
+								</thead>
+								<tbody>
+							        <c:set var="totalPrice" value="0" />
+									<c:forEach var="dto" items="${list}">
+										<tr class="cartList_detail">
+											<td><input type="checkbox"></td>
+											<td><img src="galbitang.jpeg" alt="food_img"></td>
+											<td><a href="#"></a><span class="cartList_smartstore">
+											</span>
+												<p class="price">${dto.itemName}</p></td>
+											<td class="cartList_option">
+												<div class="product_count" data-price="${dto.price}">
+													<button type="button" class="count_down"><i class="fa-solid fa-minus"></i></button>
+													<div class="count">
+														<input type="text" name="count" class="form-control" value="${dto.basketCnt}">
+													</div>
+													<button type="button" class="count_up"><i class="fa-solid fa-plus"></i></button>
+													<input type="hidden" name="itemNo" value="${dto.itemNo}">
+												</div>
+											</td>
+											<td><span class="price">${dto.price}</span><span
+												style="text-decoration: line-through; color: lightgray;">13,000</span><br>
+										</tr>
+										<c:set var="totalPrice" value="${totalPrice + (dto.price * dto.basketCnt)}" />
+									</c:forEach>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="3"><input type="checkbox">
+											<button class="cartList_optionbtn">선택상품 삭제</button>
+											<button class="cartList_optionbtn">선택상품 찜</button></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</tfoot>
+	
+							</table>
+							<input type="hidden" name="addressCode">
+							<input type="hidden" name="address">
+							<input type="hidden" name="addressDetail">														
+						</form>
 					</div>
 				</div>
 
@@ -207,17 +296,17 @@ input[type=checkbox] {
 						<div class="cart_delivery">
 							<h3 class="tit">배송지</h3>
 							<div class="address">
-								<p class="addr">경기 성남시 분당구 대왕판교로 372</p>
-								<p class="addr">11</p>
+								<p class="addr addr-basic">배송지를 선택하세요</p>
+								<p class="addr addr-detail"></p>
 								<button type="button" class="btn active"
-								onclick="openPopup()">주문하기</button>
+								onclick="openAddress()">배송지 선택</button>
 							</div>
 						</div>
 						<div class="amount_view">
 							<dl class="amount">
 								<dt class="tit">상품금액</dt>
 								<dd class="price">
-									<span class="num">₩${totalPrice}</span><span class="won">원</span>
+									<span class="totalPrice">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 							<dl class="amount">
@@ -236,7 +325,7 @@ input[type=checkbox] {
 							<dl class="amount lst">
 								<dt class="tit">결제예정금액</dt>
 								<dd class="price">
-									<span class="num">₩${totalPrice}</span><span class="won">원</span>
+									<span class="realTotalPrice">₩${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 
@@ -244,7 +333,7 @@ input[type=checkbox] {
 						</div>
 						<div class="btn_submit">
 							<button type="button" class="btn active"
-								onclick="location.href='index.jsp?folder=pay&category=pay_page';">주문하기</button>
+								onclick="sendOrder();">주문하기</button>
 						</div>
 						<div class="notice">
 							<span class="txt"><span class="ico">·</span>[배송준비중] 이전까지
@@ -256,6 +345,29 @@ input[type=checkbox] {
 			</div>
 		</div>
 	</main>
+	
+	<div class="dialog-address" style="display:none;" >
+		<div class="address-layout">
+			<table>
+				<tr>
+					<td>우편번호</td>
+					<td>기본주소</td>
+					<td>상세주소</td>
+					<td>선택</td>
+				</tr>
+				<c:forEach var="vo" items="${addressList}">
+					<tr>
+						<td>${vo.addressCode}</td>
+						<td>${vo.address}</td>
+						<td>${vo.addressDetail}</td>
+						<td>
+							<button type="button" class="btn btnAddressOk">선택</button>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
 
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

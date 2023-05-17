@@ -20,7 +20,7 @@ public class BasketDAO {
 		StringBuffer sb = new StringBuffer();
 		
 		try {
-			sb.append(" SELECT itemName,basketCnt, price, discount");
+			sb.append(" SELECT b.itemNo,itemName,basketCnt, price, discount");
 			sb.append(" FROM basket b ");
 			sb.append(" JOIN items i ON b.itemNo = i.itemNo ");
 			sb.append(" WHERE memberId = ? ");
@@ -34,6 +34,7 @@ public class BasketDAO {
 			while(rs.next()) {
 				BasketDTO dto = new BasketDTO();
 				
+				dto.setItemNo(rs.getInt("itemNo"));
 				dto.setItemName(rs.getString("itemName"));
 				dto.setBasketCnt(rs.getInt("basketCnt"));
 				dto.setPrice(rs.getInt("price"));
@@ -70,7 +71,7 @@ public class BasketDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT FROM addressCode, address, addressdetail FROM addressinfo WHERE clientNo = ?";
+			sql = "SELECT addressCode, address, addressdetail FROM addressinfo WHERE clientNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -80,9 +81,12 @@ public class BasketDAO {
 			
 			while(rs.next()) {
 				AddressDTO dto = new AddressDTO();
+				
 				dto.setAddressCode(rs.getString("addressCode"));
 				dto.setAddress(rs.getString("address"));
 				dto.setAddressDetail(rs.getString("addressdetail"));
+				
+				list.add(dto);
 			}
 			
 		} catch (SQLException e) {
