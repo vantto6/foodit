@@ -26,17 +26,17 @@ public class AdminDTO {
 	private String rqupdateDate; // 문의 수정날짜
 	private String imgcreateDate;
 	private String imgupdateDate;
-    private long imageNo;
+    private long imgNo;
 	private String saveFilename;
 	private String[] saveFiles;
 	private long fileSize;
 	private int thumbnail;
 	
-	public long getImageNo() {
-		return imageNo;
+	public long getImgNo() {
+		return imgNo;
 	}
-	public void setImageNo(long imageNo) {
-		this.imageNo = imageNo;
+	public void setImgNo(long imgNo) {
+		this.imgNo = imgNo;
 	}
 	public String getSaveFilename() {
 		return saveFilename;

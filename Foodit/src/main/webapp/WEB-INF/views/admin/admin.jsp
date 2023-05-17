@@ -57,21 +57,13 @@
     <ul>
         <li><a href="${pageContext.request.contextPath}/admin/discount.do">상품할인</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/addProduct.do">품목추가</a></li>
-        <li><a href="deleteProduct.jsp">품목삭제</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/updateForm.do"">품목수정</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/list.do">품목리스트</a></li>
     </ul>
     
     <h2>판매관리</h2>
     <ul>
         <li>
-            <a href="customerSales.jsp">회원</a>
-            <ul class="sublist">
-                <li><a href="customerDetails.jsp">회원ID</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="brandSales.jsp">입점브랜드</a>
-            <ul class="sublist">
+            <ul>
                 <li><a href="brandList.jsp">브랜드 이름 리스트</a></li>
                 <li><a href="stockStatus.jsp">재고현황</a></li>
             </ul>
