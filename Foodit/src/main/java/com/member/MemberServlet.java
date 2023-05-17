@@ -46,8 +46,13 @@ public class MemberServlet extends MyServlet {
 			idCheck(req, resp);
 		}else if(uri.indexOf("emailCheck_ok.do")!=-1) {
 			emailCheck(req, resp);
+		}else if(uri.indexOf("find.do")!=-1) {
+			findForm(req, resp);
+		}else if(uri.indexOf("find_ok.do")!=-1) {
+			find(req, resp);
 		}else if(uri.indexOf("admin.do")!=-1) {
 			adminpage(req, resp);
+		
 		}
 	}
 
@@ -305,6 +310,39 @@ public class MemberServlet extends MyServlet {
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();
 		out.print(job.toString());
+	}
+	protected void findForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("title", "아이디");
+		req.setAttribute("mode", "member");
+		req.setAttribute("msg", null);
+
+		
+		String path = "/WEB-INF/views/member/find.jsp";
+		forward(req, resp, path);
+	}
+	protected void find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		MemberDAO dao = new MemberDAO();
+		String name = req.getParameter("name");
+		String email = req.getParameter("email");
+		boolean result = dao.find(name,email);
+		
+		String passed = "";
+		
+		// dao에서 조회할때, cnt대신 로그인 id를 가져온다.
+		// 가져온 결괏갑이 없으면 틀린거, 아니면 맞은거니까 사용자에게 보여준다.
+		if(result == false) {
+			req.setAttribute("msg", "일치하는게 없다.");
+			resp.sendRedirect(req.getContextPath() + "/member/find_ok.do");
+		}
+		
+		req.setAttribute("msg", "일치하는게 없다.");
+		req.setAttribute("title", "관리자 페이지");
+		req.setAttribute("mode", "member");
+		
+		String path = "/WEB-INF/views/admin/admin.jsp";
+		forward(req, resp, path);
+
+		
 	}
 	
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

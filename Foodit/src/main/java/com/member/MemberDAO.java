@@ -247,5 +247,57 @@ public class MemberDAO {
 		return result;
 	}	
 		
+
+
+public Boolean find(String name, String email) {
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	Boolean result = false;
+	String sql = "";
+	
+	try {
+		sql ="select count(*) AS cnt "
+				+ "from member "
+				+ "where name = ? AND email = ? ";
+		
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, name);
+		pstmt.setString(2, email);
+		
+		rs = pstmt.executeQuery();
+
+		if(rs.next()) {
+			
+			if(rs.getInt("cnt") == 1) {
+				result = true;
+			}
+			
+		
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} finally {
+		if(rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+			}
+		}
+			
+		if(pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
 	}
+	
+	return result;
+}	
+	
+}
+
+
 

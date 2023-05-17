@@ -105,7 +105,7 @@ button {
 			return;
 		}
 
-		f.action = "${pageContext.request.contextPath}/member/login_ok.do";
+		f.action = "${pageContext.request.contextPath}/member/find_ok.do";
 		f.submit();
 	}
 </script>
@@ -131,7 +131,7 @@ button {
 									placeholder="비밀번호를 입력해주세요">
 								<div class="checkbox_save">
 									<div class="login_search">
-										<a class="link" href="index.jsp?folder=login&category=Find_id">
+										<a class="link" href="${pageContext.request.contextPath}/member/find.do">
 											아이디 찾기 </a> <span class="bar"></span> <a class="link"
 											href="index.jsp?folder=login&category=Find_pw"> 비밀번호 찾기 </a>
 									</div>

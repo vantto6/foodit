@@ -626,7 +626,7 @@ function daumPostcode() {
 		
 	    str = f.name.value;
 	    if( !/^[가-힣]{2,5}$/.test(str) ) {
-	        alert("이름을 입력하세요. ");
+	        alert("이름을 올바르게 입력하세요. ");
 	        f.name.focus();
 	        return;
 	    }
