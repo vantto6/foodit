@@ -81,7 +81,7 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 <div>
-	<h3 class="css-i804ml eaf14xt0">${category==1 ? "야채/과일" : (category==2? "해/수산물" : "정육")}</h3>
+	<h3 class="css-i804ml eaf14xt0">신제품</h3>
 </div>
 	<div class="container">
 	
