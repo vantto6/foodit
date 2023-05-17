@@ -11,66 +11,129 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+.text-center {
+	text-align: center;
+}
 
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.margin-top5 { margin-top: 5px; }
-.margin-top10 { margin-top: 10px; }
+.text-right {
+	text-align: right;
+}
 
-.mypage-selectbox { width : 150px;}
-.mypage-selectbox .mypage-ul {  list-style: none; }
+.margin-top5 {
+	margin-top: 5px;
+}
+
+.margin-top10 {
+	margin-top: 10px;
+}
+
+.mypage-selectbox {
+	width: 150px;
+}
+
+.mypage-selectbox .mypage-ul {
+	list-style: none;
+}
+
 .mypage-selectbox .mypage-ul li {
 	border: 1px solid #ccc;
-    font-size: 18px;
-    color: #333;
-    line-height: 20px;
-    background: #fff;
-    outline: none;
-    vertical-align: top;
-    border-bottom: 0;
-	
-  }
+	font-size: 18px;
+	color: #333;
+	line-height: 20px;
+	background: #fff;
+	outline: none;
+	vertical-align: top;
+	border-bottom: 0;
+}
 
 .mypage-selectbox .mypage-ul li:last-child {
 	border-bottom: 1px solid #ccc !important;
-} 
-  
-
-.mypage-ul > li { 
-	height : 50px; 
-	background : white; 
-	text-align : center; 
-	font-size: 15px; 
-	border : 1px solid gray;
 }
 
-.mypage-ul > li a {
-	margin-top : 14px;
+.right-content-orderinfoleft>ul {
+	display: inline-block;
+}
+
+.mypage-ul>li {
+	height: 50px;
+	background: white;
+	text-align: center;
+	font-size: 15px;
+	border: 1px solid gray;
+}
+
+.mypage-ul>li a {
+	margin-top: 14px;
 	display: block;
 }
 
-.mypage-right {margin-left : 100px; width : 800px; height : 500px; float : left; 1px solid black;}
-.mypage-right-subject { height : 50px ; border-bottom : 2px solid black;}
-.mypage-right-content { height : 100% ; }
-.mypage-right:after {clear : both}
-.mypage-left-subject { width : 150px; height : 50px; text-align : center; vertical-align: center;}
+.mypage-right {
+	margin-left: 100px;
+	width: 800px;
+	height: 400px;
+	float: left;
+}
 
-.abc {witdh : 120px; height : 100%; float: left;}
+.mypage-right-subject {
+	height: 10%;
+	border-bottom: 2px solid black;
+}
+
+.mypage-right-content {
+	height: 90%;
+	width: 100%;
+	display: flex;
+	gap: 15px;
+	flex-direction: column
+}
+
+.mypage-right:after {
+	clear: both
+}
+
+.mypage-left-subject {
+	width: 150px;
+	height: 50px;
+	text-align: center;
+	vertical-align: center;
+}
+
+.abc {
+	witdh: 120px;
+	height: 100%;
+	float: left;
+}
+
 .body-container2 {
-	height: 900px;
-
-.right-content-orderinfo img {
-	widith : 50px;
-	height : 60px;
+	height: 900px; 
+}	
+.right-content-orderinfo img { widith : 50px;
+	height: 60px;
 }
 
 .right-content-orderinfo {
-	width: 100px; 
-	height : 50px;
-	display: inline;
-	float : left;
-	margin-left : 5px;
-	overflow: hidden;
+	display: flex;
+	height: 100%;
+	margin-left: 5px;
+}
+
+.right-content-orderinforight {
+	float: right;
+}
+
+.right-content-orderinfoleft {
+	float: left;
+}
+
+.clearboth {
+	clear: both;
+}
+
+.order-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
 }
 </style>
 <script type="text/javascript">
@@ -112,27 +175,32 @@
 				</select>
 			</div>
 			
-			<div class ="mypage-right-content">
-				<div class="right-content-orderinfo">
-					<div class="right-content-orderinfo">
-					123
-					</div>
-					<div class="right-content-orderinfo">
-						<ul>
-							<li>상품명: </li>
-							<li>주문번호: </li>
-							<li>신용카드: </li>
-							<li>결제금액: </li>
-						</ul>
-					</div>
-					<div style="width:100px; display: inline-block; float : right">
-						<span>배송완료</span>
-						<div style="display: inline-block;">
-							<button type="button">
-								<span>구매 확정</span>	
-							</button>
+			<div class ="mypage-right-content"  >
+			
+				<c:forEach var="dto" items="${list}" varStatus="status">
+					<div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+						<div style="margin-top: 5px;">
+							<div style="width:100px; height: 120px; float : left "><img src="photo.png"/></div>
+								<div style="margin-top : 20px; float : left;" >
+								<div>상품명: ${dto.itemName }</div>
+								<div>주문번호: ${dto.orderNo }</div>
+								<div>신용카드: ${dto.payOption }</div>
+								<div>결제금액: ${dto.totPrice }</div> 
+							</div>
+							
+						</div>
+						<div>
+							<span>배송완료</span>
+							<div style="display: inline-block;">
+								<button type="button">
+									<span>구매 확정</span>	
+								</button>
+							</div>
 						</div>
 					</div>
+				</c:forEach>
+				<div class="page-navigation">
+				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 				</div>
 			</div>
 		</div>
