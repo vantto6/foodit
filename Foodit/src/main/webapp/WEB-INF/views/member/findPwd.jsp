@@ -142,7 +142,7 @@
     height: 52px;
     border-radius: 4px;
     color: #fff;
-    background-color: #5f0080;
+    background-color: #88b04B;
     border: 0 none;
 }
 
@@ -171,7 +171,7 @@
 	
 
 	<div class="css-140915z e13dlrpy2">
-		<div class="css-7500ra e13dlrpy0">아이디 찾기</div>
+		<div class="css-7500ra e13dlrpy0">비밀번호 찾기</div>
 		<div class="css-u3y03b e13dlrpy1">
 			
 			<form id ="findForm" class="css-s3iz85 e1h5g482" action = "index.jsp?folder=login&category=Find_id_action" method = "post">
