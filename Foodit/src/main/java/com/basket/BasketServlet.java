@@ -61,7 +61,7 @@ public class BasketServlet extends MyServlet {
 		}
 		forward(req, resp, "/WEB-INF/views/basket/cart.jsp");		
 	}
-	
+	 
 	protected void cart_delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BasketDAO dao = new BasketDAO();
 		String cp = req.getContextPath();

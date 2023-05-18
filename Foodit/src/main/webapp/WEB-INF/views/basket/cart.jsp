@@ -230,6 +230,7 @@ function openAddress() {
 }
 
 $(function(){
+	
 	$(".btnAddressOk").click(function(){
 		const $td = $(this).closest("tr").find("td");
 		let addressCode = $td.eq(0).text();

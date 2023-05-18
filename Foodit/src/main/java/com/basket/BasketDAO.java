@@ -18,7 +18,7 @@ public class BasketDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
-		
+		 
 		try {
 			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount");
 			sb.append(" FROM basket b ");
