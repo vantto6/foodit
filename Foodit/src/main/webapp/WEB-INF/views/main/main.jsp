@@ -63,9 +63,20 @@
 	padding-top:30px
 }
  
-
+.original-price {
+    padding-top: 1px;
+    color: rgb(181, 181, 181);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 18px;
+    text-decoration: line-through;
+}
 </style>
-
+<script type="text/javascript">
+function sendNewList() {
+	
+}
+</script>
 <body>
 
 	<header>
@@ -78,38 +89,37 @@
 				<div id="content">
 					<div class="recommend-container">
 						<div class="recommend-head">
-							<span class="head">오늘의 특가</span>
+							<span class="head">신상입니다요</span>
 						</div>
 
 						<div class="slick-slider13">
 
-							<c:forEach var="a" begin="1" end="10">
+							<c:forEach var="dto" items="${newItemList }">
 								<div class="container">
 
 									<div class="product_container">
 										<div class="product">
-											<img class="product_img" src="/sambab/product_image/장어.JPG"
-												onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36">
-											<img
-												onclick="javascript:location.href='index.jsp?folder=product&category=Product_details&p_no=36'"
-												class="cart"></img>
-
+										<a href="${cp}/item/detail2.do?itemNo=${dto.itemNo}&num=1">
+											<img class="product_img" src="/sambab/product_image/장어.JPG">
+										</a>
+											
 										</div>
 										<div class="description_list">
 											<h3>
 												<a
 													href="index.jsp?folder=product&category=Product_details&p_no=36"
-													class="product_name">국내산 손질 민물장어 600g 특미 2미 (생물)</a>
+													class="product_name">${dto.itemName }</a>
 											</h3>
 											<div class="product_price">
 												<div class="product_calcu">
-													<div class="coupon">0%</div>
+													<div class="coupon">${dto.discount }%</div>
+													<span class="original-price">${dto.price }<span class="won">원</span></span> 
 													<div class="price">
-														₩52,900<span>원</span>
+														 &nbsp;${dto.discountPrice }<span>원</span>
 													</div>
 												</div>
 											</div>
-										</div>
+									</div>
 									</div>
 								</div>
 							</c:forEach>
@@ -157,10 +167,10 @@
 
 				<div class="recommend-container" >
 					<div class="recommend-head">
-						<span class="head">많이본 상품</span>
+						<span class="head">할인율 높은 순</span>
 					</div>
 					<div class="third_slick">
-						<c:forEach var="a" begin="1" end="10">
+						<c:forEach var="vo" items="${dicountItemList }">
 
 							<div class="container mx-auto">
 
@@ -176,16 +186,17 @@
 										<h3>
 											<a
 												href="index.jsp?folder=product&category=Product_details&p_no=41"
-												class="product_name">[썬키스트] 팬시 레몬 130g (1개)</a>
+												class="product_name">${vo.itemName }</a>
 										</h3>
-										<div class="product_price">
-											<div class="product_calcu">
-												<div class="coupon">0%</div>
-												<div class="price">
-													₩1,250<span>원</span>
+											<div class="product_price">
+												<div class="product_calcu">
+													<div class="coupon">${vo.discount }%</div>
+													<span class="original-price">${vo.price }<span class="won">원</span></span> 
+													<div class="price">
+														 &nbsp;${vo.discountPrice }<span>원</span>
+													</div>
 												</div>
 											</div>
-										</div>
 									</div>
 								</div>
 

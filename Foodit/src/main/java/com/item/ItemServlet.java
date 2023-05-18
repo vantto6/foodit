@@ -139,9 +139,8 @@ public class ItemServlet extends MyServlet{
 			if(num == 1) {
 				dataCount = dao.newdataCount();				
 			} else {
-
+				dataCount = 10;
 			}
-
 			// 전체 페이지 수
 			int size = 10;
 			int total_page = util.pageCount(dataCount, size);
@@ -154,8 +153,12 @@ public class ItemServlet extends MyServlet{
 			if(offset < 0) offset = 0;
 			
 			List<ItemDTO> list = null;
+			if(num == 1) {
+				list = dao.listBoard2(num,offset,size);				
+			} else {
+				list = dao.listBoard3(num, offset, size);
+			}
 			
-			list = dao.listBoard2(num,offset,size);
 
 			// 페이징 처리
 			String listUrl = cp + "/item/newItem.do?num="+num;
@@ -235,19 +238,39 @@ public class ItemServlet extends MyServlet{
 		// 상품상세(카테고리 아닌거)
 		ItemDAO dao = new ItemDAO();
 		MyUtil util = new MyUtil();
-		
+		ItemDTO dto = null;
 		String cp = req.getContextPath();
 
 		String page = req.getParameter("page");
+		String query = "";
 		
-		String query = "page=" + page;
+		if(page != null) {
+			query = "page=" + page;
+		} else {
+			page = "";
+		}
 		
 		try {
 			long itemNo = Long.parseLong(req.getParameter("itemNo"));
-			long num = Long.parseLong(req.getParameter("num"));
+			
+			long num = 0;
+			
+			String number = req.getParameter("num");
+			if(number != null) {
+				num = Long.parseLong(number);				
+			} 
+									
 			// 게시물 가져오기
 			// 신상품
-			ItemDTO dto = dao.newReadItem(itemNo);
+			if(num == 1) {
+				dto = dao.newReadItem(itemNo);				
+			} else if(num == 2){
+				dto = dao.bestReadItem(itemNo);
+			} else {
+				
+			}
+			
+			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/item/item.do?" + query);
 				return;
@@ -292,12 +315,15 @@ public class ItemServlet extends MyServlet{
 		String page = req.getParameter("page");
 		int basketCnt = Integer.parseInt( req.getParameter("basketCnt"));
 		long itemNo = Integer.parseInt( req.getParameter("itemNo"));
-		long num = Integer.parseInt( req.getParameter("num"));
 		
-		if(gubun != null) { // 카테고리일때
+
+		
+		if(gubun != null && ! gubun.equals("")) { // 카테고리일때
 			category = Integer.parseInt(gubun);
 			query += "category=" + category + "&page="+page + "&itemNo="+itemNo;
 		} else { // 아닐때
+			String number = req.getParameter("num");
+			long num = Integer.parseInt(number);
 			query += "num=" + num + "&page="+page + "&itemNo="+itemNo;
 		}
 		String memberId = info.getMemberId();

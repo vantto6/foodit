@@ -362,7 +362,7 @@ $(function() {
                       	<i class="fa-solid fa-minus"></i>
                       </button>
   					  <span id="count" style="font-size: 20px;">1</span>
-  					  <input type="hidden" id="hiddencount" name="basketCnt">
+  					  <input type="hidden" id="hiddencount" name="basketCnt" value="1">
                       <button type="button" id="plus" style="border: none">
                       	<i class="fa-solid fa-plus"></i>
                       </button>
