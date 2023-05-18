@@ -593,18 +593,18 @@ function daumPostcode() {
 	
 		str = f.memberId.value;
 		if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-			alert("아이디를 다시 입력 하세요. ");
+			alert("아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.");
 			f.memberId.focus();
 			return;
 		}
 		
-		let mode = "${mode}";
-		if(mode === "member" && f.memberIdValid.value === "false") {
+		
+		if(f.memberIdValid.value === "false") {
 			alert('아이디 중복 검사가 실행되지 않았습니다.');
 			f.memberId.focus();
 			return;
 		}
-		if(mode === "email" && f.emailValid.value === "false") {
+		if(f.emailValid.value === "false") {
 			alert('이메일 중복 검사가 실행되지 않았습니다.');
 			f.memberId.focus();
 			return;
@@ -613,7 +613,7 @@ function daumPostcode() {
 	
 		str = f.pwd.value;
 		if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-			alert("패스워드를 입력 하세요. ");
+			alert("비밀번호는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다. ");
 			f.pwd.focus();
 			return;
 		}

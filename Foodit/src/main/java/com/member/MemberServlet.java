@@ -46,10 +46,14 @@ public class MemberServlet extends MyServlet {
 			idCheck(req, resp);
 		}else if(uri.indexOf("emailCheck_ok.do")!=-1) {
 			emailCheck(req, resp);
-		}else if(uri.indexOf("find.do")!=-1) {
-			findForm(req, resp);
-		}else if(uri.indexOf("find_ok.do")!=-1) {
-			//find(req, resp);
+		}else if(uri.indexOf("findId.do")!=-1) {
+			findIdForm(req, resp);
+		}else if(uri.indexOf("findId_ok.do")!=-1) {
+			findIdSubmit(req, resp);
+		}else if(uri.indexOf("findPwd.do")!=-1) {
+			findPwd(req, resp);
+		}else if(uri.indexOf("findPwd_ok.do")!=-1) {
+			findPwdSubmit(req, resp);
 		}else if(uri.indexOf("admin.do")!=-1) {
 			adminpage(req, resp);
 		
@@ -272,7 +276,7 @@ public class MemberServlet extends MyServlet {
 	}
 
 	protected void idCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 게시글 공감 저장: AJAX-JSON
+		
 
 		MemberDAO dao = new MemberDAO();
 		
@@ -311,38 +315,77 @@ public class MemberServlet extends MyServlet {
 		PrintWriter out = resp.getWriter();
 		out.print(job.toString());
 	}
-	protected void findForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("title", "아이디");
-		req.setAttribute("mode", "member");
-		req.setAttribute("msg", null);
-
+	protected void findIdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String cp = req.getContextPath();
 		
-		String path = "/WEB-INF/views/member/find.jsp";
-		forward(req, resp, path);
+		if(info != null) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}forward(req, resp, "/WEB-INF/views/member/findId.jsp");
+		
 	}
-//	protected void find(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		MemberDAO dao = new MemberDAO();
-//		String name = req.getParameter("name");
-//		String email = req.getParameter("email");
-//		boolean result = dao.find(name,email);
-//		
-//		String passed = "";
-//		
-//		// dao에서 조회할때, cnt대신 로그인 id를 가져온다.
-//		// 가져온 결괏갑이 없으면 틀린거, 아니면 맞은거니까 사용자에게 보여준다.
-//		//if(result == false) {
-//		//	req.setAttribute("msg", "일치하는게 없다.");
-//		//	resp.sendRedirect(req.getContextPath() + "/member/find_ok.do");
-//		}
-//		
-//
-//		
-//		//String path = "/WEB-INF/views/admin/admin.jsp";
-//	//	forward(req, resp, path);
-//
-//		
-//	}
+	protected void findIdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+		HttpSession session = req.getSession();
+		String cp = req.getContextPath();
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+		String name = req.getParameter("name");
+		String email = req.getParameter("email");
 	
+		
+		try {	
+			MemberDAO dao = new MemberDAO();
+			boolean result = dao.find(name,email);
+			
+			if(result == true) {
+			JSONObject job = new JSONObject();
+			job.put("passed", result);
+			
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print(job.toString());
+				
+			}else {
+				String s = "등록된 아이디나 이메일이 없습니다.";
+				req.setAttribute("message", s);
+				forward(req, resp, "/WEB-INF/views/member/findId.jsp");
+				return;
+			
+			}
+			
+			//임시 패스워드 생성 
+			
+			//메일로 전송 
+//			
+//			session.setAttribute("userName", dto.memberId());
+//			resp.sendRedirect(cp + "/member/complete.do?mode=pf");
+//			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp +"/");
+	}
+protected void findPwd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+	HttpSession session = req.getSession();
+	SessionInfo info = (SessionInfo)session.getAttribute("member");
+	String cp = req.getContextPath();
+	
+	if(info != null) {
+		resp.sendRedirect(cp + "/");
+		return;
+	}forward(req, resp, "/WEB-INF/views/member/findPwd.jsp");
+}
+protected void findPwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+
+
+	
+}
+
 	protected void adminpage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("title", "관리자 페이지");
 		req.setAttribute("mode", "member");
