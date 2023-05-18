@@ -55,7 +55,6 @@
     
     <h2>상품관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/admin/discount.do">상품할인</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/addProduct.do">품목추가</a></li>
         <li><a href="${pageContext.request.contextPath}/admin/list.do">품목리스트</a></li>
     </ul>

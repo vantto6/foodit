@@ -185,9 +185,9 @@ public class AdminDAO {
 
 		try {
 			
-			sql=" SELECT itemNo, itemName, price, discount, cnt, saleunit,description,deadline, categoryNo, brandNo "
-				+ "  FROM items "								
-				+ "  WHERE itemNo = ? ";
+			sql = "SELECT itemNo, itemName, price, discount, cnt, saleunit, hitCount, description, createDate, updateDate, deadline, categoryNo, brandNo "
+		            + " FROM items "
+		            + " WHERE itemNo = ?";
 			
 
 			pstmt = conn.prepareStatement(sql);
@@ -205,7 +205,10 @@ public class AdminDAO {
 				dto.setDiscount(rs.getLong("discount"));
 				dto.setCnt(rs.getInt("cnt"));
 				dto.setSaleUnit(rs.getString("saleUnit"));
+				dto.setHitCount(rs.getInt("HitCount"));
 				dto.setDescription(rs.getString("description"));
+				dto.setCreateDate(rs.getString("createDate"));
+				dto.setUpdateDate(rs.getString("updateDate"));
 				dto.setDeadline(rs.getString("deadline"));
 				dto.setCategoryNo(rs.getInt("categoryNo"));
 				dto.setBrandNo(rs.getInt("brandNo"));
@@ -278,7 +281,7 @@ public class AdminDAO {
 		String sql;
 
 		try {
-			sql = "SELECT itemNo, saveFilename FROM itemsimg WHERE itemNo = ?";
+			sql = "SELECT itemNo, imgNo, saveFilename FROM itemsimg WHERE itemNo = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, itemNo);
@@ -290,6 +293,7 @@ public class AdminDAO {
 
 				
 				dto.setItemNo(rs.getLong("itemNo"));
+				dto.setImgNo(rs.getLong("imgNo"));
 				dto.setSaveFilename(rs.getString("saveFilename"));
 				
 				list.add(dto);
@@ -363,12 +367,12 @@ public class AdminDAO {
 			}
 		}
 	}
-	public void deleteImage(long itemNo) throws SQLException {
+	public void delete(long itemNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
-			sql = "DELETE FROM itemsimg WHERE itemNo=?";
+			sql = "DELETE FROM items WHERE itemNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, itemNo);
@@ -390,28 +394,51 @@ public class AdminDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 
-		try {
-			if (mode.equals("all")) {
-				sql = "DELETE FROM items WHERE itemNo = ?";
-			} else {
-				sql = "DELETE FROM items WHERE imgNo = ?";
-			}
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, itemNo);
+	    try {
+	        if (mode.equals("all")) {
+	            sql = "DELETE FROM zzim WHERE itemNo = ?";
+	            pstmt = conn.prepareStatement(sql);
+	           pstmt.setLong(1, itemNo);
+	            pstmt.executeUpdate();
+	            pstmt.close();
 
-			pstmt.executeUpdate();
+	            sql = "DELETE FROM basket WHERE itemNo = ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setLong(1, itemNo);
+	            pstmt.executeUpdate();
+	            pstmt.close();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e2) {
-				}
-			}
-		}
+	            sql = "DELETE FROM requires WHERE itemNo = ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setLong(1, itemNo);
+	            pstmt.executeUpdate();
+	            pstmt.close();
+
+	            sql = "DELETE FROM orderdetail WHERE itemNo = ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setLong(1, itemNo);
+	            pstmt.executeUpdate();
+	            pstmt.close();
+
+	            sql = "DELETE FROM itemsimg WHERE itemNo = ?";
+	        } else {
+	            sql = "DELETE FROM itemsimg WHERE imgNo = ?";
+	        }
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, itemNo);
+	        pstmt.executeUpdate();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    } finally {
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e2) {
+	                e2.printStackTrace();
+	            }
+	        }
+	    }
 	}
 }

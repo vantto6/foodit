@@ -29,6 +29,7 @@
 		location.href = url;
 }
  </c:if>       
+ 
   </script>
   
 </head>
@@ -50,7 +51,7 @@
               <form name="updatesForm" method="post" encType="multipart/form-data" class="">
                 <div class="size">
                   <div class="p_board">
-                    <table width="100%"> 
+                    <table width="100%" class="table write-form"> 
                         <tbody>
                         
                             <tr>
@@ -180,17 +181,20 @@
                                 </td>
                             </tr>
               		<c:if test="${mode=='update'}">
-						<tr>
-							<td>등록이미지</td>
-							<td> 
-								<div class="img-box">
-									<c:forEach var="vo" items="${listFile}">
-										<img src="${pageContext.request.contextPath}/uploads/admin/${vo.saveFilename}"
-											onclick="deleteFile('${vo.itemNo}');">
-									</c:forEach>
-								</div>
-							</td>
-						</tr>
+              		       <tr>
+                                <th >등록이미지</th>
+                                <td colspan="2" class="table-light col-sm-2"> 
+                                    <div class="img-box">
+                                        <span>
+                                        <c:forEach var="vo" items="${listFile}">
+                                            <img src="${pageContext.request.contextPath}/uploads/admin/${vo.saveFilename}"
+											onclick="deleteFile('${vo.imgNo}');">
+										</c:forEach>
+                                        </span>
+                                    </div>
+
+                                </td>
+                            </tr>
 					</c:if>
                      
                         </tbody>
