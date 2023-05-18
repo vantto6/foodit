@@ -46,6 +46,7 @@
 	max-width: 800px;
 }
   </style>
+
 </head>
 <body>
 <main>
@@ -81,7 +82,7 @@
     <button class="button" onclick="location.href='${pageContext.request.contextPath}/admin/update.do?itemNo=${dto.itemNo}&page=${page}';">수정</button>
   </td>
   <td class="button-container">
-    <button class="button">삭제</button>
+    <button type="submit" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/delete.do?itemNo=${dto.itemNo}&page=${page}';">삭제</button>
   </td>
 </tr>
 

@@ -50,8 +50,6 @@ import com.util.MyUtil;
 			// uri에 따른 작업 구분
 			if(uri.indexOf("admin.do")!=-1) {
 				admin(req, resp);
-			}else if (uri.indexOf("discount.do")!=-1){
-				discount(req, resp);
 			}else if(uri.indexOf("addProduct.do")!=-1){
 				addProductForm(req, resp);
 			}else if(uri.indexOf("admin_ok.do")!=-1){
@@ -62,6 +60,10 @@ import com.util.MyUtil;
 				updateSubmit(req, resp);
 			}else if(uri.indexOf("list.do")!=-1){
 				list(req, resp);
+			}else if (uri.indexOf("deleteFile") != -1) { 
+				deleteFile(req, resp);
+			} else if (uri.indexOf("delete.do") != -1) {
+				delete(req, resp);
 			}
 		}
 		protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -121,13 +123,6 @@ import com.util.MyUtil;
 			req.setAttribute("mode", "admin");
 			
 			String path = "/WEB-INF/views/admin/admin.jsp";
-			forward(req, resp, path);
-		}
-		protected void discount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			req.setAttribute("title", "상품 할인");
-			req.setAttribute("mode", "admin");
-			
-			String path = "/WEB-INF/views/admin/discount.jsp";
 			forward(req, resp, path);
 		}
 		protected void addProductForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -268,6 +263,7 @@ import com.util.MyUtil;
 
 				resp.sendRedirect(cp + "/admin/list.do?page="+page);
 			}
+			
 			protected void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 				// 수정에서 파일만 삭제
 				AdminDAO dao = new AdminDAO();
@@ -303,6 +299,7 @@ import com.util.MyUtil;
 
 				resp.sendRedirect(cp + "/admin/list.do?page=" + page);
 			}
+		
 			protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 				// 삭제 완료
 				AdminDAO dao = new AdminDAO();
@@ -313,7 +310,8 @@ import com.util.MyUtil;
 
 				try {
 					long itemNo = Long.parseLong(req.getParameter("itemNo"));
-
+					
+					
 					AdminDTO dto = dao.readProduct(itemNo);
 					if (dto == null) {
 						resp.sendRedirect(cp + "/admin/list.do?page=" + page);
@@ -328,7 +326,7 @@ import com.util.MyUtil;
 					dao.deleteImageFile("all", itemNo);
 
 					// 테이블 데이터 삭제
-					dao.deleteImage(itemNo);
+					dao.delete(itemNo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -336,5 +334,4 @@ import com.util.MyUtil;
 				resp.sendRedirect(cp + "/admin/list.do?page=" + page);
 			}
 		}
-		
-		
+
