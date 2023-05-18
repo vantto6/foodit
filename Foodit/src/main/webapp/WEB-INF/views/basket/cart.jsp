@@ -140,15 +140,11 @@ function sendOrder() {
 function submitSelecteditems() {
 	  var checkboxes = document.getElementsByName("itemsToDelete");
 	  var selecteditems = [];
-	
-	  if(checkboxes){
-		  alert("장바구니에 상품이 없슴둥!!!!");
-		  return;
-	  }
+	  
+
 	  for (var i = 0; i < checkboxes.length; i++) {
 	    if (checkboxes[i].checked) {
 	    	selecteditems.push(checkboxes[i].value);
-	      console.log(checkboxes[i].value);
 	    }
 	  }
 
