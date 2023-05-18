@@ -100,5 +100,10 @@
 		</div>
 	</c:forEach>
 	</div>
+	
+<div class="page-navigation">
+	${paging}
+</div>	
+
 </body>
 </html>

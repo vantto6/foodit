@@ -118,7 +118,7 @@ public class ItemServlet extends MyServlet{
 	
 	
 	protected void newitemList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 상품이미지 리스트(신상품)
+		// 상품이미지 리스트(신상품 그리고 베스트)
 		
 		ItemDAO dao = new ItemDAO();
 		MyUtil util = new MyUtil();
@@ -138,11 +138,11 @@ public class ItemServlet extends MyServlet{
 			
 			if(num == 1) {
 				dataCount = dao.newdataCount();				
-			} else {
-				dataCount = 10;
+			} else if(num == 2){
+				dataCount = dao.bestItemCount();
 			}
 			// 전체 페이지 수
-			int size = 10;
+			int size = 2;
 			int total_page = util.pageCount(dataCount, size);
 			if (current_page > total_page) {
 				current_page = total_page;

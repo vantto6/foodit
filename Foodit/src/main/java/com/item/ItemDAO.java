@@ -226,7 +226,50 @@ public class ItemDAO {
 
 		return result;
 	}
+
 	
+	// 베스트 데이터 개수
+	public int bestItemCount() {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "select COUNT(*) "
+					+ "from (select itemNo, COUNT(*) cnt "
+					+ "      from zzim "
+					+ "      group by itemNo "
+					+ "      order by cnt desc)  "
+					+ "where rownum <= 10";
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}
 	
 	// 카테고리별 데이터 개수
 	public int dataCount(int category) {
