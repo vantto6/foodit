@@ -20,7 +20,7 @@ public class BasketDAO {
 		StringBuffer sb = new StringBuffer();
 		
 		try {
-			sb.append(" SELECT b.itemNo,itemName,basketCnt, price, discount");
+			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount");
 			sb.append(" FROM basket b ");
 			sb.append(" JOIN items i ON b.itemNo = i.itemNo ");
 			sb.append(" WHERE memberId = ? ");
@@ -34,6 +34,7 @@ public class BasketDAO {
 			while(rs.next()) {
 				BasketDTO dto = new BasketDTO();
 				
+				dto.setBasketNo(rs.getInt("basketNo"));
 				dto.setItemNo(rs.getInt("itemNo"));
 				dto.setItemName(rs.getString("itemName"));
 				dto.setBasketCnt(rs.getInt("basketCnt"));
@@ -62,6 +63,34 @@ public class BasketDAO {
 		}
 		
 		return list;
+	}
+	
+	public void deleteBasket(String[] itemsToDelete) {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM Basket WHERE basketNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			for(String basketNo : itemsToDelete) {
+				pstmt.setString(1, basketNo);
+				
+				pstmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
 	}
 	
 	public List<AddressDTO> listAddress(long clientNo) {

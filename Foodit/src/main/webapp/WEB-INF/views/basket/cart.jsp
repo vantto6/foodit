@@ -137,6 +137,40 @@ function sendOrder() {
 	// f.submit();
 }
 
+function submitSelecteditems() {
+	  var checkboxes = document.getElementsByName("itemsToDelete");
+	  var selecteditems = [];
+	
+	  if(checkboxes){
+		  alert("장바구니에 상품이 없슴둥!!!!");
+		  return;
+	  }
+	  for (var i = 0; i < checkboxes.length; i++) {
+	    if (checkboxes[i].checked) {
+	    	selecteditems.push(checkboxes[i].value);
+	      console.log(checkboxes[i].value);
+	    }
+	  }
+
+	  // 폼 동적 생성
+	  var form = document.createElement("form");
+	  form.setAttribute("method", "post");
+	  form.setAttribute("action", "${pageContext.request.contextPath}/basket/cart_delete.do");
+
+	  // 선택된 체크박스 값들을 폼에 추가
+	  for (var j = 0; j < selecteditems.length; j++) {
+	    var input = document.createElement("input");
+	    input.setAttribute("type", "hidden");
+	    input.setAttribute("name", "itemsToDelete");
+	    input.setAttribute("value", selecteditems[j]);
+	    form.appendChild(input);
+	  }
+
+	  // 폼을 body에 추가하고 제출
+	  document.body.appendChild(form);
+	  form.submit();
+}
+
 $(function(){
 	$(".count_down").click(function(){
 		let count = parseInt($(this).closest("div").find("input[name=count]").val());
@@ -212,6 +246,13 @@ $(function(){
 		$( ".dialog-address" ).dialog( "close" );
 	});
 });
+
+function checkAll(source) {
+	var checkboxes = document.getElementsByName('itemsToDelete');
+	for (var i = 0; i < checkboxes.length; i++) {
+	  checkboxes[i].checked = source.checked;
+	}
+}
 </script>
 
 </head>
@@ -234,15 +275,16 @@ $(function(){
 					<div class="cartList_left">
 						<div class="title">
 							<input id="cart_checkbox" type="checkbox" name="cart_checkbox"
-								value="TRUE"> <label>전체선택 | </label><span> 선택삭제</span>
+								value="TRUE" onchange="checkAll(this)"> <label>전체선택</label>
 						</div>
 						
 						<form name="orderForm" method="post">
 							<table class="cartList">
 								<thead>
 									<tr>
-										<td><input type="checkbox"></td>
-										<td colspan="2">상품정보</td>
+										<td></td>
+										<td>상품사진</td>
+										<td>상품정보</td>
 										<td>수량</td>
 										<td>상품금액</td>
 									</tr>
@@ -251,7 +293,7 @@ $(function(){
 							        <c:set var="totalPrice" value="0" />
 									<c:forEach var="dto" items="${list}">
 										<tr class="cartList_detail">
-											<td><input type="checkbox"></td>
+											<td><input type="checkbox" name="itemsToDelete" value="${dto.basketNo}"></td>
 											<td><img src="galbitang.jpeg" alt="food_img"></td>
 											<td><a href="#"></a><span class="cartList_smartstore">
 											</span>
@@ -274,9 +316,8 @@ $(function(){
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="3"><input type="checkbox">
-											<button class="cartList_optionbtn">선택상품 삭제</button>
-											<button class="cartList_optionbtn">선택상품 찜</button></td>
+										<td colspan="3">
+											<button class="cartList_optionbtn" type="button" onclick="submitSelecteditems();">선택상품 삭제</button>
 										<td></td>
 										<td></td>
 										<td></td>

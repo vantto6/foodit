@@ -34,6 +34,8 @@ public class BasketServlet extends MyServlet {
 			cart(req, resp);
 		} else if(uri.indexOf("cart_ok.do") != -1) {
 			
+		} else if(uri.indexOf("cart_delete.do") != -1) {
+			cart_delete(req, resp);
 		}
 	
 
@@ -59,5 +61,16 @@ public class BasketServlet extends MyServlet {
 		}
 		forward(req, resp, "/WEB-INF/views/basket/cart.jsp");		
 	}
-
+	
+	protected void cart_delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BasketDAO dao = new BasketDAO();
+		String cp = req.getContextPath();
+		try {
+			String[] itemsToDelete = req.getParameterValues("itemsToDelete");
+			dao.deleteBasket(itemsToDelete);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/basket/cart.do");
+	}
 }
