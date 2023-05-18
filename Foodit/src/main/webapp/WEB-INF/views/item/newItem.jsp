@@ -36,13 +36,14 @@
 }
 .css-i804ml {
     margin-top: 50px;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 28px;
     color: rgb(51, 51, 51);
     line-height: 35px;
     letter-spacing: -1px;
     text-align: center;
-    margin-top: 130px
+     margin-top: 120px;
+    margin-bottom: 50px
 }
 
 .product-name {
@@ -70,6 +71,10 @@
 .price .discount{
 	color: rgb(250, 98, 47)
 }
+
+.page-style{
+	margin-top: 30px;
+}
 </style>
 <script type="text/javascript">
 
@@ -81,10 +86,19 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 <div>
-	<h3 class="css-i804ml eaf14xt0">${num==1?'신제품':'베스트' }</h3>
+	<c:if test="${num eq 1}">
+		<h3 class="css-i804ml eaf14xt0" ><i class="fa-solid fa-check-double"></i>&nbsp;&nbsp;신상품</h3>
+	</c:if>
+	<c:if test="${num eq 2}">
+		<h3 class="css-i804ml eaf14xt0" ><i class="fa-regular fa-thumbs-up"></i>&nbsp;&nbsp;베스트</h3>
+		<div>
+			<h4 style="text-align: right;width: 1575px;">* 찜이 많은 상품순입니다</h4>
+		</div>
+	</c:if>
+
 </div>
 	<div class="container">
-	
+
 	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="box">
 		<a href="${detailUrl}&itemNo=${dto.itemNo}">
@@ -101,7 +115,7 @@
 	</c:forEach>
 	</div>
 	
-<div class="page-navigation">
+<div class="page-navigation page-style">
 	${paging}
 </div>	
 

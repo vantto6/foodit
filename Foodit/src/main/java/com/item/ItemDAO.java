@@ -146,11 +146,15 @@ public class ItemDAO {
 					+ "                from (select itemNo, COUNT(*) cnt "
 					+ "                      from zzim "
 					+ "                      group by itemNo "
-					+ "                      order by cnt desc) where rownum <= 10)";
+					+ "                      order by cnt desc) where rownum <= 10)"
+					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 
 			pstmt = conn.prepareStatement(sql);
-
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, size);
+			
 			rs = pstmt.executeQuery();
+			
 			
 			while (rs.next()) {
 				ItemDTO dto = new ItemDTO();

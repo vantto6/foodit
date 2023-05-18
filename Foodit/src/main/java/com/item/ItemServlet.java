@@ -142,7 +142,7 @@ public class ItemServlet extends MyServlet{
 				dataCount = dao.bestItemCount();
 			}
 			// 전체 페이지 수
-			int size = 2;
+			int size = 4;
 			int total_page = util.pageCount(dataCount, size);
 			if (current_page > total_page) {
 				current_page = total_page;

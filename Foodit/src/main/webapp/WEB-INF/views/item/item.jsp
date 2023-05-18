@@ -36,13 +36,14 @@
 }
 .css-i804ml {
     margin-top: 50px;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 28px;
     color: rgb(51, 51, 51);
     line-height: 35px;
     letter-spacing: -1px;
     text-align: center;
-    margin-top: 130px
+     margin-top: 120px;
+    margin-bottom: 50px
 }
 
 .product-name {
@@ -81,7 +82,17 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
 <div>
-	<h3 class="css-i804ml eaf14xt0">${category==1 ? "야채/과일" : (category==2? "해/수산물" : "정육")}</h3>
+	<c:if test="${category eq 1 }">
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-apple-whole"></i>&nbsp;&nbsp;야채/과일</h3>
+	</c:if>
+
+	<c:if test="${category eq 2 }">
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-fish"></i>&nbsp;&nbsp;해/수산물</h3>
+	</c:if>
+	
+	<c:if test="${category eq 3 }">
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-drumstick-bite"></i>&nbsp;&nbsp;정육</h3>
+	</c:if>	
 </div>
 	<div class="container">
 	

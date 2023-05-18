@@ -418,52 +418,27 @@ $(function() {
 			<th class="review" width="100">작성자</th>
 			<th class="review" width="200">작성일</th>
 		</tr>
-
-		
-			
-			
 			<tr>
-				
 				<td class="review">16</td>
-				
-
-				
 				<td class="subject">
 							<a href="#">
 								asd
 							</a>
-
-					
 					<td class="review">abc1234</td>
-					
-					
 					<td class="review"> 
-						
 							2022-07-05 11:02:03
-						
 					</td>
 			</tr>
-			
 			<tr>
-				
 				<td class="review">15</td>
-				
-
-				
 				<td class="subject">
 							<a href="#">
 								asd
 							</a>
-
-					
 					<td class="review">abc1234</td>
-					
-					
 					<td class="review"> 
-						
 							2022-07-05 11:02:03
-						
-					</td>
+=					</td>
 			</tr>
 			
 			<tr>
