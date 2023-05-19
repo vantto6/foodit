@@ -174,7 +174,7 @@
 		<div class="css-7500ra e13dlrpy0">아이디 찾기</div>
 		<div class="css-u3y03b e13dlrpy1">
 			
-			<form id ="findForm" class="css-s3iz85 e1h5g482" action = "index.jsp?folder=login&category=Find_id_action" method = "post">
+			<form name  ="findForm" class="css-s3iz85 e1h5g482" method = "post">
 				<div class="css-1blp8ou e1h5g481">
 					<div class="css-1yjqrpx e1uzxhvi4">
 						<label for="name" class="css-c3g9of e1uzxhvi2" >이름</label>
@@ -195,7 +195,7 @@
 				</div>
 				<div id="message"></div>
 				<div class="css-3vxi16 e1h5g480 btn-submit">
-					<div class="css-1s9rhb5 e4nu7ef2"  id= "clear" style="display:flex; flex-direction:column; justify-content:center" onclick="findId();" >
+					<div class="css-1s9rhb5 e4nu7ef2"  id= "clear" style="display:flex; flex-direction:column; justify-content:center" onclick="idFind();" >
 						<div>확인</div>	
 						
 					</div>
@@ -208,7 +208,8 @@
 		
 <script type="text/javascript">
 
-	function findId() {
+	function idFind() {
+		const f = document.findForm;
 		let str = $('#name').val();
 		
 		if (!str) {

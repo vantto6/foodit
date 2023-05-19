@@ -11,18 +11,20 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+
+
 .info-continer { margin: 0 auto; padding: 70px 5px 40px; width: 500px; }
 .info-continer .info-title { text-align: center; padding: 10px 0 20px; }
-.info-continer .info-title > h3 { font-weight: bold; font-size:26px; color: #424951; }
+.info-continer .info-title > h3 { font-weight: bold; font-size:26px; color: #88b04B; }
 .info-continer .info-box {
 	text-align: center;
-    border: 1px solid #e2eefd;
+    border: 1px solid #88b04B;
     padding: 50px 20px;
     transition: all ease-in-out 0.3s;
     background: #ffffff;
     border-radius: 4px;
 }
-.info-continer .info-box:hover { border-color: #ffffff; box-shadow: 0px 0 25px 0 rgba(16, 110, 234, 0.1); }
+.info-continer .info-box:hover { border-color: #88b04B; box-shadow: 0px 0 25px 0 rgba(16, 110, 234, 0.1); }
 .info-continer .info-message { padding: 5px 10px 20px; font-size: 15px; }
 .info-continer .info-footer { padding: 5px 10px; }
 </style>
@@ -46,7 +48,7 @@
 						${message} 
 					</div>
 					<div class="info-footer">
-						<button type="button" class="btnConfirm" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동</button>
+						<button type="button" class="btnConfirm" style="background: #88b04B;" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동</button>
 					</div>
 				</div>
 			</div>

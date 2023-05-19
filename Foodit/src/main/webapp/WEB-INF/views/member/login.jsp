@@ -133,7 +133,7 @@ button {
 									<div class="login_search">
 										<a class="link" href="${pageContext.request.contextPath}/member/findId.do">
 											아이디 찾기 </a> <span class="bar"></span> <a class="link"
-											href="${pageContext.request.contextPath}/member/findPwd.do"> 비밀번호 찾기 </a>
+											href="${pageContext.request.contextPath}/member/pwdFind.do"> 비밀번호 찾기 </a>
 									</div>
 									<div id="message"></div>
 								</div>

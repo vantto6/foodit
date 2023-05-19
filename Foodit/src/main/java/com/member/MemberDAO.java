@@ -249,14 +249,14 @@ public class MemberDAO {
 		
 
 
-public Boolean find(String name, String email) {
+public MemberDTO find(String name, String email) {
+	MemberDTO dto = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	Boolean result = false;
 	String sql = "";
 	
 	try {
-		sql ="select count(*) AS cnt "
+		sql ="select name, email, memberId "
 				+ "from member "
 				+ "where name = ? AND email = ? ";
 		
@@ -269,13 +269,15 @@ public Boolean find(String name, String email) {
 		rs = pstmt.executeQuery();
 
 		if(rs.next()) {
+			dto = new MemberDTO();
 			
-			if(rs.getInt("cnt") == 1) {
-				result = true;
+			dto.setName(rs.getString("name"));
+			dto.setEmail(rs.getString("email"));
+			dto.setMemberId(rs.getString("memberId"));
 			}
 			
 		
-		}
+		
 	} catch (SQLException e) {
 		e.printStackTrace();
 	} finally {
@@ -294,10 +296,36 @@ public Boolean find(String name, String email) {
 		}
 	}
 	
-	return result;
+	return dto;
 }	
+public void updateMember(MemberDTO dto) throws SQLException {
+	PreparedStatement pstmt = null;
+	String sql;
 	
+	try {
+		sql = "UPDATE member SET pwd=? WHERE email=?";
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, dto.getPwd());
+		pstmt.setString(2, dto.getEmail());
+		
+		pstmt.executeUpdate();
+		
+		pstmt.close();
+		pstmt = null;
+		
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+		throw e;
+	} finally {
+		if(pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+			}
+		}
+	}
+
 }
-
-
-
+}

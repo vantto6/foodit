@@ -174,10 +174,10 @@
 		<div class="css-7500ra e13dlrpy0">비밀번호 찾기</div>
 		<div class="css-u3y03b e13dlrpy1">
 			
-			<form id ="findForm" class="css-s3iz85 e1h5g482" action = "index.jsp?folder=login&category=Find_id_action" method = "post">
+			<form name ="findForm" class="css-s3iz85 e1h5g482" action = "index.jsp?folder=login&category=Find_id_action" method = "post">
 				<div class="css-1blp8ou e1h5g481">
 					<div class="css-1yjqrpx e1uzxhvi4">
-						<label for="name" class="css-c3g9of e1uzxhvi2" >이름</label>
+						<label for="name"  class="css-c3g9of e1uzxhvi2" >이름</label>
 						<div class="css-176lya2 e1uzxhvi1">
 							<input id="name" name="name" placeholder="이름을 입력해 주세요" type="text"
 								class="css-upmixo e1uzxhvi0" >
@@ -195,10 +195,12 @@
 				</div>
 				<div id="message"></div>
 				<div class="css-3vxi16 e1h5g480 btn-submit">
-					<div class="css-1s9rhb5 e4nu7ef2"  id= "clear" style="display:flex; flex-direction:column; justify-content:center" onclick="hello()" >
-						<div>확인</div>	
-						
+					<div class="css-1s9rhb5 e4nu7ef2"  id= "clear" style="display:flex; flex-direction:column; justify-content:center" onclick="pwdFind()" >
+						<div onclick="hello()">확인</div>	
+							
 					</div>
+					<p>${message}</p>
+						
 				</div>
 			</form>
 		</div>
@@ -208,7 +210,8 @@
 		
 <script type="text/javascript">
 
-	function hello() {
+	function pwdFind() {
+		const f = document.findForm;
 		let str = $('#name').val();
 		
 		if (!str) {
@@ -234,7 +237,7 @@
 
 			return;
 		}
-		f.action = "${pageContext.request.contextPath}/member/_ok.do";
+		f.action = "${pageContext.request.contextPath}/member/pwdFind_ok.do";
 		f.submit();
 	}
 
