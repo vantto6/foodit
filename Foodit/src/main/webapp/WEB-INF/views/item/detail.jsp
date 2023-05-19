@@ -42,7 +42,7 @@
 
 .product_view .btns{margin-left: 60px}
 .product_view .btn2{text-align: center; margin: 50px}
-.product_view .btn2 {display: inline-block;height: 50px;font-size: 16px; width: 350px;padding: 13px 0; color: black; text-decoration: none; border: 2px solid #333;}
+.product_view .btn2 {display: inline-block;height: 50px;font-size: 16px; width: 425px;padding: 13px 0; color: black; text-decoration: none; border: 2px solid #333;}
 .product_view a.btn1{color: black;}
 .product_view a.btn2{background: white;}
 
@@ -246,7 +246,7 @@ $(function() {
 		$("#hiddencount").val(count);
 		
 		let result = count*price;
-		
+		result = result.toLocaleString('ko-KR');
 		$("#totprice").text(result);
 	});
 	
@@ -259,7 +259,7 @@ $(function() {
 			$("#hiddencount").val(count);
 			
 			let result = count*price;
-			
+			result = result.toLocaleString('ko-KR');
 			$("#totprice").text(result);
 		}
 	});
@@ -308,6 +308,13 @@ $(function() {
 	});
 	
 })
+
+$(function() {
+	let price = "${dto.discountPrice}";
+	price = price.toLocaleString('ko-KR');
+	$("#totprice").val(price);
+	
+});
 </script>
 
 </head>
@@ -358,12 +365,12 @@ $(function() {
 			<th>구매수량</th>
 			<td>
 				<div>
-                      <button type="button" id="minus" style="border: none">
+                      <button type="button" id="minus" style="border: none;background: white;">
                       	<i class="fa-solid fa-minus"></i>
                       </button>
-  					  <span id="count" style="font-size: 20px;">1</span>
+  					  <span id="count" style="font-size: 15px;padding: 5px;">1</span>
   					  <input type="hidden" id="hiddencount" name="basketCnt" value="1">
-                      <button type="button" id="plus" style="border: none">
+                      <button type="button" id="plus" style="border: none;background: white;">
                       	<i class="fa-solid fa-plus"></i>
                       </button>
 				</div>
