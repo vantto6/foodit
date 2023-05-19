@@ -171,7 +171,12 @@ public class MemberServlet extends MyServlet {
 			
 			dao.insertMember(dto);
 			
-			resp.sendRedirect(cp + "/");
+			HttpSession session = req.getSession();
+			session.setAttribute("name", dto.getName());
+			
+			resp.sendRedirect(cp + "/member/complete.do?mode=join");
+			
+
 			return;
 		} catch (SQLException e) {
 			if (e.getErrorCode() == 1)
@@ -495,7 +500,6 @@ public class MemberServlet extends MyServlet {
 			title = "회원 가입";
 			
 			msg += "회원가입을 축하합니다.";
-			msg += "로그인 후 차별화된 서비스를 이용하시기 바랍니다.";
 		} else if(mode.equals("pf")) {
 			title = "패스워드 찾기";
 			
