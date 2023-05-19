@@ -208,6 +208,25 @@ button {
 .likeBtn i {
 	font-size:40px
 }
+
+.bt {
+	padding: 10px;
+	background: white;
+	border: none;
+}
+
+
+.fixed-box {
+	width: 150px; height: 30px;
+	
+	position: fixed;
+	left :180px; top :200px; /* 기준점 : 브라우저 최상단 */
+	font-weight: bold;
+	text-align: center;
+	font-size: 20px;
+}
+
+
 </style>
 
 <script type="text/javascript">
@@ -257,9 +276,9 @@ $(function() {
 			$("#count").text(--count);
 			
 			$("#hiddencount").val(count);
-			
 			let result = count*price;
 			result = result.toLocaleString('ko-KR');
+			
 			$("#totprice").text(result);
 		}
 	});
@@ -311,10 +330,11 @@ $(function() {
 
 $(function() {
 	let price = "${dto.discountPrice}";
-	price = price.toLocaleString('ko-KR');
-	$("#totprice").val(price);
+	$('#price').text(price.toLocaleString('ko-KR'));
+})
+
 	
-});
+
 </script>
 
 </head>
@@ -337,7 +357,7 @@ $(function() {
 		<tr>			
 			<h2>
 				<span class="discount">${dto.discount }%</span>
-				<span class="price" id="price">${dto.discountPrice}</span>
+				<span class="price" id="price"></span>
 				<span>원</span>
 				<span class="original-price">${dto.price }<span class="won">원</span></span>
 			</h2>
@@ -398,7 +418,10 @@ $(function() {
 	</div>
 	</form>
 </div>
-
+<div class="fixed-box">
+	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen"></i></div></button>
+	<h3>상품문의</h3>	
+</div>
 <div class="detail">
 	<div>
 		<h3>상품설명</h3>
@@ -407,154 +430,7 @@ $(function() {
 
 
 
-<div id="Review_list">
-	<div id="Review_title">상품 후기(게시글 : 16)</div>
-		<div class="review_text" >
-			PRODUCT REVIEW
-			<br>
-			상품에 대한 문의를 남기는 공간입니다. 해당 게시판의 성격과 다른 글은 사전동의 없이 담당 게시판으로 이동될 수 있습니다.
-			<br>
-			배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 마이컬리 내 1:1 문의에 남겨주세요.
-		</div>
-	
-	
-	<table class="review">
-		<tr>
-			<th class="review" width="100">번호</th>
-			<th class="review" width="500">제목</th>
-			<th class="review" width="100">작성자</th>
-			<th class="review" width="200">작성일</th>
-		</tr>
-			<tr>
-				<td class="review">16</td>
-				<td class="subject">
-							<a href="#">
-								asd
-							</a>
-					<td class="review">abc1234</td>
-					<td class="review"> 
-							2022-07-05 11:02:03
-					</td>
-			</tr>
-			<tr>
-				<td class="review">15</td>
-				<td class="subject">
-							<a href="#">
-								asd
-							</a>
-					<td class="review">abc1234</td>
-					<td class="review"> 
-							2022-07-05 11:02:03
-=					</td>
-			</tr>
-			
-			<tr>
-				
-				<td class="review">14</td>
-				
 
-				
-				<td class="subject">
-							<a href="#">
-								asd
-							</a>
-
-					
-					<td class="review">abc1234</td>
-					
-					
-					<td class="review"> 
-						
-							2022-07-05 11:02:03
-						
-					</td>
-			</tr>
-			
-			<tr>
-				
-				<td class="review">13</td>
-				
-
-				
-				<td class="subject">
-							<a href="#">
-								asd
-							</a>
-
-					
-					<td class="review">abc1234</td>
-					
-					
-					<td class="review"> 
-						
-							2022-07-05 11:02:03
-						
-					</td>
-			</tr>
-			
-			<tr>
-				
-				<td class="review">12</td>
-				
-
-				
-				<td class="subject">
-							<a href="#">
-								asd
-							</a>
-
-					
-					<td class="review">abc1234</td>
-					
-					
-					<td class="review"> 
-						
-							2022-07-05 11:02:03
-						
-					</td>
-			</tr>
-			
-		
-	</table>
-	
-
-	<div class="write_review" >
-		<button class="review_write" type="button">후기쓰기</button>
-	</div>
-
-	
-	
-		
-	<div class="review_number">
-	
-		[&lt;&lt;][&lt;]
-	
-	
-	
-		
-			[1]
-		
-	
-		
-			<a href="#">[2]</a>
-		
-	
-		
-			<a href="#">[3]</a>
-		
-	
-		
-			<a href="#">[4]</a>
-		
-	
-	
-	
-		[&gt;][&gt;&gt;]
-	
-	</div>
-</div>
-
-			<div id="product_review"></div>
 		
 	
 </body>

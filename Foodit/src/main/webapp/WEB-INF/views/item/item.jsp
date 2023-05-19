@@ -71,6 +71,10 @@
 .price .discount{
 	color: rgb(250, 98, 47)
 }
+
+.page-style{
+	margin-top: 30px;
+}
 </style>
 <script type="text/javascript">
 
@@ -113,7 +117,7 @@
 	
 	
 	</div>
-<div class="page-navigation">
+<div class="page-navigation page-style">
 	${paging}
 </div>	
 

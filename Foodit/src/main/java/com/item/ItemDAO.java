@@ -286,7 +286,7 @@ public class ItemDAO {
 			sql = "SELECT NVL(COUNT(*), 0) FROM items WHERE categoryNo = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, result);
+			pstmt.setInt(1, category);
 
 			rs = pstmt.executeQuery();
 			
