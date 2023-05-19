@@ -58,7 +58,7 @@ public class MailSender {
 
       try {
          Authenticator auth = new SMTPAuthenticator();
-         Session session = Session.getDefaultInstance(p, auth);
+         Session session = Session.getDefaultInstance(p, auth);  
 
          // 메일 전송시 상세 정보 콘솔에 출력 여부
          session.setDebug(true);
