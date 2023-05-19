@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.inquiry.inquiryDTO;
+
 import com.util.DBConn;
 
 public class ItemInquiryDAO {
