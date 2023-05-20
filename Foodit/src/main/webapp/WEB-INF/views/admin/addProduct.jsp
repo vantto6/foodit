@@ -31,9 +31,9 @@
 
           <div id="viewOrderList" class="page_section section_orderlist">
             <div class="head_aticle">
-              <h2 class="tit">
+              <h1 class="tit" style="text-align: center;">
                 ${title}
-              </h2>
+              </h1>
               
             </div>
 

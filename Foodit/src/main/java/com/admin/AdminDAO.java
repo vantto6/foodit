@@ -1,5 +1,6 @@
 package com.admin;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.util.DBConn;
+
 
 public class AdminDAO {
 	private Connection conn = DBConn.getConnection();
@@ -441,4 +443,402 @@ public class AdminDAO {
 	        }
 	    }
 	}
+	public List<AdminDTO> listStock( int offset, int size) {
+		List<AdminDTO> list = new ArrayList<AdminDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			
+			sb.append(" SELECT i.itemNo, saveFilename, i.itemName, i.price,cnt, categoryName, brandName");
+			sb.append("  FROM items i ");								
+			sb.append("  LEFT OUTER JOIN ( ");
+			sb.append("     SELECT itemNo, saveFilename FROM ( ");
+			sb.append("        SELECT imgNo, itemNo, saveFilename, ");
+			sb.append("            ROW_NUMBER() OVER(PARTITION BY itemNo ORDER BY imgNo ASC) rank ");
+			sb.append("        FROM itemsImg");
+			sb.append("     ) WHERE rank = 1 ");
+			sb.append(" ) img ON i.itemNo = img.itemNo ");			
+			sb.append("  JOIN category c ON i.categoryNo = c.categoryNo");
+			sb.append("  JOIN brand b ON i.brandNo = b.brandNo");
+			sb.append("  ORDER BY itemNo DESC ");
+			sb.append("  OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, size);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				AdminDTO dto = new AdminDTO();
+				
+				dto.setItemNo(rs.getLong("itemNo"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setItemName(rs.getString("itemName"));
+				dto.setCnt(rs.getInt("cnt"));
+				dto.setCategoryName(rs.getString("categoryName"));
+				dto.setBrandName(rs.getString("brandName"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return list;
+	}	
+	public List<AdminDTO> listBrand( int offset, int size) {
+		List<AdminDTO> list = new ArrayList<AdminDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+
+		try {
+			
+			sb.append("SELECT brandNo, brandName ");
+			sb.append("FROM brand ");
+			sb.append("ORDER BY brandNo ASC ");
+			sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, size);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				AdminDTO dto = new AdminDTO();
+				
+				dto.setBrandNo(rs.getInt("brandNo"));
+				dto.setBrandName(rs.getString("brandName"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return list;
+	}	
+	public int brandCount() {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM brand";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}
+	public void addBrands(AdminDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {		 
+			conn.setAutoCommit(false);
+			
+			sql = "INSERT INTO brand (brandNo, brandName) VALUES (?,?)"; 				      
+
+			pstmt = conn.prepareStatement(sql);
+			
+			// PreparedStatement에 값을 설정합니다.
+			pstmt.setLong(1, dto.getBrandNo());
+			pstmt.setString(2, dto.getBrandName());
+			
+			pstmt.executeUpdate();	
+		
+			conn.commit();
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e2) {
+			}
+		}
+		
+	}
+	public int memberCount() {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM client";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}
+	public List<AdminDTO> listMember( int offset, int size) {
+		    List<AdminDTO> list = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    StringBuilder sb = new StringBuilder();
+
+		    try {
+		        sb.append("SELECT m.clientNo, m.memberId, m.pwd, m.email, m.gender, m.name, m.tel, a.addrNo, a.addressCode, a.address, a.addressDetail, c.createDate, c.updateDate, c.deleteDate, c.gubun");
+		        sb.append(" FROM member m");
+		        sb.append(" JOIN client c ON m.clientNo = c.clientNo");
+		        sb.append(" JOIN addressinfo a ON c.clientNo = a.clientNo");
+		        sb.append(" ORDER BY m.clientNo ASC");
+		        sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
+
+		        pstmt = conn.prepareStatement(sb.toString());
+
+		        pstmt.setInt(1, offset);
+		        pstmt.setInt(2, size);
+
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		            AdminDTO dto = new AdminDTO();
+
+		            dto.setClientNo(rs.getLong("clientNo"));
+		            dto.setMemberId(rs.getString("memberId"));
+		            dto.setPwd(rs.getString("pwd"));
+		            dto.setEmail(rs.getString("email"));
+		        
+		            dto.setGender(rs.getString("gender"));
+		            dto.setName(rs.getString("name"));
+		            dto.setTel(rs.getString("tel"));
+		            dto.setAddrNo(rs.getLong("addrNo"));
+		            dto.setAddressCode(rs.getString("addressCode"));
+		            dto.setAddress(rs.getString("address"));
+		            dto.setAddressDetail(rs.getString("addressDetail"));
+		            dto.setCreateDate(rs.getString("createDate"));
+		            dto.setUpdateDate(rs.getString("updateDate"));
+		            dto.setDeleteDate(rs.getString("deleteDate"));
+		            dto.setGubun(rs.getString("gubun"));
+
+		            list.add(dto);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        if (rs != null) {
+		            try {
+		                rs.close();
+		            } catch (SQLException e) {
+		            }
+		        }
+
+		        if (pstmt != null) {
+		            try {
+		                pstmt.close();
+		            } catch (SQLException e) {
+		            }
+		        }
+		    }
+
+		    return list;
+		}
+	public void deleteMember(long clientNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "DELETE FROM addressinfo WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+
+			sql = "DELETE FROM perinquiries WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+                      
+			sql = "DELETE FROM orderDetail WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+            
+			sql = "DELETE FROM review WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+            
+            sql = "DELETE FROM ordering WHERE clientNo=?";
+            pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+            
+			sql = "DELETE FROM client WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+            pstmt.executeUpdate();
+            pstmt.close();
+            
+			sql = "DELETE FROM member WHERE clientNo=?";
+			pstmt = conn.prepareStatement(sql);     
+            pstmt.setLong(1, clientNo);
+		
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+	public AdminDTO readMember(long clientNo) {
+			AdminDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+
+			try {
+			    sql = "SELECT m.clientNo, m.memberId, m.pwd, m.email, m.gender, m.name, m.tel, a.addrNo, a.addressCode, a.address, a.addressDetail, c.createDate, c.updateDate, c.deleteDate, c.gubun"
+			        + " FROM member m "
+			        + " JOIN client c ON m.clientNo = c.clientNo"
+			        + " JOIN addressinfo a ON c.clientNo = a.clientNo"
+			        + " WHERE m.clientNo = ?";
+
+			    pstmt = conn.prepareStatement(sql);
+			    pstmt.setLong(1, clientNo);
+			    rs = pstmt.executeQuery();
+
+			    if (rs.next()) {
+			        dto = new AdminDTO();
+			        dto.setClientNo(rs.getLong("clientNo"));
+			        dto.setMemberId(rs.getString("memberId"));
+			        dto.setPwd(rs.getString("pwd"));
+			        dto.setEmail(rs.getString("email"));
+			        dto.setGender(rs.getString("gender"));
+			        dto.setName(rs.getString("name"));
+			        dto.setTel(rs.getString("tel"));
+			        dto.setAddrNo(rs.getLong("addrNo"));
+			        dto.setAddressCode(rs.getString("addressCode"));
+			        dto.setAddress(rs.getString("address"));
+			        dto.setAddressDetail(rs.getString("addressDetail"));
+			        dto.setCreateDate(rs.getString("createDate"));
+			        dto.setUpdateDate(rs.getString("updateDate"));
+			        dto.setDeleteDate(rs.getString("deleteDate"));
+			        dto.setGubun(rs.getString("gubun"));
+			    }
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			} finally {
+			    if (rs != null) {
+			        try {
+			            rs.close();
+			        } catch (SQLException e) {
+			            e.printStackTrace();
+			        }
+			    }
+
+			    if (pstmt != null) {
+			        try {
+			            pstmt.close();
+			        } catch (SQLException e) {
+			            e.printStackTrace();
+			        }
+			    }
+			}
+
+			return dto;
+}
 }

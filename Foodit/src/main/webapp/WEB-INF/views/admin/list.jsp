@@ -10,6 +10,9 @@
 <title>상품 리스트</title>
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
   <style type="text/css">
+    h1 {
+     text-align: center;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -45,14 +48,16 @@
     .body-main {
 	max-width: 800px;
 }
+
   </style>
 
 </head>
 <body>
+<h1>상품 리스트</h1>
 <main>
-
+<div >
   <table>
-  
+
     <tr>
       <th colspan="2" style="text-align: center;">이미지</th> 
       <th>상품 번호</th>
@@ -66,8 +71,9 @@
     </tr>
 
 <c:forEach var="dto" items="${list}">
+
   <tr>
-  <td >
+  <td class="center">
       <img style="width: 100px;" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}">
   </td>
   <td> </td>
@@ -88,9 +94,11 @@
 
 </c:forEach>
   </table>
+  </div>
+  <footer>
   		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 		</div>
-
+</footer>
 </main>
 </body>
 

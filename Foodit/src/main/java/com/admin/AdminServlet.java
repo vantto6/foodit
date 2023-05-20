@@ -64,6 +64,16 @@ import com.util.MyUtil;
 				deleteFile(req, resp);
 			} else if (uri.indexOf("delete.do") != -1) {
 				delete(req, resp);
+			}else if (uri.indexOf("stock.do") != -1) {
+				seeStock(req,resp);
+			}else if (uri.indexOf("brand.do") != -1) {
+				seeBrand(req,resp);
+			}else if (uri.indexOf("addBrand.do") != -1) {
+				addBrand(req,resp);
+			}else if (uri.indexOf("seeMember.do") != -1) {
+				seeMember(req,resp);
+			}else if (uri.indexOf("deleteMember.do") != -1) {
+				deleteMember(req,resp);
 			}
 		}
 		protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -332,6 +342,221 @@ import com.util.MyUtil;
 				}
 
 				resp.sendRedirect(cp + "/admin/list.do?page=" + page);
+			}
+			protected void seeStock(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				AdminDAO dao = new AdminDAO();
+				MyUtil util = new MyUtil();
+				  
+				//HttpSession session = req.getSession();
+				//SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+				String cp = req.getContextPath();
+				
+				try {
+					String page = req.getParameter("page");
+					int current_page = 1;
+					if (page != null) {
+						current_page = Integer.parseInt(page);
+					}
+
+					// 전체데이터 개수
+					int dataCount = dao.dataCount();
+
+					// 전체페이지수
+					int size = 6;
+					int total_page = util.pageCount(dataCount, size);
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+
+					// 게시물 가져오기
+					int offset = (current_page - 1) * size;
+					if(offset < 0) offset = 0;
+					
+					List<AdminDTO> list = dao.listStock(offset, size);
+					//AdminDTO file = dao.readPhotoFile(imgNo);
+					// 페이징 처리
+					String listUrl = cp + "/admin/stock.do";
+					String articleUrl = cp + "" + current_page;
+					String paging = util.paging(current_page, total_page, listUrl);
+
+					// 포워딩할 list.jsp에 넘길 값
+					req.setAttribute("list", list);
+					req.setAttribute("dataCount", dataCount);
+					req.setAttribute("articleUrl", articleUrl);
+					req.setAttribute("page", current_page);
+					req.setAttribute("total_page", total_page);
+					req.setAttribute("paging", paging);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				forward(req, resp, "/WEB-INF/views/admin/stockStatus.jsp");
+			}
+			protected void seeBrand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				AdminDAO dao = new AdminDAO();
+				MyUtil util = new MyUtil();
+				  
+				//HttpSession session = req.getSession();
+				//SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+				String cp = req.getContextPath();
+				
+				try {
+					String page = req.getParameter("page");
+					int current_page = 1;
+					if (page != null) {
+						current_page = Integer.parseInt(page);
+					}
+
+					// 전체데이터 개수
+					int dataCount = dao.brandCount();
+
+					// 전체페이지수
+					int size = 15;
+					int total_page = util.pageCount(dataCount, size);
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+
+					// 게시물 가져오기
+					int offset = (current_page - 1) * size;
+					if(offset < 0) offset = 0;
+					
+					List<AdminDTO> list = dao.listBrand(offset, size);
+					//AdminDTO file = dao.readPhotoFile(imgNo);
+					// 페이징 처리
+					String listUrl = cp + "/admin/brand.do";
+					String articleUrl = cp + "" + current_page;
+					String paging = util.paging(current_page, total_page, listUrl);
+
+					// 포워딩할 list.jsp에 넘길 값
+					req.setAttribute("list", list);
+					req.setAttribute("dataCount", dataCount);
+					req.setAttribute("articleUrl", articleUrl);
+					req.setAttribute("page", current_page);
+					req.setAttribute("total_page", total_page);
+					req.setAttribute("paging", paging);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				forward(req, resp, "/WEB-INF/views/admin/brandList.jsp");
+			}
+			protected void addBrand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				AdminDAO dao = new AdminDAO();
+
+				String cp = req.getContextPath();
+				if (req.getMethod().equalsIgnoreCase("GET")) {
+					resp.sendRedirect(cp + "/admin/addBrand.do");
+					return;
+				}
+
+				String message = "";
+				try {
+					AdminDTO dto = new AdminDTO();
+					
+					dto.setBrandNo(Integer.parseInt(req.getParameter("brandNo")));	
+					dto.setBrandName(req.getParameter("brandName"));
+
+					dao.addBrands(dto);
+					
+					resp.sendRedirect(cp + "/admin/admin.do");
+					return;
+				} catch (SQLException e) {
+					message = "브랜드 등록에 실패했습니다.";
+				} catch (Exception e) {
+					e.printStackTrace();
+					message = "브랜드 등록에 실패했습니다.";
+				}
+				
+				req.setAttribute("message", message);
+				req.setAttribute("title", "브랜드 리스트");
+				req.setAttribute("mode", "admin");
+				
+				forward(req, resp, "/WEB-INF/views/admin/addBrand.jsp");
+			
+		}
+			
+			protected void seeMember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				AdminDAO dao = new AdminDAO();
+				MyUtil util = new MyUtil();
+				  
+				//HttpSession session = req.getSession();
+				//SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+				String cp = req.getContextPath();
+				
+				try {
+					String page = req.getParameter("page");
+					int current_page = 1;
+					if (page != null) {
+						current_page = Integer.parseInt(page);
+					}
+
+					// 전체데이터 개수
+					int dataCount = dao.memberCount();
+
+					// 전체페이지수
+					int size = 10;
+					int total_page = util.pageCount(dataCount, size);
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+
+					// 게시물 가져오기
+					int offset = (current_page - 1) * size;
+					if(offset < 0) offset = 0;
+					
+					List<AdminDTO> list = dao.listMember(offset, size);
+					//AdminDTO file = dao.readPhotoFile(imgNo);
+					// 페이징 처리
+					String listUrl = cp + "/admin/deleteMember.do";
+					String articleUrl = cp + "" + current_page;
+					String paging = util.paging(current_page, total_page, listUrl);
+
+					// 포워딩할 list.jsp에 넘길 값
+					req.setAttribute("list", list);
+					req.setAttribute("dataCount", dataCount);
+					req.setAttribute("articleUrl", articleUrl);
+					req.setAttribute("page", current_page);
+					req.setAttribute("total_page", total_page);
+					req.setAttribute("paging", paging);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				forward(req, resp, "/WEB-INF/views/admin/memberList.jsp");
+			}
+			protected void deleteMember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				// 삭제 완료
+				AdminDAO dao = new AdminDAO();
+
+				String cp = req.getContextPath();
+				
+				String page = req.getParameter("page");
+
+				try {
+					long clientNo = Long.parseLong(req.getParameter("clientNo"));
+					
+					
+					AdminDTO dto = dao.readMember(clientNo);
+					if (dto == null) {
+						resp.sendRedirect(cp + "/admin/seeMember.do?page=" + page);
+						return;
+					}
+
+
+					// 테이블 데이터 삭제
+					dao.deleteMember(clientNo);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				resp.sendRedirect(cp + "/admin/seeMember.do?page=" + page);
 			}
 		}
 
