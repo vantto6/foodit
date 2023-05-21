@@ -37,6 +37,22 @@ th {
   justify-content: center;
   align-items: center;
 }
+        .go-to-first-page {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #88b04B;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 </style>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
@@ -73,6 +89,7 @@ th {
 </div>
 <footer>
 <div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		<button class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
 		</div>
 		</footer>
 </main>

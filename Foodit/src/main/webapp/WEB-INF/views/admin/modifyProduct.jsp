@@ -202,6 +202,7 @@
                   </div>
 					<div id="product_submit" class="pd_submit">
                     <button type="button" class="btn" onclick="itemsupdateOk();">수정하기</button>
+                  
                   	<c:if test="${mode=='update'}">
 						<input type="hidden" name="itemNo" value="${dto.itemNo}">
 						<input type="hidden" name="page" value="${page}">

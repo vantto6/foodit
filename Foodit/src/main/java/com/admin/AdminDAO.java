@@ -15,6 +15,7 @@ public class AdminDAO {
 	private Connection conn = DBConn.getConnection();
 	
 	public void insertItems(AdminDTO dto) throws SQLException {
+		//상품 추가
 		PreparedStatement pstmt = null;
 		String sql;
 		
@@ -27,7 +28,6 @@ public class AdminDAO {
 
 			pstmt = conn.prepareStatement(sql);
 
-			// PreparedStatement에 값을 설정합니다.
 			pstmt.setString(1, dto.getItemName());
 			pstmt.setLong(2, dto.getPrice());
 			pstmt.setLong(3, dto.getDiscount());
@@ -81,6 +81,7 @@ public class AdminDAO {
 	}
 	
 	public int dataCount() {
+		//상품 갯수 
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

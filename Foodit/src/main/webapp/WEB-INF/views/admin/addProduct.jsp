@@ -176,7 +176,9 @@
                     </table>
                   </div>
 					<div id="product_submit" class="pd_submit">
+                  
                     <button type="button" onclick="itemsinsertOk();">등록하기</button>
+                  
                   </div>
 
                 </div>

@@ -74,6 +74,8 @@ import com.util.MyUtil;
 				seeMember(req,resp);
 			}else if (uri.indexOf("deleteMember.do") != -1) {
 				deleteMember(req,resp);
+			}else if (uri.indexOf("stats.do") != -1) {
+				memberStats(req,resp);
 			}
 		}
 		protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -558,5 +560,20 @@ import com.util.MyUtil;
 
 				resp.sendRedirect(cp + "/admin/seeMember.do?page=" + page);
 			}
-		}
+			protected void stats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				
+				req.setAttribute("title", "통계");
+				req.setAttribute("mode", "admin");
+				
+				String path = "/WEB-INF/views/admin/stats.jsp";
+				forward(req, resp, path);
+			}
+			protected void memberStats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				AdminDAO dao = new AdminDAO(); 
+				int memberCount = dao.memberCount();
 
+			        
+			        req.setAttribute("memberCount", memberCount);
+			        forward(req, resp, "/WEB-INF/views/admin/stats.jsp");
+		}
+	}

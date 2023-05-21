@@ -77,8 +77,7 @@
     
     <h2>통계</h2>
     <ul>
-        <li><a href="visitorStats.jsp">접속자수/가입자수 현황</a></li>
-        <li><a href="salesStats.jsp">판매현황</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/stats.do">접속자수/가입자수/판매 현황</a></li>
     </ul>
 </body>
 </html>
