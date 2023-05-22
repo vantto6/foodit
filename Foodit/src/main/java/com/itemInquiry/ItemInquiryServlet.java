@@ -2,7 +2,7 @@ package com.itemInquiry;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.member.SessionInfo;
-import com.notice.NoticeDAO;
-import com.notice.NoticeDTO;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
@@ -42,6 +41,8 @@ public class ItemInquiryServlet extends MyServlet {
 			writeForm(req, resp);
 		} else if (uri.indexOf("write_ok.do") != -1) {
 			writeSubmit(req, resp);
+		} else if (uri.indexOf("article.do") != -1) {
+			article(req, resp);
 		}
 	}
 	
@@ -130,7 +131,7 @@ public class ItemInquiryServlet extends MyServlet {
 		String cp = req.getContextPath();
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/notice/list.do");
+			resp.sendRedirect(cp + "/itemInquiry/list.do");
 			return;
 		}
 		
@@ -166,9 +167,30 @@ public class ItemInquiryServlet extends MyServlet {
 		String itemnum = req.getParameter("itemNo");
 		
 		try {
-			long itemNo = Long.parseLong("itemNo");
+			long itemNo = Long.parseLong(itemnum);
+			
+			// 조회수 할까말까,,
+			
+			// 게시물 가져오기
+			ItemInquiryDTO dto = dao.readBoard(itemNo);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/itemInquiry/list.do?" + query);
+				return;
+			}
+			dto.setContent(util.htmlSymbols(dto.getContent()));
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("query", query);
+
+			forward(req, resp, "/WEB-INF/views/itemInquiry/article.jsp");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
+	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+	
+	
 }

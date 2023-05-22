@@ -63,7 +63,6 @@ function sendOk() {
 
     f.action = "${pageContext.request.contextPath}/itemInquiry/write_ok.do";
     f.submit();
-    alert("${itemNo}");
 }
 </script>
 </head>
