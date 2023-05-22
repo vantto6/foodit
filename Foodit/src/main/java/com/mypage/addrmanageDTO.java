@@ -6,6 +6,7 @@ public class addrmanageDTO {
 	private String address;
 	private String addressDetail;
 	private String clientNo;
+
 	public long getAddrNo() {
 		return addrNo;
 	}

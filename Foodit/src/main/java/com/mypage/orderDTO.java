@@ -6,7 +6,14 @@ public class orderDTO {
 	private String payOption;
 	private int totPrice;
 	private String saveFilename;
+	private String payDate;
 	
+	public String getPayDate() {
+		return payDate;
+	}
+	public void setPayDate(String payDate) {
+		this.payDate = payDate;
+	}
 	public String getItemName() {
 		return itemName;
 	}
