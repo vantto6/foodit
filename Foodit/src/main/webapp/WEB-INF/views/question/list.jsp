@@ -14,7 +14,7 @@
 	max-width: 1000px;
 }
 
-#perInquery_list {
+#question_list {
 	min-height: 800px;
 	width: 900px;
 	margin: 0 auto;
@@ -22,7 +22,7 @@
 	width: 900px;
 }
 
-#perInquery_title {
+#question_title {
 	font-size: 1.8em;
 	font-weight: bold;
 	text-align: left;
@@ -66,7 +66,7 @@ td {
 	text-overflow: ellipsis;
 }
 
-#perInquery_list a:hover {
+#question_list a:hover {
 	text-decoration: none;
 	color: red;
 }
@@ -148,15 +148,71 @@ input[type=checkbox] {
 	z-index: 10;
 }
 
-.write-container {
+.list-container {
 	min-height: 800px;
 }
 </style>
 <script type="text/javascript">
-function showAlert() {
-	out();
-}
+	<c:if test="${sessionScope.member.memberId=='admin'}">
+	$(function() {
+		$("#chkAll").click(function() {
+			if ($(this).is(":checked")) {
+				$("input[name=nums]").prop("checked", true);
+			} else {
+				$("input[name=nums]").prop("checked", false);
+			}
+		});
 
+		$("#btnDeleteList").click(function() {
+			let cnt = $("input[name=nums]:checked").length;
+			if (cnt === 0) {
+				alert("삭제할 게시물을 먼저 선택하세요.");
+					return false;
+			}
+			if (confirm("선택한 게시물을 삭제 하시겠습니까 ?")) {
+				const f = document.listForm;
+				f.action = "${pageContext.request.contextPath}/question/deleteList.do";
+				f.submit();
+			}
+		});
+		
+		$("#btnUpdate").click(
+				function() {
+					let cnt = $("input[name=nums]:checked").length;
+				    if (cnt !== 1) {
+				        alert("수정할 게시물 한 개만 선택해주세요.");
+				        return false;
+				    }
+
+					
+					if(confirm("선택한 게시물을 수정하시겠습니까?")){
+						const f = document.listForm;
+						f.action = "${pageContext.request.contextPath}/question/update.do";
+						f.submit();
+					}
+				}	
+				
+			);
+			
+
+	});
+	
+	</c:if>
+
+	$(function() {
+		$(".answer").hide(); // 초기에 모든 답변 숨기기
+
+		$(".q_body").click(function() {
+			let $answer = $(this).next();
+			let isVisible = $answer.is(':visible');
+
+			// 다른 질문의 답변을 닫음
+			$(".answer").not($answer).hide();
+
+			// 현재 질문의 답변을 토글
+			$answer.fadeToggle(100);
+		});
+	});
 </script>
 </head>
 <body>
@@ -165,56 +221,67 @@ function showAlert() {
 	</header>
 
 	<main>
-		<div class="write-container">
+		<div class="list-container ">
 			<div class="tit_page">
-				<h2 class="tit">1:1질문</h2>
+				<h2 class="tit">자주묻는 질문</h2>
 			</div>
 			<br>
 			<form name="listForm" method="post">
 
 				<div class="sub_page">
 					<div class="btn_right" align="center">
-						<input type="hidden" name="page" value="${page}">
 
+						<input type="hidden" name="page" value="${page}">
+						<c:if test="${sessionScope.member.memberId=='admin'}">
+							<input type="hidden" name="size" value="${size}">
 							<button type="button" class="btn"
-								onclick="location.href='${pageContext.request.contextPath}/inquiry/write.do';">글올리기</button>
+								onclick="location.href='${pageContext.request.contextPath}/question/write.do?size=${size}';">글올리기</button>
+							<button type="button" class="btn" id=btnUpdate>수정</button>
+							<button type="button" class="btn" id="btnDeleteList">삭제</button>
+
+						</c:if>
 						<button type="button" class="btn"
-							onclick="location.href='${pageContext.request.contextPath}/inquiry/list.do';"
+							onclick="location.href='${pageContext.request.contextPath}/question/list.do';"
 							title="새로고침">
 							<i class="fa-solid fa-arrow-rotate-right"></i>
 						</button>
 					</div>
 				</div>
 				<table class="table-container">
-					<thead>
-						<tr>
-							<th width="100">번호</th>
-							<c:if test="${sessionScope.member.memberId=='admin'}">
-								<th >작성자</th>
-							</c:if>
-							<th width="500">제목</th>
-							<th width="150">작성일</th>
-							<th width="150">상태</th>
-						</tr>
-					</thead>
-
+					<tr>
+						<c:if test="${sessionScope.member.memberId=='admin'}">
+							<th class="chk"><input type="checkbox" name="chkAll"
+								id="chkAll"></th>
+						</c:if>
+						<th width="100">번호</th>
+						<th width="100">분류</th>
+						<th width="700">제목</th>
+					</tr>
 					<c:forEach var="dto" items="${list}" varStatus="status">
-
-							<tr>
-								<td>${dataCount - (page-1) * size - status.index}</td>
-								<c:if test="${sessionScope.member.memberId=='admin'}">
-									<td> ${dto.memberId}</td>
-								</c:if>
-								<td class="left"><a
-									href="${articleUrl}&num=${dto.inquiryNo}" onclick="showAlert();">${dto.subject}</a></td>
-								<td>${dto.inquiryDate}</td>
-								<td>${dto.answer != null ? "답변완료" :"답변대기" }</td>
-							</tr>
+						<tr class="q_body">
+							<c:if test="${sessionScope.member.memberId=='admin'}">
+								<td><input type="checkbox" name="nums"
+									value="${dto.questionNo}"></td>
+							</c:if>
+							<td>${dataCount - (page-1) * size - status.index}</td>
+							<td>${dto.category == "order" ? "주문/결제/배송" : dto.category == "refund" ? " 환불/취소/교환" : "기타"}</td>
+							<td class="question left">${dto.subject}</td>
+						</tr>
+						<tr class="answer">
+							<c:if test="${sessionScope.member.memberId=='admin'}">
+								<td></td>
+							</c:if>
+							<td></td>
+							<td></td>
+							<td>${dto.content }</td>
+						</tr>
 					</c:forEach>
 				</table>
 			</form>
-			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-			</div>
+
+
+		</div>
+		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 		</div>
 	</main>
 

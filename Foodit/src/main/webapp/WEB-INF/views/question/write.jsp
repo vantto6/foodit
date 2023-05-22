@@ -95,7 +95,7 @@ td .center_container{
 			return;
 		}
 
-		f.action = "${pageContext.request.contextPath}/notice/${mode}_ok.do";
+		f.action = "${pageContext.request.contextPath}/question/${mode}_ok.do";
 		f.submit();
 	}
 
@@ -112,23 +112,30 @@ td .center_container{
 		<div class="container body-container">
 
 			<div class="tit_page">
-				<h2 class="tit">공지사항</h2>
+				<h2 class="tit">1:1문의 데이터 입력</h2>
 			</div>
 			<div class="body-main mx-auto">
 				<form name="inquiryForm" method="post">
 					<table class="table table-border table-form">
+					<tr>
+							<td>카테고리</td>
+							<td>
+							<select name="category" class="form-select">
+								<option value="order" ${condition=="delivery"?"selected='selected'":"" }>주문/결제/배송</option>
+								<option value="refund"  ${condition=="refund"?"selected='selected'":"" }>환불/취소/교환</option>
+								<option value="etc"  ${condition=="etc"?"selected='selected'":"" }>기타</option>
+							</select>
+							
+							</td>
+						</tr>
+					
 						<tr>
 							<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 							<td><input type="text" name="subject" maxlength="100"
 								class="form-control" value="${dto.subject}"></td>
 						</tr>
-						<tr>
-							<td>작성자</td>
-							<td>
-								<p>${sessionScope.member.name}</p>
-							</td>
-						</tr>
-
+						
+						
 						<tr>
 							<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 							<td><textarea name="content" class="form-control">${dto.content}</textarea>
@@ -142,10 +149,10 @@ td .center_container{
 								<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 								<button type="reset" class="btn">다시입력</button>
 								<button type="button" class="btn"
-									onclick="location.href='${pageContext.request.contextPath}/notice/list.do?size=${size}';">${mode=='update'?'수정취소':'등록취소'}</button>
+									onclick="location.href='${pageContext.request.contextPath}/question/list.do?size=${size}';">${mode=='update'?'수정취소':'등록취소'}</button>
 								<input type="hidden" name="size" value="${size}"> <c:if
 									test="${mode=='update'}">
-									<input type="hidden" name="num" value="${dto.inquiryNo}">
+									<input type="hidden" name="num" value="${dto.questionNo}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
 							</td>

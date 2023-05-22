@@ -40,7 +40,8 @@
 		<div class="header-left">&nbsp;</div>
 		<div class="header-center">
 			<h1 class="logo">
-				<a href="${pageContext.request.contextPath}/">FoodIt</a>
+				<a href="${pageContext.request.contextPath}/">
+				FoodIt</a>
 			</h1>
 		</div>
 		<div class="header-right">
@@ -86,7 +87,7 @@
                <li><a
                   href="${pageContext.request.contextPath}/notice/list.do" aria-label="submenu">공지사항</a></li>
                <li><a href="${pageContext.request.contextPath}/inquiry/list.do" aria-label="submenu">1:1문의</a></li>
-               <li><a href="#" aria-label="submenu">자주묻는질문</a></li>
+               <li><a href="${pageContext.request.contextPath}/question/list.do" aria-label="submenu">자주묻는질문</a></li>
             </ul></li>
 		</ul>
 	</nav>

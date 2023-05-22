@@ -9,18 +9,18 @@ import java.util.List;
 
 import com.util.DBConn;
 
-public class inquiryDAO {
+public class InquiryDAO {
 
 	private Connection conn = DBConn.getConnection();
 	
 	// 질문등록
-	public void insertInquiry(inquiryDTO dto) throws SQLException{
+	public void insertInquiry(InquiryDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "INSERT INTO inquiry(inquiryNo, clientNo, subject, content, inquiryDate, isPublic ) "
-					+ " VALUES(inquiry_seq.NEXTVAL, ?, ?, ?, SYSDATE, ?)";
+			sql = "INSERT INTO perInquiries(inquiryNo, clientNo, subject, content, inquiryDate, isPublic ) "
+					+ " VALUES(perInquiries_seq.NEXTVAL, ?, ?, ?, SYSDATE, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, dto.getClientNo());
 			pstmt.setString(2, dto.getSubject());
@@ -50,7 +50,7 @@ public class inquiryDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT COUNT(*) FROM inquiry";
+			sql = "SELECT COUNT(*) FROM perInquiries";
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -78,18 +78,18 @@ public class inquiryDAO {
 		return result;
 	}	
 	
-	// 클라이언트 데이터 개수
-	public int dataCount(int clientNo ) {
+	// 답글 개수
+	public int dataCount(long inquiryNo ) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT COUNT(*) FROM inquiry WHERE clientNo= ?";
+			sql = "SELECT  NVL(COUNT(*), 0) FROM perInquiries WHERE inquiryNo= ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, clientNo);
+			pstmt.setLong(1, inquiryNo);
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -118,18 +118,19 @@ public class inquiryDAO {
 	
 	
 	// 게시물 리스트
-	public List<inquiryDTO> listInquiry(int offset, int size){
-		List<inquiryDTO> list = new ArrayList<inquiryDTO>();
+	public List<InquiryDTO> listInquiry(int offset, int size){
+		List<InquiryDTO> list = new ArrayList<InquiryDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
 			
-			sql ="SELECT inquiryNo, clientNo, content, subject, inquiryDate, isPublic, answer, answerDate "
-					+ " FROM inquiry "
-					+ " ORDER BY inquiryNo DESC "
-					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
+			sql =" SELECT inquiryNo, p.clientNo, content, subject,  TO_CHAR(inquiryDate, 'YYYY-MM-DD')inquiryDate, isPublic, answer,  TO_CHAR(answerDate, 'YYYY-MM-DD')answerDate, memberId "
+					+ "     FROM perInquiries p "
+					+ "     JOIN member m ON p.clientNo = m.clientNo "
+					+ "		ORDER BY inquiryNo DESC "
+					+ "		OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, offset);
@@ -138,8 +139,8 @@ public class inquiryDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				inquiryDTO dto = new inquiryDTO();
-				
+				InquiryDTO dto = new InquiryDTO();
+
 				dto.setInquiryNo(rs.getLong("inquiryNo"));
 				dto.setClientNo(rs.getLong("clientNo"));
 				dto.setContent(rs.getString("content"));
@@ -148,8 +149,10 @@ public class inquiryDAO {
 				dto.setIsPublic(rs.getInt("isPublic"));
 				dto.setAnswer(rs.getString("answer"));
 				dto.setAnswerDate(rs.getString("answerDate"));
+				dto.setMemberId(rs.getString("memberId"));
 				
 				list.add(dto);
+				
 			}
 			
 		}  catch (SQLException e) {
@@ -174,16 +177,17 @@ public class inquiryDAO {
 	}
 	
 	// 게시물 보기
-	public inquiryDTO readInquiry(long inquiryNo){
-		inquiryDTO dto = null;
+	public InquiryDTO readInquiry(long inquiryNo){
+		InquiryDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
 			
-			sql = "SELECT inquiryNo, clientNo, content, subject, inquiryDate, isPublic, answer, answerDate "
-					+ " FROM inquiry "
+			sql =" SELECT inquiryNo, p.clientNo, content, subject, TO_CHAR(inquiryDate, 'YYYY-MM-DD')inquiryDate, isPublic, answer, TO_CHAR(answerDate, 'YYYY-MM-DD')answerDate, memberId "
+					+ "     FROM perInquiries p "
+					+ "     JOIN member m ON p.clientNo = m.clientNo "
 					+ " WHERE inquiryNo =?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -194,7 +198,7 @@ public class inquiryDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				dto = new inquiryDTO();
+				dto = new InquiryDTO();
 				
 				dto.setInquiryNo(rs.getLong("inquiryNo"));
 				dto.setClientNo(rs.getLong("clientNo"));
@@ -204,6 +208,8 @@ public class inquiryDAO {
 				dto.setIsPublic(rs.getInt("isPublic"));
 				dto.setAnswer(rs.getString("answer"));
 				dto.setAnswerDate(rs.getString("answerDate"));
+				dto.setMemberId(rs.getString("memberId"));
+
 			}
 			
 		} catch (SQLException e) {
@@ -227,21 +233,17 @@ public class inquiryDAO {
 	}
 	
 	
-	public void updateInquiry(inquiryDTO dto) throws SQLException{
+	public void updateInquiry(InquiryDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql ="UPDATE inquiry SET subject=?, content =? inquiryDate= SYSDATE, isPublic, answer=?, answerDate=?  WHERE inquiryNo =? ";
+			sql ="UPDATE perInquiries SET answer=?, answerDate=SYSDATE  WHERE inquiryNo =? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getSubject());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getIsPublic());
-			pstmt.setString(4, dto.getAnswer());
-			pstmt.setString(5, dto.getAnswerDate());
-			pstmt.setLong(6, dto.getInquiryNo());
+			pstmt.setString(1, dto.getAnswer());
+			pstmt.setLong(2, dto.getInquiryNo());
 		
 			pstmt.executeUpdate();
 		
@@ -265,7 +267,7 @@ public class inquiryDAO {
 		
 		try {
 			
-			sql = "DELETE FROM inquiry WHERE inquiryNo = ?";
+			sql = "DELETE FROM perInquiries WHERE inquiryNo = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, inquiryNo);

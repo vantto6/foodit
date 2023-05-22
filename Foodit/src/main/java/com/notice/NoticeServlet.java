@@ -26,6 +26,7 @@ public class NoticeServlet extends MyServlet  {
 		req.setCharacterEncoding("utf-8");
 		
 		String uri = req.getRequestURI();
+		/*
 		String cp = req.getContextPath();
 		
 		HttpSession session = req.getSession();
@@ -35,7 +36,7 @@ public class NoticeServlet extends MyServlet  {
 			resp.sendRedirect(cp + "/member/login.do");
 			return;
 		}
-	
+		*/
 		if(uri.indexOf("list.do")!= -1) {
 			list(req, resp);
 		}else if(uri.indexOf("write.do") != -1) {
@@ -84,19 +85,14 @@ public class NoticeServlet extends MyServlet  {
 			
 			List<NoticeDTO> list = dao.listNotice(offset, size);
 			
-			// 공지글
-			List<NoticeDTO> listNotice = null;
-			listNotice = dao.listNotice();
-			
-			String listUrl = cp + "/notice/list.do?size=" + size;
-			String articleUrl = cp + "/notice/article.do?page=" + current_page + "&size=" + size;
+			String listUrl = cp + "/notice/list.do";
+			String articleUrl = cp + "/notice/article.do?page=" + current_page ;
  
 
 			String paging = util.paging(current_page, total_page, listUrl);
 			
 			// 포워딩 jsp에 전달할 데이터
 			req.setAttribute("list", list);
-			req.setAttribute("listNotice", listNotice);
 			req.setAttribute("articleUrl", articleUrl);
 			req.setAttribute("dataCount", dataCount);
 			req.setAttribute("size", size);
@@ -118,16 +114,14 @@ public class NoticeServlet extends MyServlet  {
 		
 		String cp = req.getContextPath();
 		
-		String size = req.getParameter("size");
 
 		// admin만 글을 등록
 		if (!info.getMemberId().equals("admin")) {
-			resp.sendRedirect(cp + "/notice/list.do?size=" + size);
+			resp.sendRedirect(cp + "/notice/list.do");
 			return;
 		}
 
 		req.setAttribute("mode", "write");
-		req.setAttribute("size", size);
 		forward(req, resp, "/WEB-INF/views/notice/write.jsp");
 	}
 	
@@ -149,7 +143,6 @@ public class NoticeServlet extends MyServlet  {
 		}
 		
 		NoticeDAO dao = new NoticeDAO();
-		String size = req.getParameter("size");
 		try {
 			NoticeDTO dto = new NoticeDTO();
 			dto.setSubject(req.getParameter("subject"));
@@ -160,7 +153,7 @@ public class NoticeServlet extends MyServlet  {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp + "/notice/list.do?size=" + size);
+		resp.sendRedirect(cp + "/notice/list.do");
 	}
 	
 	
@@ -168,8 +161,7 @@ public class NoticeServlet extends MyServlet  {
 		String cp = req.getContextPath();
 		
 		String page = req.getParameter("page");
-		String size = req.getParameter("size");
-		String query = "page=" + page + "&size=" + size;
+		String query = "page=" + page;
 
 		NoticeDAO dao = new NoticeDAO();
 		
@@ -188,7 +180,6 @@ public class NoticeServlet extends MyServlet  {
 			req.setAttribute("dto", dto);
 			req.setAttribute("query", query);
 			req.setAttribute("page", page);
-			req.setAttribute("size", size);
 
 			forward(req, resp, "/WEB-INF/views/notice/article.jsp");			
 			return;
@@ -211,20 +202,18 @@ public class NoticeServlet extends MyServlet  {
 		
 		NoticeDAO dao = new NoticeDAO();
 		String page = req.getParameter("page");
-		String size = req.getParameter("size");
 		
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
 			
 			NoticeDTO dto = dao.readNotice(num);
 			if(dto==null) {
-				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&size="+size);
+				resp.sendRedirect(cp+"/notice/list.do?page="+page);
 				return;
 			}
 		
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
-			req.setAttribute("size", size);
 
 			req.setAttribute("mode", "update");
 
@@ -234,7 +223,7 @@ public class NoticeServlet extends MyServlet  {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp + "/notice/list.do?page=" + page + "&size=" + size);
+		resp.sendRedirect(cp + "/notice/list.do?page=" + page );
 	}
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -255,7 +244,6 @@ public class NoticeServlet extends MyServlet  {
 		NoticeDAO dao = new NoticeDAO();
 		
 		String page = req.getParameter("page");
-		String size = req.getParameter("size");
 		
 		try {
 			NoticeDTO dto = new NoticeDTO();
@@ -271,7 +259,7 @@ public class NoticeServlet extends MyServlet  {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/notice/list.do?page=" + page + "&size=" + size);
+		resp.sendRedirect(cp + "/notice/list.do?page=" + page );
 	}
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -287,8 +275,7 @@ public class NoticeServlet extends MyServlet  {
 		NoticeDAO dao = new NoticeDAO();
 		
 		String page = req.getParameter("page");
-		String size = req.getParameter("size");
-		String query = "page="+ page + "&size="+size;
+		String query = "page="+ page;
 		
 		
 		try {
@@ -323,8 +310,7 @@ public class NoticeServlet extends MyServlet  {
 		
 
 		String page = req.getParameter("page");
-		String size = req.getParameter("size");
-		String query = "size=" + size + "&page=" + page;
+		String query =  "&page=" + page;
 
 		try {
 			 
