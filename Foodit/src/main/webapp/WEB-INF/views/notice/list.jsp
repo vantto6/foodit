@@ -147,13 +147,12 @@ input[type=checkbox] {
 	position: relative;
 	z-index: 10;
 }
+
+.list-container {
+	min-height: 800px;
+}
 </style>
 <script type="text/javascript">
-	function searchList() {
-		const f = document.searchForm;
-		f.submit();
-	}
-
 	<c:if test="${sessionScope.member.memberId=='admin'}">
 	$(function() {
 		$("#chkAll").click(function() {
@@ -189,72 +188,66 @@ input[type=checkbox] {
 	</header>
 
 	<main>
-		<div></div>
-		<div class="tit_page">
-			<h2 class="tit">공지사항</h2>
-		</div>
-		<br>
-		<form name="listForm" method="post">
-
-			<div class="sub_page">
-				<div class="btn_left" style="display: inline-block;">
-					<c:if test="${sessionScope.member.memberId !='admin'}">
-						<span style="float: left">${dataCount}개(${page}/${total_page}페이지)</span>
-					</c:if>
-				</div>
-				<div class="btn_right" align="center">
-					<c:if test="${sessionScope.member.memberId =='admin'}">
-						<button type="button" class="btn" id="btnDeleteList">삭제</button>
-					</c:if>
-					<input type="hidden" name="page" value="${page}">
-
-
-					<c:if test="${sessionScope.member.memberId=='admin'}">
-						<input type="hidden" name="size" value="${size}">
-
-						<button type="button" class="btn"
-							onclick="location.href='${pageContext.request.contextPath}/notice/write.do?size=${size}';">글올리기</button>
-					</c:if>
-					<button type="button" class="btn"
-						onclick="location.href='${pageContext.request.contextPath}/notice/list.do';"
-						title="새로고침">
-						<i class="fa-solid fa-arrow-rotate-right"></i>
-					</button>
-				</div>
+		<div class="list-container ">
+			<div class="tit_page">
+				<h2 class="tit">공지사항</h2>
 			</div>
-			<table class="table-container">
+			<br>
+			<form name="listForm" method="post">
 
-				<tr>
-					<c:if test="${sessionScope.member.memberId=='admin'}">
-						<th class="chk"><input type="checkbox" name="chkAll"
-							id="chkAll"></th>
-					</c:if>
-					<th width="100">번호</th>
-					<th width="500">제목</th>
-					<th width="100">작성자</th>
-					<th width="200">작성일</th>
-				</tr>
-				<c:forEach var="dto" items="${list}" varStatus="status">
+				<div class="sub_page">
+					<div class="btn_right" align="center">
+						<c:if test="${sessionScope.member.memberId =='admin'}">
+							<button type="button" class="btn" id="btnDeleteList">삭제</button>
+						</c:if>
+						<input type="hidden" name="page" value="${page}">
+
+
+						<c:if test="${sessionScope.member.memberId=='admin'}">
+							<input type="hidden" name="size" value="${size}">
+
+							<button type="button" class="btn"
+								onclick="location.href='${pageContext.request.contextPath}/notice/write.do?size=${size}';">글올리기</button>
+						</c:if>
+
+						<c:if test="${sessionScope.member.memberId !='admin'}">
+							<span style="float: left">${dataCount}개(${page}/${total_page}페이지)</span>
+						</c:if>
+					</div>
+				</div>
+				<table class="table-container">
+
 					<tr>
 						<c:if test="${sessionScope.member.memberId=='admin'}">
-							<td><input type="checkbox" name="nums"
-								value="${dto.noticeNo}"></td>
+							<th class="chk"><input type="checkbox" name="chkAll"
+								id="chkAll"></th>
 						</c:if>
-						<td>${dataCount - (page-1) * size - status.index}</td>
-						<td class="left"><a href="${articleUrl}&num=${dto.noticeNo}">${dto.subject}</a>
-						</td>
-						<td>관리자</td>
-						<td>${dto.createDate}</td>
+						<th width="100">번호</th>
+						<th width="500">제목</th>
+						<th width="100">작성자</th>
+						<th width="200">작성일</th>
 					</tr>
-				</c:forEach>
+					<c:forEach var="dto" items="${list}" varStatus="status">
+						<tr>
+							<c:if test="${sessionScope.member.memberId=='admin'}">
+								<td><input type="checkbox" name="nums"
+									value="${dto.noticeNo}"></td>
+							</c:if>
+							<td>${dataCount - (page-1) * size - status.index}</td>
+							<td class="left"><a href="${articleUrl}&num=${dto.noticeNo}">${dto.subject}</a>
+							</td>
+							<td>관리자</td>
+							<td>${dto.createDate}</td>
+						</tr>
+					</c:forEach>
 
-			</table>
-		</form>
+				</table>
+			</form>
 
-		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+			</div>
+
 		</div>
-
-
 	</main>
 
 	<footer>

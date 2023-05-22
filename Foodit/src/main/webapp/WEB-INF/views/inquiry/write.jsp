@@ -95,11 +95,10 @@ td .center_container{
 			return;
 		}
 
-		f.action = "${pageContext.request.contextPath}/perInquery/${mode}_ok.do";
+		f.action = "${pageContext.request.contextPath}/inquiry/${mode}_ok.do";
 		f.submit();
 	}
 
-	 
 </script>
 </head>
 <body>
@@ -123,6 +122,12 @@ td .center_container{
 								class="form-control" value="${dto.subject}"></td>
 						</tr>
 						<tr>
+						<td>비밀글</td>
+						<td> 
+							<p><input type="checkbox" name="isPublic" value="1" ${dto.isPublic==1 ? "checked='checked' ":"" }> <label>비밀글</label></p>
+						</td>
+					</tr>
+						<tr>
 							<td>작성자</td>
 							<td>
 								<p>${sessionScope.member.name}</p>
@@ -142,10 +147,10 @@ td .center_container{
 								<button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 								<button type="reset" class="btn">다시입력</button>
 								<button type="button" class="btn"
-									onclick="location.href='${pageContext.request.contextPath}/perInquery/list.do?size=${size}';">${mode=='update'?'수정취소':'등록취소'}</button>
+									onclick="location.href='${pageContext.request.contextPath}/inquiry/list.do?size=${size}';">${mode=='update'?'수정취소':'등록취소'}</button>
 								<input type="hidden" name="size" value="${size}"> <c:if
 									test="${mode=='update'}">
-									<input type="hidden" name="num" value="${dto.perInqueryNo}">
+									<input type="hidden" name="num" value="${dto.inquiryNo}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
 							</td>

@@ -54,7 +54,7 @@
 				</div>
 				</div>
 				<div class="company" style="margin-top: 60px;">
-					법인명 (상호) : 주식회사 컬리컬리 <span class="bar"></span> 사업자등록번호 : 000-00-0000
+					법인명 (상호) : 주식회사 푸드잇 <span class="bar"></span> 사업자등록번호 : 000-00-0000
 					<br> 통신판매업 : 제 2018-서울강남-01646 호 
 				</div>
 			</div>
