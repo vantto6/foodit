@@ -36,6 +36,8 @@ public class BasketServlet extends MyServlet {
 			order(req, resp);
 		} else if(uri.indexOf("cart_delete.do") != -1) {
 			cart_delete(req, resp);
+		} else if(uri.indexOf("order_ok.do") != -1) {
+			
 		}
 
 	}
@@ -64,20 +66,28 @@ public class BasketServlet extends MyServlet {
 	protected void order(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BasketDAO dao = new BasketDAO();
 		String cp = req.getContextPath();
-		/*
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
 		try {
+			
+			String memberId = info.getMemberId();
+			Long clientNo = info.getClientNo();
+			List<BasketDTO> list = dao.listBasket(memberId);
 			int count = Integer.parseInt(req.getParameter("count"));
 			String[] itemNo = req.getParameterValues("itemNo");
-			if(! dao.inventoryCheck(itemNo, count)) {
-				req.setAttribute("inven", "0");
-				forward(req, resp, "/WEB-INF/views/basket/cart.jsp");
-			}
+			String address = req.getParameter("address");
+			String addressDetail = req.getParameter("addressDetail");
+			String addressCode = req.getParameter("addressCode");
+			req.setAttribute("list", list);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
-		forward(req, resp, "/WEB-INF/views/basket/order.jsp");
+		
+		
+		forward(req, resp, "/WEB-INF/views/basket/orderForm.jsp");
 	}
 	 
 	protected void cart_delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

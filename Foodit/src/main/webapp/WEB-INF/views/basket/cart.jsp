@@ -123,12 +123,7 @@ input[type=checkbox] {
 </style>
 
 <script type="text/javascript">
-window.onload=function(){
-	var inven = '<%= request.getAttribute("inven") %>';
-	if(inven === "0"){
-		alert("상품 재고가 없습니다.");
-	}
-}
+
 function sendOrder() {
 	
 	var f = document.orderForm;
@@ -334,9 +329,9 @@ function checkAll(source) {
 											<td><span class="price">${dto.discountPrice}</span><span
 												style="text-decoration: line-through; color: lightgray;">${dto.price}</span><br>
 										</tr>
-										<c:set var="totalPrice" value="${totalPrice + (dto.price * dto.basketCnt)}" />
-										<c:set var="totalDiscountPrice" value="${totalDiscountPrice + (dto.discountPrice * dto.basketCnt)}" />
-										<c:set var="totalDiscount" value="${(totalPrice - totalDiscountPrice)}" />
+										<c:set var="totalPrice" value="${totalPrice = (dto.price * dto.basketCnt)}" />
+										<c:set var="totalDiscountPrice" value="${totalDiscountPrice = (dto.discountPrice * dto.basketCnt)}" />
+										<c:set var="totalDiscount" value="${totalDiscount = (totalPrice - totalDiscountPrice)}" />
 									</c:forEach>
 								</tbody>
 								<tfoot>
@@ -352,7 +347,8 @@ function checkAll(source) {
 							</table>
 							<input type="hidden" name="addressCode">
 							<input type="hidden" name="address">
-							<input type="hidden" name="addressDetail">														
+							<input type="hidden" name="addressDetail">	
+																					
 						</form>
 					</div>
 				</div>
@@ -372,7 +368,7 @@ function checkAll(source) {
 							<dl class="amount">
 								<dt class="tit">상품금액</dt>
 								<dd class="price">
-									<span class="totalPrice">₩${totalPrice}</span><span class="won">원</span>
+									<span class="totalPrice">${totalPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 							<dl class="amount">
@@ -391,7 +387,7 @@ function checkAll(source) {
 							<dl class="amount lst">
 								<dt class="tit">결제예정금액</dt>
 								<dd class="price">
-									<span class="realTotalPrice">₩${totalDiscountPrice}</span><span class="won">원</span>
+									<span class="realTotalPrice">${totalDiscountPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 
