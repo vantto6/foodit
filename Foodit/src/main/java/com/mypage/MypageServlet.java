@@ -1,6 +1,7 @@
 package com.mypage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.member.MemberDAO;
-import com.member.MemberDTO;
+import org.json.JSONObject;
+
 import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
@@ -20,11 +21,19 @@ public class MypageServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void execute(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		
 		String uri = req.getRequestURI();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		if (info == null) {
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			return;
+		}
+		
 		
 		// uri에 따른 작업 구분
 		if(uri.indexOf("login_ok.do")!=-1) {
@@ -39,8 +48,15 @@ public class MypageServlet extends MyServlet {
 			orderList(req,resp);
 		} else if(uri.indexOf("addr.do") != -1) {
 			addrList(req,resp);
+		} else if(uri.indexOf("emailCheck.do") != -1) {
+			emailCheck(req,resp);
+		} else if(uri.indexOf("addAddr.do") != -1) {
+			insertAddr(req,resp);
+		} else if(uri.indexOf("deleteAddr.do") != -1) {
+			deleteAddr(req,resp);
+		} else if(uri.indexOf("review.do") != -1) {
+			reviewList(req,resp);
 		}
-		
  	}
 	
 	protected void mypageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,20 +65,48 @@ public class MypageServlet extends MyServlet {
 		
 		forward(req, resp, path);
 	}
-	/*
-	 * protected void addrManageFORM(HttpServletRequest req, HttpServletResponse
-	 * resp) throws ServletException, IOException { // 마이페이지 폼 , 주문내역 창으로 바로 들어감
-	 * String path = "/WEB-INF/views/mypage/addrManage.jsp";
-	 * 
-	 * forward(req, resp, path); }
-	 */
+	
+	// 배송지 추가 등록 메소드
+	protected void insertAddr(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("member");
+
+		String str = sessionInfo.getMemberId();
+		MypageDAO dao = new MypageDAO();
+		String memberId = dao.bringClientNo(str);
+		
+		
+		
+		try {
+			
+			addrmanageDTO dto = new addrmanageDTO();
+			
+			
+			dto.setAddressCode(req.getParameter("addressCode"));
+			
+			dto.setAddress(req.getParameter("address"));
+			dto.setAddressDetail(req.getParameter("addressDetail"));
+			System.out.println(dao.bringClientNo(str));
+			dto.setClientNo(dao.bringClientNo(str));
+			
+			dao.insertAddr(dto);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp+"/mypage/addr.do");
+	}
+	
 	
 	protected void checkPw(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 로그인 폼
 		String path = "/WEB-INF/views/mypage/modify1.jsp";
 		
 		HttpSession session = req.getSession();
-		System.out.println(session);
 		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("member");
 
 		String str = sessionInfo.getMemberId();
@@ -78,7 +122,7 @@ public class MypageServlet extends MyServlet {
 		// 로그인 처리
 		String path = "/WEB-INF/views/mypage/modify2.jsp";
 		
-		MemberDAO dao = new MemberDAO();
+		MypageDAO dao = new MypageDAO();
 		String cp = req.getContextPath();
 
 		if(req.getMethod().equalsIgnoreCase("GET")) {
@@ -90,7 +134,6 @@ public class MypageServlet extends MyServlet {
 		String pwd = req.getParameter("pwd");
 		
 		MemberDTO dto = dao.loginMember(memberId, pwd);
-		System.out.println(memberId + pwd);
 		if(dto != null) {
 			
 			HttpSession session = req.getSession();
@@ -113,17 +156,25 @@ public class MypageServlet extends MyServlet {
 		checkPw(req,resp);
 		
 	}
-
-	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
 	
-	protected void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void emailCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	}
-
-	protected void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		MypageDAO dao = new MypageDAO();
+		
+		String email = req.getParameter("email");
+		boolean result = dao.emailCheck(email);
+		
+		String passed = "";
+		if(result == false) {
+			passed = "true";
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("passed", passed);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -140,7 +191,6 @@ public class MypageServlet extends MyServlet {
 			dto.setGender(req.getParameter("gender"));
 			dto.setTel(req.getParameter("tel1")+ req.getParameter("tel2")+ req.getParameter("tel3"));
 			
-			System.out.println(dto.getPwd() + dto.getTel());
 			
 			
 			dao.updateMember(dto);
@@ -151,13 +201,9 @@ public class MypageServlet extends MyServlet {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp+"/");
+		resp.sendRedirect(cp+"/mypage/mypage.do");
 				
 	}
-
-	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-	}	
 	
 	protected void addrList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
@@ -165,6 +211,11 @@ public class MypageServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 
 		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String memberId = info.getMemberId();
 		
 		try {
 			String page = req.getParameter("page");
@@ -174,10 +225,10 @@ public class MypageServlet extends MyServlet {
 			}
 		
 			// 전체 데이터 개수
-			int dataCount = dao.dataCount();
+			int dataCount = dao.dataCount(memberId);
 			
 			// 전체 페이지 수
-			int size = 5;
+			int size = 10;
 			int total_page = util.pageCount(dataCount, size);
 			if (current_page > total_page) {
 				current_page = total_page;
@@ -189,7 +240,7 @@ public class MypageServlet extends MyServlet {
 			
 			List<addrmanageDTO> list = null;
 			
-			list = dao.listBoard(offset, size);
+			list = dao.listBoard(memberId, offset, size);
 
 			// 페이징 처리
 			String listUrl = cp + "/mypage/addr.do";
@@ -221,10 +272,14 @@ public class MypageServlet extends MyServlet {
 		String cp = req.getContextPath();
 		
 		HttpSession session = req.getSession();
-		System.out.println(session);
-		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("member");
-
-		String memberId = sessionInfo.getMemberId();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if(info==null) {
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			return;
+		}
+		
+		String memberId = info.getMemberId();
 		
 		
 		try {
@@ -273,5 +328,85 @@ public class MypageServlet extends MyServlet {
 		
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/mypage/order.jsp");
+	}
+	protected void reviewList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 리스트
+		MypageDAO dao = new MypageDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String memberId = info.getMemberId();
+		
+		if(info==null) {
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			return;
+		}
+		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 전체 데이터 개수
+			int dataCount = dao.reviewDataCount(memberId);
+			
+			// 전체 페이지 수
+			int size = 3;
+			int total_page = util.pageCount(dataCount, size);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			// 게시물 가져오기
+			int offset = (current_page - 1) * size;
+			if(offset < 0) offset = 0;
+			
+			List<reviewDTO> list = null;
+			
+			list = dao.reviewListBoard(memberId, offset, size);
+			
+			// 페이징 처리
+			String listUrl = cp + "/mypage/review.do";
+			/* String articleUrl = cp + "/page/article.do?page=" + current_page; */
+			
+			String paging = util.paging(current_page, total_page, listUrl);
+			
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("size", size);
+			// req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/views/mypage/review.jsp");
+	}
+	
+	protected void deleteAddr(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		String addrNo = req.getParameter("addrNo");
+		
+		try {
+			MypageDAO dao = new MypageDAO();
+			
+			dao.deleteAddr(Integer.parseInt(addrNo));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp+"/mypage/addr.do");
+		
 	}
 }

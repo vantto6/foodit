@@ -11,6 +11,11 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+
+.min-height{
+	min-height : 600px;
+}
+
 .text-center {
 	text-align: center;
 }
@@ -135,6 +140,9 @@
 	align-items: center;
 	gap: 15px;
 }
+
+.table-border-addrmanage thead > tr { border-bottom: 1px solid black; border-bottom: 1px solid black; }
+
 </style>
 <script type="text/javascript">
 
@@ -151,7 +159,7 @@
 	<div class="tit_page" >
 		<h2 class="tit">마이 페이지</h2>
 	</div>
-	<div class="container body-container">
+	<div class="container body-container min-height">
 		<div class = "abc">
 			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
 				<div class ="mypage-selectbox">
@@ -160,45 +168,68 @@
 						<li><a href ="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>			
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a>내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
 					</ul>
 				</div>
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<h2> 주문 내역 </h2> <span style="font-size : 14px;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span>
-				<select style="display : inline; float : right">
-					<option>3개월</option>
-					<option>6개월</option>
-					<option>1년</option>
-					<option>3년</option>
-				</select>
+				<span> 주문 내역 </span>  
+				<div><span style="font-size : 14px; float:left;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span></div>
+				<div style="float: right;">
+					<select class="select-orderDate">
+						<option value="1" selected="selected">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select>
+				</div>
 			</div>
 			
 			<div class ="mypage-right-content"  >
-			
-				<c:forEach var="dto" items="${list}" varStatus="status">
-					<div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
-						<div style="margin-top: 5px;">
-							<div style="width:100px; height: 120px; float : left "><img src="photo.png"/></div>
-								<div style="margin-top : 20px; float : left;" >
-								<div>상품명: ${dto.itemName }</div>
-								<div>주문번호: ${dto.orderNo }</div>
-								<div>신용카드: ${dto.payOption }</div>
-								<div>결제금액: ${dto.totPrice }</div> 
-							</div>
-							
+				
+					<%-- <table class="table table-border-addrmanage table-list">
+					<thead>
+						<tr>
+							<th class="tel">상품사진</th>
+							<th class="tel">상품명</th>
+							<th class="tel">주문번호</th>
+							<th class="tel">상품명</th>
+							<th class="tel">결제방법</th>
+							<th class="tel">결제금액</th>
+						</tr>
+					</thead>
+				
+					<tbody>
+						<c:forEach var="dto" items="${list}" varStatus="status">
+							<tr style="margin-top: 10px;">
+								<td>주문일자 : 2011-11-11</td>
+							</tr>
+							<tr style="border-top: 1px solid lightgray">
+								<td class="addr">${dto.itemName }</td>
+								<td>${dto.orderNo }</td>
+								<td class="sender">${dto.payOption }</td>
+								<td class="sender">${dto.payOption }</td>
+								<td class="sender">${dto.totPrice }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table> --%>
+				
+					<c:forEach var="dto" items="${list}" varStatus="status">	
+						<div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; border-bottom: 1px solid lightgray">
+						<div style="margin-top: 5px; ">
+							<div style="width:100px; height: 120px; float : left; border: 1px solid gray "><img src="photo.png"/></div>
+								<div style="margin : 20px; float : left; display: grid ; gap:5px" >
+									<div>주문일자: ${dto.payDate }</div>
+									<div>상품명: ${dto.itemName }</div>
+									<div>주문번호: ${dto.orderNo }</div>
+									<div>신용카드: ${dto.payOption }</div>
+									<div>결제금액: ${dto.totPrice }</div> 
+								</div>
 						</div>
-						<div>
-							<span>배송완료</span>
-							<div style="display: inline-block;">
-								<button type="button">
-									<span>구매 확정</span>	
-								</button>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
+					</div> 
+				</c:forEach> 
 				<div class="page-navigation">
 				${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 				</div>

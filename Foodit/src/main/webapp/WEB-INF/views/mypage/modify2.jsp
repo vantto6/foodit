@@ -68,7 +68,13 @@
 	height: 900px;
 }
 
-button {
+
+.member_join #addressSearch {
+border: 1px solid #88b04B;
+text-align: center;
+}
+
+.button {
 	background-color: transparent;
 	border: 0px solid transparent;
 	outline: none;
@@ -103,11 +109,11 @@ button.btn.active.btn_join {
 	display: flex;
 }
 
-#address1,
-#address2 {
+#address,
+#addressDetail {
 	width: 100%;
 }
-#zipcode {
+#addressCode {
 	flex: 1;
 }
 
@@ -285,12 +291,12 @@ body, input, select, textarea, button {
     overflow: hidden;
     width: 332px;
     height: 44px;
-    border: 1px solid #5f0080;
+    border: 1px solid 88b04B;
     border-radius: 3px;
     text-align: center;
 }
 
-#zipcode {
+#addressCode {
 	width: 181px !important;
 }
 
@@ -318,7 +324,7 @@ cursor : pointer;
 .type_form {
 
 	
-	width: 100%;
+	width: 817px;
 	margin: 0 auto;	
 
 }
@@ -340,6 +346,7 @@ cursor : pointer;
     height: 56px;
     font-size: 16px;
     line-height: 54px;
+
   
 }
 
@@ -374,7 +381,7 @@ cursor : pointer;
     cursor: pointer;
     margin-left: 10px;
     padding: 2px 10px;
-    border: 1px solid purple;
+    
 }
 .type_form .btn {
     display: block;
@@ -408,10 +415,13 @@ table {
     
 }
 .type_form .btn.default {
-    border: 1px solid #5f0080;
+
+    border: 1px solid #88b04B;
     background-color: #fff;
-    color: #5f0080;
+    color: #88b04B;
+	padding: inherit;
 }
+
 button, select {
     text-transform: none;
 }
@@ -438,9 +448,10 @@ button, input, optgroup, select, textarea {
     vertical-align: top;
 }
 .type_form .btn.active {
-    border: 1px solid #5f0081;
-    background-color: #5f0080;
-    color: #fff;
+    border: 1px solid #88b04B;
+    background-color: #88b04B;
+    color: white;
+
 }
 .member_join .form_footer {
     padding-top: 40px;
@@ -453,81 +464,18 @@ button, input, optgroup, select, textarea {
 	opacity: 1.0;
 	z-index: unset;
 }
-
+field_address__wrapper__button{
+border: 1px solid white;
+}
+.min-height{
+	min-height: 700px;
+}
 
 </style>
-<script type="text/javascript">
-function memberOk() {
-	const f = document.memberForm;
-	let str;
 
-	/* str = f.memberId.value;
-	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
-		alert("아이디를 다시 입력 하세요. ");
-		f.memberId.focus();
-		return;
-	} */
 
-	/* str = f.before_pwd.value;
-	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-		alert("패스워드를 다시 입력 하세요. ");
-		f.before_pwd.focus();
-		return;
-	} */
-	
-	str = f.after_pwd.value;
-	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
-		alert("패스워드를 다시 입력 하세요. ");
-		f.after_pwd.focus();
-		return;
-	}
 
-	if( str !== f.re_pwd.value ) {
-        alert("패스워드가 일치하지 않습니다. ");
-        f.re_pwd.focus();
-        return;
-	}
-	
-    str = f.name.value;
-    if( !/^[가-힣]{2,5}$/.test(str) ) {
-        alert("이름을 다시 입력하세요. ");
-        f.name.focus();
-        return;
-    }
-    
-    str = f.email.value;
-    if( !str ) {
-        alert("이메일을 입력하세요. ");
-        f.email.focus();
-        return;
-    }
-    
-    str = f.tel1.value;
-    if( !str ) {
-        alert("전화번호 앞 3자리를 입력하세요. ");
-        f.tel1.focus();
-        return;
-    }
 
-    str = f.tel2.value;
-    if( !/^\d{3,4}$/.test(str) ) {
-        alert("전화번호 가운데 4자리를 입력하세요. ");
-        f.tel2.focus();
-        return;
-    }
-
-    str = f.tel3.value;
-    if( !/^\d{4}$/.test(str) ) {
-    	alert("전화번호 마지막 4자리를 입력하세요. ");
-        f.tel3.focus();
-        return;
-    }
-   
-   	f.action = "${pageContext.request.contextPath}/mypage/update_ok.do";
-    f.submit();
-    
-}
-</script>
 
 </head>
 <body>
@@ -540,16 +488,16 @@ function memberOk() {
 	<div class="tit_page" >
 		<h2 class="tit">마이 페이지</h2>
 	</div>
-	<div class="container body-container2">
+	<div class="container body-container min-height">
 		<div class = "abc">
 			<div class = "mypage-left-subject"><h2>마이푸딧</h2></div>
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_mypage.do">주문내역</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
 						<li><a>장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a>내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
 					</ul>
 				</div>
 		</div>
@@ -562,8 +510,6 @@ function memberOk() {
 						<div class="page_article" >
 							<div class="type_form member_join">
 						<form method="post" name = "memberForm">
-							<input type="hidden" name="idCheckResult" id="idCheckResult" value="0"> 
-							<input type="hidden" name="emailCheckResult" id="emailCheckResult" value="0">
 							<table class="tbl_comm">
 								<tr class="fst">
 									<th>아이디<span class="ico">*</span></th>
@@ -597,7 +543,7 @@ function memberOk() {
 									<th>이메일<span class="ico">*</span></th>
 									<td>
 										<input type="text" name="email" class="email" id="email" placeholder="예: marketkurly@kurly.com">
-									<span class="btn default" id="emailCheck">중복확인</span>
+									<button type="button" class="btn default" name="emailbtn" id="emailbtn" onclick="emailch();">중복확인</button>
 									</td>
 								</tr>
 								<tr class="field_phone">
@@ -625,6 +571,7 @@ function memberOk() {
 							</table>
 							<div id="formSubmit" class="form_footer">
 								<button type="button" class="btn active btn_join" onclick="memberOk();">회원정보수정</button>
+								<input type="hidden" name="emailValid" id="emailValid" value="false">
 							</div>
 						</form>
 					</div>
@@ -633,6 +580,126 @@ function memberOk() {
 		</div>
 	</div>
 </main>
+<script type="text/javascript">
+function memberOk() {
+	const f = document.memberForm;
+	let str;
+	
+	console.log(f.emailValid.value);
+	
+	
+	str = f.before_pwd.value;
+	if( str == "" ) { 
+		alert("패스워드를 입력 하세요. ");
+		f.before_pwd.focus();
+		return;
+	}
+	
+	str = f.after_pwd.value;
+	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
+		alert("패스워드를 다시 입력 하세요. ");
+		f.after_pwd.focus();
+		return;
+	}
+
+	if( str !== f.re_pwd.value ) {
+        alert("패스워드가 일치하지 않습니다. ");
+        f.re_pwd.focus();
+        return;
+	}
+	
+    str = f.name.value;
+    if( !/^[가-힣]{2,5}$/.test(str) ) {
+        alert("이름을 다시 입력하세요. ");
+        f.name.focus();
+        return;
+    }
+    
+	str = f.email.value;
+    if( !str ) {
+        alert("이메일을 입력하세요. ");
+        f.email.focus();
+        return;
+    }
+    
+    str = f.tel1.value;
+    if( !str ) {
+        alert("전화번호 앞 3자리를 입력하세요. ");
+        f.tel1.focus();
+        return;
+    }
+
+    str = f.tel2.value;
+    if( !/^\d{3,4}$/.test(str) ) {
+        alert("전화번호 가운데 4자리를 입력하세요. ");
+        f.tel2.focus();
+        return;
+    }
+
+    str = f.tel3.value;
+    if( !/^\d{4}$/.test(str) ) {
+    	alert("전화번호 마지막 4자리를 입력하세요. ");
+        f.tel3.focus();
+        return;
+    }
+    
+    if(f.emailValid.value === "false") {
+		alert('이메일 중복 검사가 실행되지 않았습니다.');
+		f.email.focus();
+		return;
+	}
+   
+   	f.action = "${pageContext.request.contextPath}/mypage/update_ok.do";
+    f.submit();
+}
+</script>
+
+<script type="text/javascript">
+function emailch() {
+	let email = $("#email").val();
+	 
+	 if( !/^[A-za-z0-9]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/i.test(email)){
+		 alert('이메일 형식이 올바르지 않습니다.');
+		 $("#email").focus();
+		 return;
+	 }
+	 
+	 if(email == ""){
+		 alert('이메일을 입력해주세요.');
+		 $("#email").focus();
+		 return;
+	 }
+	 
+	 let url = "${pageContext.request.contextPath}/mypage/emailCheck.do";
+	 let query = "email=" + email;
+	 
+	 $.ajax({
+		type: "POST"
+		,url: url
+		,data: query
+		,dataType: "json"
+		,success:function(data){
+			let passed = data.passed;
+			
+			if(passed == "true"){
+				alert('사용가능 한 이메일입니다. ');
+				$("#emailValid").val("true");
+				
+			} else {
+				alert('이미 사용중인 이메일 입니다. 다른 이메일을 선택해주세요. ');
+				$("#email").val("");
+				$("#emailValid").val("false");
+				
+			}
+			
+		}
+		 
+	 });
+}
+</script>
+
+
+
 
 <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

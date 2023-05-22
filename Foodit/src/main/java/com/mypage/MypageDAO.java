@@ -1,18 +1,111 @@
 package com.mypage;
 
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.member.MemberDTO;
 import com.util.DBConn;
 
 public class MypageDAO {
 	private Connection conn = DBConn.getConnection();
+	
+	public Boolean emailCheck(String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		Boolean result = false;
+		
+		try {
+			sb.append("select count(*) as cnt "
+					+ " from member"
+					+ " where email = ? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, email);
+			
+			rs = pstmt.executeQuery();
 
+			if(rs.next()) {
+				
+				if(rs.getInt("cnt") == 1) {
+					result = true;
+				}
+				
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	// 개인정보 수정 로그인 체크
+	public MemberDTO loginMember(String userId, String userPwd) {
+		MemberDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = " SELECT memberId, pwd "
+					+ " FROM member"
+					+ " WHERE memberId = ? AND pwd = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userPwd);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setPwd(rs.getString("pwd"));
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+	
+	
 	// 마이페이지 회원정보 수정
 		public void updateMember(MemberDTO dto) throws SQLException {
 			PreparedStatement pstmt = null;
@@ -58,17 +151,20 @@ public class MypageDAO {
 			}
 
 		}
+		
 	// 배송지 데이터 개수
-	public int dataCount() {
+	public int dataCount(String memberId) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM addressinfo";
+			sql = "SELECT NVL(COUNT(*), 0) FROM addressinfo WHERE clientNo = ?";
 			pstmt = conn.prepareStatement(sql);
-
+			
+			pstmt.setString(1, bringClientNo(memberId));
+			
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -136,38 +232,70 @@ public class MypageDAO {
 		
 		return result;
 	}
+	
+	public int reviewDataCount(String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM review "
+					+ " WHERE clientNo = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, bringClientNo(memberId));
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
 
 	
 
 	// 게시물 리스트
-	public List<addrmanageDTO> listBoard(int offset, int size) {
+	public List<addrmanageDTO> listBoard(String memberId, int offset, int size) {
 		List<addrmanageDTO> list = new ArrayList<addrmanageDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT addrNo, addressCode, address, addressDetail, clientNo FROM addressinfo ORDER BY addrNo OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
-			/*
-			 * sb.append(" SELECT boardNum, b.userId, userName, ");
-			 * sb.append("       subject, groupNum, orderNo, depth, hitCount,");
-			 * sb.append("       TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date ");
-			 * sb.append(" FROM board b ");
-			 * sb.append(" JOIN member1 m ON b.userId = m.userId ");
-			 * sb.append(" ORDER BY groupNum DESC, orderNo ASC ");
-			 * sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
-			 */
+			sql = "SELECT addrNo, address, addressDetail, clientNo FROM addressinfo WHERE clientNo = ? ORDER BY addrNo OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
+			
 
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, size);
+			pstmt.setString(1, bringClientNo(memberId));
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
 
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				addrmanageDTO dto = new addrmanageDTO();
-
+				
+				dto.setAddrNo(rs.getInt("addrNo"));
 				dto.setAddress(rs.getString("address"));
 				dto.setAddressDetail(rs.getString("addressDetail"));
 				dto.setClientNo(rs.getString("clientNo"));
@@ -202,7 +330,7 @@ public class MypageDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename"
+			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate"
 					+ " FROM ordering od"
 					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
 					+ " JOIN items i ON odt.itemNo = i.itemNo"
@@ -232,7 +360,7 @@ public class MypageDAO {
 				dto.setPayOption(rs.getString("payment"));
 				dto.setTotPrice(rs.getInt("totPrice"));
 				dto.setSaveFilename(rs.getString("saveFilename"));
-				
+				dto.setPayDate(rs.getString("payDate"));
 				
 				list.add(dto);
 			}
@@ -256,63 +384,94 @@ public class MypageDAO {
 
 		return list;
 	}
-
-
-	// 이전글
-	public addrmanageDTO preReadBoard(long groupNum, int orderNo, String condition, String keyword) {
-		addrmanageDTO dto = null;
+	
+	public List<orderDTO> addrListBoard(String memberId, int offset, int size) {
+		List<orderDTO> list = new ArrayList<orderDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
-
+		String sql;
+		
 		try {
-			if (keyword != null && keyword.length() != 0) {
-				sb.append(" SELECT boardNum, subject ");
-				sb.append(" FROM board b ");
-				sb.append(" JOIN member1 m ON b.userId = m.userId ");
-				sb.append(" WHERE ( (groupNum = ? AND orderNo < ?) OR (groupNum > ?) ) ");
-				if (condition.equals("all")) {
-					sb.append("   AND ( INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ) ");
-				} else if (condition.equals("reg_date")) {
-					keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-					sb.append("   AND ( TO_CHAR(reg_date, 'YYYYMMDD') = ? ) ");
-				} else {
-					sb.append("   AND ( INSTR(" + condition + ", ?) >= 1 ) ");
-				}
-				sb.append(" ORDER BY groupNum ASC, orderNo DESC ");
-				sb.append(" FETCH FIRST 1 ROWS ONLY ");
-
-				pstmt = conn.prepareStatement(sb.toString());
-				
-				pstmt.setLong(1, groupNum);
-                pstmt.setInt(2, orderNo);
-                pstmt.setLong(3, groupNum);
-                pstmt.setString(4, keyword);
-				if (condition.equals("all")) {
-					pstmt.setString(5, keyword);
-				}
-			} else {
-				sb.append(" SELECT boardNum, subject FROM board ");
-				sb.append(" WHERE (groupNum = ? AND orderNo < ?) OR (groupNum > ?) ");
-				sb.append(" ORDER BY groupNum ASC, orderNo DESC ");
-				sb.append(" FETCH FIRST 1 ROWS ONLY ");
-
-				pstmt = conn.prepareStatement(sb.toString());
-				
-				pstmt.setLong(1, groupNum);
-                pstmt.setInt(2, orderNo);
-                pstmt.setLong(3, groupNum);
-			}
+			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate"
+					+ " FROM ordering od"
+					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
+					+ " JOIN items i ON odt.itemNo = i.itemNo"
+					+ " JOIN itemsimg img ON i.itemNo = img.itemNo"
+					+ " JOIN client c ON od.clientno = c.clientno"
+					+ " JOIN member m ON c.clientno = m.clientno"
+					+ " WHERE odt.ordetailno = ("
+					+ "  SELECT MIN(ordetailno)"
+					+ "  FROM orderdetail"
+					+ "  WHERE orderNo = od.orderNo"
+					+ " ) AND m.memberid = ? "
+					+ " ORDER BY od.orderNo DESC"
+					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, memberId);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
 
 			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				orderDTO dto = new orderDTO();
 
-			if (rs.next()) {
-				dto = new addrmanageDTO();
+				dto.setItemName(rs.getString("itemName"));
+				dto.setOrderNo(rs.getInt("orderNo"));
+				dto.setPayOption(rs.getString("payment"));
+				dto.setTotPrice(rs.getInt("totPrice"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setPayDate(rs.getString("payDate"));
 				
-				/*
-				 * dto.setBoardNum(rs.getLong("boardNum"));
-				 * dto.setSubject(rs.getString("subject"));
-				 */
+				list.add(dto);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+
+		return list;
+	}
+	public List<reviewDTO> reviewListBoard(String memberId, int offset, int size) {
+		List<reviewDTO> list = new ArrayList<reviewDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT reviewNo, subject, createDate FROM review WHERE clientNo = ?"
+					+ " ORDER BY reviewNo DESC"
+					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, bringClientNo(memberId));
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				reviewDTO dto = new reviewDTO();
+				
+				dto.setReviewNo(rs.getInt("reviewNo"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setCreateDate(rs.getString("createDate"));
+				
+				list.add(dto);
 			}
 			
 		} catch (SQLException e) {
@@ -321,97 +480,121 @@ public class MypageDAO {
 			if (rs != null) {
 				try {
 					rs.close();
-				} catch (SQLException e) {
+				} catch (SQLException e2) {
 				}
 			}
-
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
+				} catch (SQLException e2) {
 				}
 			}
 		}
-
-		return dto;
+		
+		return list;
 	}
-
-	// 다음글
-	public addrmanageDTO nextReadBoard(long groupNum, int orderNo, String condition, String keyword) {
-		addrmanageDTO dto = null;
+	
+	
+	
+	// 배송지 추가를 위한 clientNO 가져오기
+	public String bringClientNo(String memberId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
-
+		String sql;
+		String clientNo = "";
+		
 		try {
-			if (keyword != null && keyword.length() != 0) {
-				sb.append(" SELECT boardNum, subject ");
-				sb.append(" FROM board b ");
-				sb.append(" JOIN member1 m ON b.userId = m.userId ");
-				sb.append(" WHERE ( (groupNum = ? AND orderNo > ?) OR (groupNum < ?) ) ");
-				if (condition.equals("all")) {
-					sb.append("   AND ( INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ) ");
-				} else if (condition.equals("reg_date")) {
-					keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-					sb.append("   AND ( TO_CHAR(reg_date, 'YYYYMMDD') = ? ) ");
-				} else {
-					sb.append("   AND ( INSTR(" + condition + ", ?) >= 1 ) ");
-				}
-				sb.append(" ORDER BY groupNum DESC, orderNo ASC ");
-				sb.append(" FETCH FIRST 1 ROWS ONLY ");
-
-				pstmt = conn.prepareStatement(sb.toString());
-				
-				pstmt.setLong(1, groupNum);
-                pstmt.setInt(2, orderNo);
-                pstmt.setLong(3, groupNum);
-				pstmt.setString(4, keyword);
-				if (condition.equals("all")) {
-					pstmt.setString(5, keyword);
-				}
-			} else {
-				sb.append(" SELECT boardNum, subject FROM board ");
-				sb.append(" WHERE (groupNum = ? AND orderNo > ?) OR (groupNum < ?) ");
-				sb.append(" ORDER BY groupNum DESC, orderNo ASC ");
-				sb.append(" FETCH FIRST 1 ROWS ONLY ");
-
-				pstmt = conn.prepareStatement(sb.toString());
-				
-				pstmt.setLong(1, groupNum);
-                pstmt.setInt(2, orderNo);
-                pstmt.setLong(3, groupNum);
-			}
-
+			sql = "SELECT clientNo FROM member WHERE memberId = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, memberId);
+			
 			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				dto = new addrmanageDTO();
-				
-				/*
-				 * dto.setBoardNum(rs.getLong("boardNum"));
-				 * dto.setSubject(rs.getString("subject"));
-				 */
+			
+			if(rs.next()) {
+				clientNo = rs.getString("clientNo");
 			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+				if(pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (Exception e2) {
+					}
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+					}
+				}
+		}
+		
+		
+		return clientNo;
+	}
+	
+	public void insertAddr(addrmanageDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "INSERT INTO Addressinfo(addrNo, addressCode, address, addressDetail, clientNo) VALUES(addressInfo_seq.NEXTVAL, ?, ?, ?, ?)";
+             
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getAddressCode());
+			pstmt.setString(2, dto.getAddress());
+			pstmt.setString(3, dto.getAddressDetail());
+			pstmt.setString(4, dto.getClientNo());
+			
+			pstmt.executeUpdate();			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw e;
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
+			try {
+				if(pstmt != null) {
+						pstmt.close();
 				}
+			} catch (SQLException e) {
 			}
-
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-				}
-			}
+			
 		}
-
-		return dto;
-	}
+		}
+	
+	public void deleteAddr(int addrNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM Addressinfo WHERE addrNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, addrNo);
+			
+			pstmt.executeUpdate();			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+			} catch (SQLException e) {
+			}
+			
+		}
+		}
+	
 
 }
