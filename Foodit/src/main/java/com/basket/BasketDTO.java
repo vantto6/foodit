@@ -7,7 +7,25 @@ public class BasketDTO {
 	private int itemNo;
 	private int price, discount;
 	private String itemName;
+	private int discountPrice;
+	private int cnt;
 	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	public void setDiscountPrice(int discountPrice) {
+		this.discountPrice = discountPrice;
+	}
+	public int getDiscountPrice() {
+		return discountPrice;
+	}
+	public void setDiscountPrice() {
+		double result = price - (price * discount/100.0);
+		this.discountPrice =  (int)Math.floor(result);
+	}
 	public int getPrice() {
 		return price;
 	}

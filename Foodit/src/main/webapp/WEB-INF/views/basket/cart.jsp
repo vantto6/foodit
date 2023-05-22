@@ -123,23 +123,29 @@ input[type=checkbox] {
 </style>
 
 <script type="text/javascript">
+window.onload=function(){
+	var inven = '<%= request.getAttribute("inven") %>';
+	if(inven === "0"){
+		alert("상품 재고가 없습니다.");
+	}
+}
 function sendOrder() {
-	const f = document.orderForm;
 	
-	
-	
+	var f = document.orderForm;
 	if(! f.address.value) {
 		alert("배송지를 선택하세요 ...");
 		return;
 	}
 	
-	// f.action="";
-	// f.submit();
+	
+	f.action="${pageContext.request.contextPath}/basket/order.do";
+	f.submit();
 }
 
 function submitSelecteditems() {
-	  var checkboxes = document.getElementsByName("itemsToDelete");
+	  var checkboxes = document.getElementsByName("Selecteditem");
 	  var selecteditems = [];
+	  
 	  
 
 	  for (var i = 0; i < checkboxes.length; i++) {
@@ -147,7 +153,12 @@ function submitSelecteditems() {
 	    	selecteditems.push(checkboxes[i].value);
 	    }
 	  }
-
+	  
+	  if(selecteditems.length === 0){
+		  alert("선택된 상품이 없습니다.");
+		  return;
+	  }
+	  
 	  // 폼 동적 생성
 	  var form = document.createElement("form");
 	  form.setAttribute("method", "post");
@@ -167,10 +178,11 @@ function submitSelecteditems() {
 	  form.submit();
 }
 
+
 $(function(){
 	$(".count_down").click(function(){
 		let count = parseInt($(this).closest("div").find("input[name=count]").val());
-		
+		let maxCount = parseInt($(this).closest("div").find("input[name=maxCount]").val());
 		if(count <= 1) {
 			return false;
 		}
@@ -180,21 +192,26 @@ $(function(){
 
 		let $el = $(this).closest("tbody").find(".product_count");
 		let total = 0;
+		let disTotal = 0;
 		$el.each(function(index, item){
 			let price = parseInt($(item).attr("data-price"));
+			let discountPrice = parseInt($(item).attr("data-discountPrice"));
 			let c = parseInt($(item).find("input[name=count]").val());
 			total += price * c;
+			disTotal += discountPrice * c;
 		});
+			discount = total - disTotal;
 		
 		$(".totalPrice").text(total);
-		$(".realTotalPrice").text(total);
+		$(".realTotalPrice").text(disTotal);
+		$(".totalDiscount").text(discount);
 
 	});
 	
 	$(".count_up").click(function(){
 		let count = parseInt($(this).closest("div").find("input[name=count]").val());
-		
-		if(count >= 10) {
+		let maxCount = parseInt($(this).closest("div").find("input[name=maxCount]").val());
+		if(count >= maxCount) {
 			return false;
 		}
 		
@@ -203,14 +220,19 @@ $(function(){
 
 		let $el = $(this).closest("tbody").find(".product_count");
 		let total = 0;
+		let disTotal = 0;
 		$el.each(function(index, item){
 			let price = parseInt($(item).attr("data-price"));
+			let discountPrice = parseInt($(item).attr("data-discountPrice"));
 			let c = parseInt($(item).find("input[name=count]").val());
 			total += price * c;
+			disTotal += discountPrice * c;
 		});
+			discount = total - disTotal;
 
 		$(".totalPrice").text(total);
-		$(".realTotalPrice").text(total);
+		$(".realTotalPrice").text(disTotal);
+		$(".totalDiscount").text(discount);
 
 	});	
 });
@@ -228,6 +250,7 @@ function openAddress() {
 $(function(){
 	
 	$(".btnAddressOk").click(function(){
+		
 		const $td = $(this).closest("tr").find("td");
 		let addressCode = $td.eq(0).text();
 		let address = $td.eq(1).text();
@@ -245,7 +268,7 @@ $(function(){
 });
 
 function checkAll(source) {
-	var checkboxes = document.getElementsByName('itemsToDelete');
+	var checkboxes = document.getElementsByName('Selecteditem');
 	for (var i = 0; i < checkboxes.length; i++) {
 	  checkboxes[i].checked = source.checked;
 	}
@@ -288,27 +311,32 @@ function checkAll(source) {
 								</thead>
 								<tbody>
 							        <c:set var="totalPrice" value="0" />
+							        <c:set var="totalDiscountPrice" value="0" />
+							        <c:set var="totalDiscount" value="0" />
 									<c:forEach var="dto" items="${list}">
 										<tr class="cartList_detail">
-											<td><input type="checkbox" name="itemsToDelete" value="${dto.basketNo}"></td>
+											<td><input type="checkbox" name="Selecteditem" value="${dto.basketNo}"></td>
 											<td><img src="galbitang.jpeg" alt="food_img"></td>
 											<td><a href="#"></a><span class="cartList_smartstore">
 											</span>
 												<p class="price">${dto.itemName}</p></td>
 											<td class="cartList_option">
-												<div class="product_count" data-price="${dto.price}">
+												<div class="product_count" data-price="${dto.price}" data-discountPrice="${dto.discountPrice}">
 													<button type="button" class="count_down"><i class="fa-solid fa-minus"></i></button>
 													<div class="count">
 														<input type="text" name="count" class="form-control" value="${dto.basketCnt}">
+														<input type="hidden" name="maxCount" class="form-control" value="${dto.cnt}">
 													</div>
 													<button type="button" class="count_up"><i class="fa-solid fa-plus"></i></button>
 													<input type="hidden" name="itemNo" value="${dto.itemNo}">
 												</div>
 											</td>
-											<td><span class="price">${dto.price}</span><span
-												style="text-decoration: line-through; color: lightgray;">13,000</span><br>
+											<td><span class="price">${dto.discountPrice}</span><span
+												style="text-decoration: line-through; color: lightgray;">${dto.price}</span><br>
 										</tr>
 										<c:set var="totalPrice" value="${totalPrice + (dto.price * dto.basketCnt)}" />
+										<c:set var="totalDiscountPrice" value="${totalDiscountPrice + (dto.discountPrice * dto.basketCnt)}" />
+										<c:set var="totalDiscount" value="${(totalPrice - totalDiscountPrice)}" />
 									</c:forEach>
 								</tbody>
 								<tfoot>
@@ -350,7 +378,7 @@ function checkAll(source) {
 							<dl class="amount">
 								<dt class="tit">상품할인금액</dt>
 								<dd class="price">
-									<span class="num">0</span><span class="won">원</span>
+									<span class="totalDiscount">${totalDiscount}</span><span class="won">원</span>
 								</dd>
 							</dl>
 
@@ -363,7 +391,7 @@ function checkAll(source) {
 							<dl class="amount lst">
 								<dt class="tit">결제예정금액</dt>
 								<dd class="price">
-									<span class="realTotalPrice">₩${totalPrice}</span><span class="won">원</span>
+									<span class="realTotalPrice">₩${totalDiscountPrice}</span><span class="won">원</span>
 								</dd>
 							</dl>
 

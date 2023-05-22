@@ -20,7 +20,7 @@ public class BasketDAO {
 		StringBuffer sb = new StringBuffer();
 		 
 		try {
-			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount");
+			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount, cnt");
 			sb.append(" FROM basket b ");
 			sb.append(" JOIN items i ON b.itemNo = i.itemNo ");
 			sb.append(" WHERE memberId = ? ");
@@ -40,6 +40,8 @@ public class BasketDAO {
 				dto.setBasketCnt(rs.getInt("basketCnt"));
 				dto.setPrice(rs.getInt("price"));
 				dto.setDiscount(rs.getInt("discount"));
+				dto.setDiscountPrice();
+				dto.setCnt(rs.getInt("cnt"));
 				
 				list.add(dto);
 			}
@@ -74,6 +76,11 @@ public class BasketDAO {
 			
 			sql = "DELETE FROM Basket WHERE basketNo = ?";
 			pstmt = conn.prepareStatement(sql);
+			
+			if(itemsToDelete == null) {
+				return;
+			}
+			
 			for(String basketNo : itemsToDelete) {
 				pstmt.setString(1, basketNo);
 				
@@ -138,5 +145,50 @@ public class BasketDAO {
 		
 		return list;
 	}
+	
+	public boolean inventoryCheck(String[] itemNo, int count) {
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
+
+	    try {
+	        sql = "SELECT cnt FROM items WHERE itemNO = ?";
+	        pstmt = conn.prepareStatement(sql);
+
+	        for (String check : itemNo) {
+	            pstmt.setString(1, check);
+	            rs = pstmt.executeQuery();
+	            if (rs.next()) {
+	                int stock = rs.getInt("cnt");
+	                if (stock < count) {
+	                    return false; // 재고 부족
+	                }
+	            } else {
+	                return false; // 아이템 번호에 해당하는 데이터가 없음
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    } finally {
+	        if (rs != null) {
+	            try {
+	                rs.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+
+	    return true; // 재고 확인 완료
+	}
+
 
 }

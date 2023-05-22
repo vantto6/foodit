@@ -32,12 +32,11 @@ public class BasketServlet extends MyServlet {
 		
 		if(uri.indexOf("cart.do") != -1) {
 			cart(req, resp);
-		} else if(uri.indexOf("cart_ok.do") != -1) {
-			
+		} else if(uri.indexOf("order.do") != -1) {
+			order(req, resp);
 		} else if(uri.indexOf("cart_delete.do") != -1) {
 			cart_delete(req, resp);
 		}
-	
 
 	}
 	
@@ -60,6 +59,25 @@ public class BasketServlet extends MyServlet {
 			e.printStackTrace();
 		}
 		forward(req, resp, "/WEB-INF/views/basket/cart.jsp");		
+	}
+	
+	protected void order(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BasketDAO dao = new BasketDAO();
+		String cp = req.getContextPath();
+		/*
+		try {
+			int count = Integer.parseInt(req.getParameter("count"));
+			String[] itemNo = req.getParameterValues("itemNo");
+			if(! dao.inventoryCheck(itemNo, count)) {
+				req.setAttribute("inven", "0");
+				forward(req, resp, "/WEB-INF/views/basket/cart.jsp");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
+		forward(req, resp, "/WEB-INF/views/basket/order.jsp");
 	}
 	 
 	protected void cart_delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
