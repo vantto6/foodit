@@ -78,12 +78,12 @@ color: #424951;
 					
 					
 					<tbody>						
-					<c:forEach var="dto" items="${list}">
+					<c:forEach var="dto" items="${list}" varStatus="status">
 							<tr>
 
 								<td>${dataCount - (page-1) * size - status.index}</td>
 								<td class="left">
-									<a href="${articleUrl}&itemNo=${itemNo}">${dto.subject}</a>
+									<a href="${detailUrl}&itemNo=${itemNo}">${dto.subject}</a>
 								</td>
 								<td>${dto.memberId}</td>
 								<td>${dto.createDate }</td>
