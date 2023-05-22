@@ -13,6 +13,7 @@
 .body-main {
 	max-width: 700px;
 	padding-top: 15px;
+	
 }
 
 .table-article tr>td {
@@ -60,16 +61,6 @@
 	padding: 8px 25px;
 }
 
-.reply .reply-info {
-	padding-top: 25px;
-	padding-bottom: 7px;
-}
-
-.reply .reply-info  .reply-count {
-	color: #3EA9CD;
-	font-weight: 700;
-}
-
 .reply .reply-list tr>td {
 	padding: 7px 5px;
 }
@@ -78,13 +69,6 @@
 	font-weight: 600;
 }
 
-.reply .deleteReply, .reply .deleteReplyAnswer {
-	cursor: pointer;
-}
-
-.reply .notifyReply {
-	cursor: pointer;
-}
 
 .reply-list .list-header {
 	border: 1px solid #ccc;
