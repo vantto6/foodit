@@ -273,7 +273,7 @@ input[type=checkbox] {
 							</c:if>
 							<td></td>
 							<td></td>
-							<td>${dto.content }</td>
+							<td>${dto.content}</td>
 						</tr>
 					</c:forEach>
 				</table>
