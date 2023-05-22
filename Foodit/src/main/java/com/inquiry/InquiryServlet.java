@@ -167,7 +167,7 @@ public class InquiryServlet extends MyServlet{
 		
 	}
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글 보기
+		// 글보기
 		
 		String cp = req.getContextPath();
 

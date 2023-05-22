@@ -70,7 +70,7 @@ public class InquiryDTO {
 	public String toString() {
 		return "inquiryDTO [inquiryNo=" + inquiryNo + ", clientNo=" + clientNo + ", content=" + content + ", subject="
 				+ subject + ", inquiryDate=" + inquiryDate + ", isPublic=" + isPublic + ", answer=" + answer
-				+ ", answerDate=" + answerDate + "]";
+				+ ", answerDate=" + answerDate +"]";
 	}
 	
 	
