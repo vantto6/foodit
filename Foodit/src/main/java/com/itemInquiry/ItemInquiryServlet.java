@@ -35,6 +35,7 @@ public class ItemInquiryServlet extends MyServlet {
 			forward(req, resp, "/WEB-INF/views/member/login.jsp");
 			return;
 		}
+		
 		if (uri.indexOf("itemInquiry.do") != -1) {
 			inquiryList(req, resp);
 		} else if (uri.indexOf("write.do") != -1) {
@@ -81,7 +82,7 @@ public class ItemInquiryServlet extends MyServlet {
 			vo = dao.readItemName(itemNo);
 			// 페이징 처리
 			String listUrl = cp + "/itemInquiry/itemInquiry.do";
-			String detailUrl = cp + "/itemInquiry/detail.do?page=" + current_page;
+			String detailUrl = cp + "/itemInquiry/article.do?page=" + current_page;
 		
 			String paging = util.paging(current_page, total_page, listUrl);
 			
@@ -103,19 +104,20 @@ public class ItemInquiryServlet extends MyServlet {
 	}
 	
 	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글쓰기 폼
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
-		String cp = req.getContextPath();
-		
+		// 글쓰기 폼		
+		ItemInquiryDAO dao =  new ItemInquiryDAO();
+		long itemNo = Long.parseLong(req.getParameter("itemNo"));
 
-		// admin만 글을 등록
-		if (!info.getMemberId().equals("admin")) {
-			resp.sendRedirect(cp + "/itemInquiry/list.do");
-			return;
+		try {
+			ItemInquiryDTO vo = new ItemInquiryDTO();
+			vo = dao.readItemName(itemNo);
+			req.setAttribute("vo", vo);			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		
+		
+		req.setAttribute("itemNo", itemNo);
 		req.setAttribute("mode", "write");
 		forward(req, resp, "/WEB-INF/views/itemInquiry/write.jsp");
 	}
@@ -134,27 +136,39 @@ public class ItemInquiryServlet extends MyServlet {
 		
 		ItemInquiryDAO dao = new ItemInquiryDAO();
 		
-		String page = req.getParameter("page");
-		int current_page = 1;
-		if (page != null) {
-			current_page = Integer.parseInt(page);
-		}
+		String itemnum = req.getParameter("itemNo");
+		
+		long itemNo = Long.parseLong(itemnum);
 		try {
-			
 			ItemInquiryDTO dto = new ItemInquiryDTO();
 			
 			dto.setMemberId(info.getMemberId());
 
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-			dto.setContent(req.getParameter("itemNo"));
+			dto.setItemNo(itemNo);
 
 			dao.insertInquiry(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/itemInquiry/itemInquiry.do?page=" + current_page);
+		resp.sendRedirect(cp + "/itemInquiry/itemInquiry.do?&itemNo="+itemNo);
 	}
-
+	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ItemInquiryDAO dao = new ItemInquiryDAO();
+		MyUtil util = new MyUtil();
+	
+		String cp = req.getContextPath();
+		String page = req.getParameter("page");
+		
+		String query = "page=" + page;
+		String itemnum = req.getParameter("itemNo");
+		
+		try {
+			long itemNo = Long.parseLong("itemNo");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }

@@ -83,7 +83,7 @@ color: #424951;
 
 								<td>${dataCount - (page-1) * size - status.index}</td>
 								<td class="left">
-									<a href="#">${dto.subject}</a>
+									<a href="${articleUrl}&itemNo=${itemNo}">${dto.subject}</a>
 								</td>
 								<td>${dto.memberId}</td>
 								<td>${dto.createDate }</td>

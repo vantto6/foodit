@@ -63,6 +63,7 @@ function sendOk() {
 
     f.action = "${pageContext.request.contextPath}/itemInquiry/write_ok.do";
     f.submit();
+    alert("${itemNo}");
 }
 </script>
 </head>
@@ -79,7 +80,7 @@ function sendOk() {
 	    </div>
 	    
 	    <div class="body-main mx-auto">
-			<form name="noticeForm" method="post" enctype="multipart/form-data">
+			<form name="noticeForm" method="post">
 				<table class="table table-border table-form">
 					<tr>
 						<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -91,14 +92,14 @@ function sendOk() {
 					<tr> 
 						<td>작성자</td>
 						<td> 
-							<p>아디</p>
+							<p>${sessionScope.member.memberId}</p>
 						</td>
 					</tr>
 					
 					<tr> 
 						<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 						<td> 
-							<textarea name="content" class="form-control">내용</textarea>
+							<textarea name="content" class="form-control"></textarea>
 						</td>
 					</tr>
 						
@@ -111,6 +112,7 @@ function sendOk() {
 							<button type="reset" class="inquiry-btn">다시입력</button>
 							<button type="button" class="inquiry-btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 							<input type="hidden" name="itemNo" value="${itemNo}">
+							<input type="hidden" name="page" value="${page}">
 							<c:if test="${mode=='update'}">
 								<input type="hidden" name="itemNo" value="${itemNo}">
 								<input type="hidden" name="page" value="${page}">

@@ -173,5 +173,55 @@ public class ItemInquiryDAO {
 		}
 		return result;
 	}	
+	
+	// 해당 게시물 보기
+	public ItemInquiryDTO readBoard(long itemNo) {
+		ItemInquiryDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT inquiryNo,memberId,subject,content,createDate,updateDate,isSecret,itemNo "
+					+ "FROM itemInquiry "
+					+ "WHERE itemNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, itemNo);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ItemInquiryDTO();
+				
+				dto.setInquiryNo(rs.getLong("inquiryNo"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
+				dto.setCreateDate(rs.getString("createDate"));
+				dto.setUpdateDate(rs.getString("updateDate"));
+				dto.setIsSecret(rs.getInt("isSecret"));
+				dto.setItemNo(rs.getLong("itemNo"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return dto;
+	}
 
 }

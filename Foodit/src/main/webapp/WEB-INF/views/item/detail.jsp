@@ -42,7 +42,7 @@
 
 .product_view .btns{margin-left: 60px}
 .product_view .btn2{text-align: center; margin: 50px}
-.product_view .btn2 {display: inline-block;height: 50px;font-size: 16px; width: 425px;padding: 13px 0; color: black; text-decoration: none; border: 2px solid #333;}
+.product_view .btn2 {display: inline-block;height: 50px;font-size: 16px; width: 425px;padding: 13px 0; color: black; text-decoration: none; border: 2px solid #88b04B; background: white;}
 .product_view a.btn1{color: black;}
 .product_view a.btn2{background: white;}
 
@@ -220,7 +220,7 @@ button {
 	width: 150px; height: 30px;
 	
 	position: fixed;
-	left :180px; top :200px; /* 기준점 : 브라우저 최상단 */
+	left :1500px; top :200px; /* 기준점 : 브라우저 최상단 */
 	font-weight: bold;
 	text-align: center;
 	font-size: 20px;
