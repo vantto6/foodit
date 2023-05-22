@@ -11,7 +11,9 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 <style type="text/css">
 .body-main {
-	max-width: 1000px;
+	width: 1000px;
+	margin: 0 auto;
+	
 }
 
 #notice_list {
@@ -243,10 +245,8 @@ input[type=checkbox] {
 
 				</table>
 			</form>
-
-			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-			</div>
-
+		</div>
+		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 		</div>
 	</main>
 

@@ -12,7 +12,6 @@
 
 .nav-container {
 	width: 1110px;
-	height: 100px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -29,6 +28,9 @@
 .right-style {
 	margin-left: 580px;
 }
+img {
+	width: 220px;
+}
 </style>
 
 
@@ -41,7 +43,7 @@
 		<div class="header-center">
 			<h1 class="logo">
 				<a href="${pageContext.request.contextPath}/">
-				FoodIt</a>
+				<img src="${pageContext.request.contextPath}/resource/images/foodIt.png" ></a>
 			</h1>
 		</div>
 		<div class="header-right">

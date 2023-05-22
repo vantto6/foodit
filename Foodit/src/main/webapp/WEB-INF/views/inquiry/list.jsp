@@ -11,26 +11,7 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 <style type="text/css">
 .body-main {
-	max-width: 1000px;
-}
-
-#perInquery_list {
 	min-height: 800px;
-	width: 900px;
-	margin: 0 auto;
-	text-align: center;
-	width: 900px;
-}
-
-#perInquery_title {
-	font-size: 1.8em;
-	font-weight: bold;
-	text-align: left;
-}
-
-#num {
-	font-size: 1.1em;
-	color: #646464;
 }
 
 table {
@@ -64,11 +45,6 @@ td {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-#perInquery_list a:hover {
-	text-decoration: none;
-	color: red;
 }
 
 .sub {
@@ -213,9 +189,9 @@ function showAlert() {
 					</c:forEach>
 				</table>
 			</form>
+		</div>
 			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 			</div>
-		</div>
 	</main>
 
 	<footer>
