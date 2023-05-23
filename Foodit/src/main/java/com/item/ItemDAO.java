@@ -540,7 +540,45 @@ public class ItemDAO {
 	}
 	
 	
-	
+	public int checkbasket(long itemNo, String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM basket WHERE itemNo = ? AND memberId = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, itemNo);
+			pstmt.setString(2, memberId);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+	}	
 	
 	public void insertBasket(ItemDTO dto) {
 		PreparedStatement pstmt = null;

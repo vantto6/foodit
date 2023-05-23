@@ -334,13 +334,6 @@ $(function() {
 
 });
 
-function sendBasket() {
-	const f = document.myDetailForm;
-	
-	f.action = "${pageContext.request.contextPath}/item/basket_ok.do";
-	f.submit();
-	alert("상품이 장바구니에 담겼습니다");
-}
 
 $(function() {
 	$(".btnSendItemLike").click(function() {
@@ -376,6 +369,37 @@ $(function() {
 	});
 	
 })
+
+
+$(function() {
+	$("#sendBasket").click(function() {
+		let url = "${pageContext.request.contextPath}/item/basketCheck.do";
+		let itemNo = "${dto.itemNo}";
+//		let category = "${category}";
+//		let page = "${page}";
+//		let num = "${num}";
+		
+		let qs = "&itemNo=" + itemNo;
+		
+		const fn = function(data) {
+			let state = data.state;
+			if(state === "true"){
+				alert("상품이 이미 장바구니에 있습니다.");
+			}else if(state === "false"){
+				const f = document.myDetailForm;
+				
+				f.action = "${pageContext.request.contextPath}/item/basket_ok.do";
+				f.submit();
+				alert("상품등록완료 제발");
+			}
+
+		};
+		
+		ajaxFun(url,"post",qs,"json",fn);
+	});
+	
+})
+
 
 $(function() {
 	let price = "${dto.discountPrice}";
@@ -463,7 +487,10 @@ $(function() {
 	
 	<div class="btns">
 		<button type="button" class="likeBtn btnSendItemLike" title="좋아요" style="width: 30px"><i class="fa-sharp fa-regular fa-heart fa-2xl" style="color: ${isMemberLike ? 'red':'black'}"></i></button>
-		<button type="button" class="btn2" onclick="sendBasket();">장바구니</button>
+		<button type="button" class="btn2" id="sendBasket" onclick="sendBasket();">장바구니</button>
+		<c:if test="${not empty msg}">
+			<p>${msg}</p>
+		</c:if>
 	</div>
 	</form>
 </div>
