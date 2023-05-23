@@ -71,7 +71,7 @@ function deleteNotice() {
 				<tbody>
 					<tr>
 						<td width="50%">
-							이름 : ${sessionScope.member.name}
+							작성자 : 관리자
 						</td>
 						<td align="right">
 							${dto.createDate}  

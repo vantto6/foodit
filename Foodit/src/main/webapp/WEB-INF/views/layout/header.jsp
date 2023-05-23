@@ -7,7 +7,7 @@
 
 <style>
 .header-right a {
-	padding: 10px;
+	padding: 8px;
 }
 
 .nav-container {
@@ -58,7 +58,10 @@ img {
 
 			</c:if>
 			<c:if test="${not empty sessionScope.member}">
-				<a href="#" title="알림"><i class="fa-regular fa-bell fa-lg"></i></a>
+			
+				<a href="${pageContext.request.contextPath}/basket/cart.do" title="장바구니"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+            	&nbsp;
+				<a href="${pageContext.request.contextPath}/mypage/mypage.do" title="마이페이지"><i class="fa-solid fa-circle-user fa-lg"></i></a>
             	&nbsp;
 				<a href="${pageContext.request.contextPath}/member/logout.do"
 					title="로그아웃"><i
@@ -84,8 +87,6 @@ img {
 
 			<li class="right-style"><a href="#">고객지원센터</a>
             <ul class="sub-menu">
-               <li><a href="${pageContext.request.contextPath}/mypage/mypage.do">마이페이지</a></li>
-               <li><a href="${pageContext.request.contextPath}/basket/cart.do">장바구니</a></li>
                <li><a
                   href="${pageContext.request.contextPath}/notice/list.do" aria-label="submenu">공지사항</a></li>
                <li><a href="${pageContext.request.contextPath}/inquiry/list.do" aria-label="submenu">1:1문의</a></li>

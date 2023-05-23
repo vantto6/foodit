@@ -14,25 +14,6 @@
 	max-width: 1000px;
 }
 
-#question_list {
-	min-height: 800px;
-	width: 900px;
-	margin: 0 auto;
-	text-align: center;
-	width: 900px;
-}
-
-#question_title {
-	font-size: 1.8em;
-	font-weight: bold;
-	text-align: left;
-}
-
-#num {
-	font-size: 1.1em;
-	color: #646464;
-}
-
 table {
 	margin: 20px auto;
 	border-collapse: collapse;
@@ -58,24 +39,6 @@ td {
 	font-size: 1.2em;
 }
 
-.subject {
-	text-align: left;
-	padding: 5px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-#question_list a:hover {
-	text-decoration: none;
-	color: red;
-}
-
-.sub {
-	color: #828282;
-	font-size: 0.6em;
-	padding: 20px;
-}
 
 .btn {
 	color: #333333;
@@ -96,13 +59,6 @@ td {
 .btn_right {
 	display: flex;
 	justify-content: end;
-	text-align: center;
-	margin-right: 60px;
-}
-
-.btn_left {
-	display: flex;
-	justify-content: start;
 	text-align: center;
 	margin-right: 60px;
 }
@@ -271,7 +227,7 @@ input[type=checkbox] {
 							<c:if test="${sessionScope.member.memberId=='admin'}">
 								<td></td>
 							</c:if>
-							<td></td>
+							<td><i class="fa-regular fa-comment-dots fa-lg"style="color: #88b04b;"></i></td>
 							<td></td>
 							<td>${dto.content}</td>
 						</tr>

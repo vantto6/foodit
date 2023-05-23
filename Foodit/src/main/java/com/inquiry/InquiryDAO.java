@@ -13,7 +13,7 @@ public class InquiryDAO {
 
 	private Connection conn = DBConn.getConnection();
 	
-	// 질문등록.
+	// 질문등록
 	public void insertInquiry(InquiryDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;

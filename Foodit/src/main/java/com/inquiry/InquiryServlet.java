@@ -43,10 +43,6 @@ public class InquiryServlet extends MyServlet{
 			writeSubmit(req,resp);
 		}else if(uri.indexOf("article.do")!= -1) {
 			article(req,resp);
-		}else if(uri.indexOf("update.do")!= -1) {
-			updateForm(req,resp);
-		}else if(uri. indexOf("update_ok.do")!= -1) {
-			updateSubmit(req,resp);
 		}else if(uri.indexOf("delete.do")!= -1) {
 			delete(req,resp);
 		}else if(uri.indexOf("insertReply.do")!= -1) {
@@ -191,12 +187,12 @@ public class InquiryServlet extends MyServlet{
 			}
 			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
-			if(dto.getIsPublic() == 1 && !info.getMemberId().equals(dto.getMemberId())) {
-				  String message = "비밀글입니다.";
-				    resp.setContentType("text/html;charset=UTF-8");
-				    PrintWriter out = resp.getWriter();
-				    out.println("<script>alert('" + message + "'); location.href='" + cp + "/inquiry/list.do?" + query + "';</script>");
-				    return;
+			if (dto.getIsPublic() == 1 && (!info.getMemberId().equals(dto.getMemberId()) && !info.getMemberId().equals("admin"))) {
+			    String message = "비밀글입니다.";
+			    resp.setContentType("text/html;charset=UTF-8");
+			    PrintWriter out = resp.getWriter();
+			    out.println("<script>alert('" + message + "'); location.href='" + cp + "/inquiry/list.do?" + query + "';</script>");
+			    return;
 			}
 
 
@@ -212,83 +208,6 @@ public class InquiryServlet extends MyServlet{
 		}
 
 		resp.sendRedirect(cp + "/inquiry/list.do?" + query);
-	}	
-	
-	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글 수정
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		String cp = req.getContextPath();
-		
-		if(!info.getMemberId().equals("admin")) {
-			resp.sendRedirect(cp+"/inquiry/list.do");
-			return;
-		}
-		
-		InquiryDAO dao = new InquiryDAO();
-		String page = req.getParameter("page");
-		
-		try {
-			long inquiryNo = Long.parseLong(req.getParameter("num"));
-			InquiryDTO dto = dao.readInquiry(inquiryNo);
-			
-			if(dto == null) {
-				resp.sendRedirect(cp+"/inquiry/list.do?page="+page);
-				return;
-			}
-			req.setAttribute("dto", dto);
-			req.setAttribute("page", page);
-			req.setAttribute("mode", "update");
-
-			forward(req, resp, "/WEB-INF/views/inquiry/write.jsp");
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		resp.sendRedirect(cp + "/notice/list.do?page=" + page);
-		
-	}	
-		
-	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 글 수정 저장
-		
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		String cp = req.getContextPath();
-
-		
-		if(!info.getMemberId().equals("admin")) {
-			resp.sendRedirect(cp+"/inquiry/list.do");
-			return;
-		}
-		
-		InquiryDAO dao = new InquiryDAO();
-		
-		String page = req.getParameter("page");
-		
-		try {
-			
-			InquiryDTO dto = new InquiryDTO();
-			dto.setInquiryNo(Long.parseLong(req.getParameter("num")));
-
-			if(req.getParameter("isPublic")!= null) {
-				dto.setIsPublic(Integer.parseInt(req.getParameter("isPublic")));
-			}
-			
-			dto.setSubject(req.getParameter("subject"));
-			dto.setContent(req.getParameter("content"));
-			
-
-			dao.updateInquiry(dto);
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		resp.sendRedirect(cp + "/inquiry/list.do?page=" + page);
-		
 	}	
 	
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -335,7 +254,7 @@ public class InquiryServlet extends MyServlet{
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		String state = "false";
-		
+
 		try {
 			InquiryDTO dto = new InquiryDTO();
 			
@@ -345,13 +264,14 @@ public class InquiryServlet extends MyServlet{
 			String answer = req.getParameter("answer");
 			dto.setAnswer(answer);
 			
-			System.out.println("업데이트 전 : " + dto);
+			//System.out.println("업데이트 전 : " + dto);
 			
 			dao.updateInquiry(dto);
 			
 			 
 			dto = dao.readInquiry(dto.getInquiryNo());
 			
+			/*
 			System.out.println("업데이트 후 : " + dto);
 			
 			List<InquiryDTO> list = dao.listInquiry(0, 20);
@@ -361,7 +281,7 @@ public class InquiryServlet extends MyServlet{
 			for (InquiryDTO a : list) {
 				System.out.println(a);
 			}
-			 
+			 */
 			
 			state = "true";
 			
@@ -409,8 +329,6 @@ public class InquiryServlet extends MyServlet{
 			if (dto.getAnswer() != null) {
 				dto.setAnswer(dto.getAnswer().replaceAll("\n", "<br>"));
 			}
-			
-			
 			
 			//for(InquiryDTO dto : listReply) {
 			//	if (dto.getAnswer() != null) {

@@ -42,14 +42,12 @@
 	width: 96%;
 }
 
-.table-form input[type=checkbox] {
-	vertical-align: middle;
-}
-
 input[type=checkbox] {
 	opacity: 1;
 	position: relative;
 	z-index: 10;
+	font-size: 12px;
+	vertical-align: middle;
 }
 
 .btn {
@@ -124,7 +122,7 @@ td .center_container{
 						<tr>
 						<td>비밀글</td>
 						<td> 
-							<p><input type="checkbox" name="isPublic" value="1" ${dto.isPublic==1 ? "checked='checked' ":"" }> <label>비밀글</label></p>
+							<p><input type="checkbox" name="isPublic" value="1" ${dto.isPublic==1 ? "checked='checked' ":"" }> &nbsp; <span>비밀글</span></p>
 						</td>
 					</tr>
 						<tr>

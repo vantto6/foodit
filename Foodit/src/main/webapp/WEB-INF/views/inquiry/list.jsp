@@ -47,12 +47,6 @@ td {
 	text-overflow: ellipsis;
 }
 
-.sub {
-	color: #828282;
-	font-size: 0.6em;
-	padding: 20px;
-}
-
 .btn {
 	color: #333333;
 	border: 1px solid #999999;
@@ -129,10 +123,9 @@ input[type=checkbox] {
 }
 </style>
 <script type="text/javascript">
-function showAlert() {
-	out();
-}
-
+	function showAlert() {
+		out();
+	}
 </script>
 </head>
 <body>
@@ -152,8 +145,8 @@ function showAlert() {
 					<div class="btn_right" align="center">
 						<input type="hidden" name="page" value="${page}">
 
-							<button type="button" class="btn"
-								onclick="location.href='${pageContext.request.contextPath}/inquiry/write.do';">글올리기</button>
+						<button type="button" class="btn"
+							onclick="location.href='${pageContext.request.contextPath}/inquiry/write.do';">글올리기</button>
 						<button type="button" class="btn"
 							onclick="location.href='${pageContext.request.contextPath}/inquiry/list.do';"
 							title="새로고침">
@@ -166,7 +159,7 @@ function showAlert() {
 						<tr>
 							<th width="100">번호</th>
 							<c:if test="${sessionScope.member.memberId=='admin'}">
-								<th >작성자</th>
+								<th>작성자</th>
 							</c:if>
 							<th width="500">제목</th>
 							<th width="150">작성일</th>
@@ -176,22 +169,26 @@ function showAlert() {
 
 					<c:forEach var="dto" items="${list}" varStatus="status">
 
-							<tr>
-								<td>${dataCount - (page-1) * size - status.index}</td>
-								<c:if test="${sessionScope.member.memberId=='admin'}">
-									<td> ${dto.memberId}</td>
-								</c:if>
-								<td class="left"><a
-									href="${articleUrl}&num=${dto.inquiryNo}" onclick="showAlert();">${dto.subject}</a></td>
-								<td>${dto.inquiryDate}</td>
-								<td>${dto.answer != null ? "답변완료" :"답변대기" }</td>
-							</tr>
+						<tr>
+							<td>${dataCount - (page-1) * size - status.index}</td>
+							<c:if test="${sessionScope.member.memberId=='admin'}">
+								<td>${dto.memberId}</td>
+							</c:if>
+							<td class="left"><a
+								href="${articleUrl}&num=${dto.inquiryNo}" onclick="showAlert();">
+									<c:if test="${dto.isPublic eq '1'}">
+										<i class="fa-solid fa-lock"></i>
+									</c:if> &nbsp; ${dto.subject}
+							</a></td>
+							<td>${dto.inquiryDate}</td>
+							<td>${dto.answer != null ? "답변완료" :"답변대기" }</td>
+						</tr>
 					</c:forEach>
 				</table>
 			</form>
 		</div>
-			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-			</div>
+		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		</div>
 	</main>
 
 	<footer>

@@ -146,7 +146,7 @@
 	//댓글등록
 	$(function() {
 		$(".btnSendReply")
-				.click(
+				.click(                   
 						function() {
 							let inquiryNo = "${dto.inquiryNo}";
 							const $tb = $(this).closest("table");
@@ -197,7 +197,7 @@
 
 					<tbody>
 						<tr>
-							<td width="50%">이름 :${dto.memberId}</td>
+							<td width="50%">이름 : ${dto.memberId}</td>
 							<td align="right">${dto.inquiryDate}</td>
 						</tr>
 

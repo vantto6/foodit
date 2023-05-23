@@ -112,7 +112,7 @@ td .center_container{
 		<div class="container body-container">
 
 			<div class="tit_page">
-				<h2 class="tit">1:1문의 데이터 입력</h2>
+				<h2 class="tit">자주묻는 질문 입력</h2>
 			</div>
 			<div class="body-main mx-auto">
 				<form name="inquiryForm" method="post">
