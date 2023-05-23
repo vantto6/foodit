@@ -97,15 +97,24 @@ input[type=text] {
 					<tr>
 						<th colspan="4">주문상품</th>
 					</tr>
-
-					<c:forEach var="n" begin="1" end="5" step="1">
+					<c:forEach var="dto" items="${list}" varStatus="status">
+						<c:set var="countIndex" value="${count[status.index]}" />
+						<c:set var="discountPrice" value="${dto.discountPrice}" />
+						<c:set var="price" value="${dto.price}" />
+						<c:set var="discountedPrice" value="${discountPrice * countIndex}" />
+						<c:set var="originalPrice" value="${price * countIndex}" />
+						<c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
 						<tr>
 							<td width="100"><img src="galbitang.jpeg" alt="food_img"></td>
-							<td width="600">[사미헌]갈비탕</td>
-							<td width="200">1개</td>
-							<td width="100"><span class="price">20,000</span>
-								<div style="text-decoration: line-through; color: lightgray;">13,000</div></td>
+							<td width="600">${dto.itemName}</td>
+							<td width="200">${countIndex}개</td>
+							<td width="100">
+								<span class="price">${discountedPrice}원</span>
+								<div style="text-decoration: line-through; color: lightgray;">${originalPrice}원</div>
+							</td>
 						</tr>
+					<c:set var="totalDiscountedPrice" value="${totalDiscountedPrice + discountedPrice}" />
+					<c:set var="totalOriginalPrice" value="${totalOriginalPrice + originalPrice}" />
 					</c:forEach>
 				</table>
 
@@ -136,16 +145,16 @@ input[type=text] {
 					</tr>
 					<tr>
 						<td width="200">배송지</td>
-						<td width="800">서울 마포구 월드컵북로 21</td>
+						<td width="800">${address}</td>
 					</tr>
 					<tr>
 						<td width="200">상세정보</td>
-						<td width="800">이민석 &nbsp; &nbsp; &nbsp; 010-2222-2222</td>
+						<td width="800">${addressDetail}</td>
 					</tr>
 					<tr>
 						<td width="200">요청사항</td>
 						<td width="800"><input type="text" name="request" maxlength="100"
-								class="form-control" value="${dto.request}"></td>
+								class="form-control" value=""></td>
 					</tr>
 				</table>
 				<table class="orderInfo">
@@ -154,23 +163,24 @@ input[type=text] {
 					</tr>
 					<tr>
 						<td width="200">주문금액</td>
-						<td width="800"><span class="price">97,400원</span></td>
+						<td width="800"><span class="price">${totalDiscountedPrice}원</span></td>
 					</tr>
 					<tr>
 						<td width="200" style="color: silver;">└ &nbsp;&nbsp;상품금액</td>
-						<td width="800"><div style="color: lightgray;">113,900원</div></td>
+						<td width="800"><div style="color: lightgray;">${totalOriginalPrice}원</div></td>
 					</tr>
+					<c:set var="totalDiscountPrice" value="${totalOriginalPrice - totalDiscountedPrice}" />
 					<tr>
 						<td width="200" style="color: silver;">└ &nbsp;&nbsp;상품할인금액</td>
-						<td width="800"><div style="color: lightgray;">-16,500원</div></td>
+						<td width="800"><div style="color: lightgray;">-${totalDiscountPrice}원</div></td>
 					</tr>
 					<tr>
 						<td width="200">최종결제금액</td>
-						<td width="800"><span class="price">97,400원</span></td>
+						<td width="800"><span class="price">${totalDiscountedPrice}원</span></td>
 					</tr>
 				</table>
 				
-				 <button type="button" class="btn active btn_order" name="btnOk" onclick="orderOk();">97,400원 결제하기</button>
+				 <button type="button" class="btn active btn_order" name="btnOk" onclick="orderOk();">${totalDiscountedPrice}원 결제하기</button>
 			</form>
 		</div>
 	</main>

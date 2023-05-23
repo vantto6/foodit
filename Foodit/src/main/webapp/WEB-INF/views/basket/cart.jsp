@@ -305,9 +305,7 @@ function checkAll(source) {
 									</tr>
 								</thead>
 								<tbody>
-							        <c:set var="totalPrice" value="0" />
-							        <c:set var="totalDiscountPrice" value="0" />
-							        <c:set var="totalDiscount" value="0" />
+			
 									<c:forEach var="dto" items="${list}">
 										<tr class="cartList_detail">
 											<td><input type="checkbox" name="Selecteditem" value="${dto.basketNo}"></td>
@@ -329,9 +327,9 @@ function checkAll(source) {
 											<td><span class="price">${dto.discountPrice}</span><span
 												style="text-decoration: line-through; color: lightgray;">${dto.price}</span><br>
 										</tr>
-										<c:set var="totalPrice" value="${totalPrice = (dto.price * dto.basketCnt)}" />
-										<c:set var="totalDiscountPrice" value="${totalDiscountPrice = (dto.discountPrice * dto.basketCnt)}" />
-										<c:set var="totalDiscount" value="${totalDiscount = (totalPrice - totalDiscountPrice)}" />
+										<c:set var="totalPrice" value="${totalPrice + (dto.price * dto.basketCnt)}" />
+										<c:set var="totalDiscountPrice" value="${totalDiscountPrice + (dto.discountPrice * dto.basketCnt)}" />
+										<c:set var="totalDiscount" value="${totalDiscount + (totalPrice - totalDiscountPrice)}" />
 									</c:forEach>
 								</tbody>
 								<tfoot>
