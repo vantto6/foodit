@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.member.MemberDTO;
 import com.util.DBConn;
 
 
@@ -190,6 +191,51 @@ public class BasketDAO {
 	    return true; // 재고 확인 완료
 	}
 	
+	
+	public MemberDTO readMember(String memberId) {
+		MemberDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT name,email,tel");
+			sb.append(" FROM member");
+			sb.append(" WHERE m.memberId = ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setString(1, memberId);
+			
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				dto = new MemberDTO();
+				
+				dto.setName(rs.getString("name"));
+				dto.setEmail(rs.getString("email"));
+				dto.setTel(rs.getString("tel"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}	
 	
 
 

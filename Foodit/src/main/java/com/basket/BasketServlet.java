@@ -74,12 +74,17 @@ public class BasketServlet extends MyServlet {
 			String memberId = info.getMemberId();
 			Long clientNo = info.getClientNo();
 			List<BasketDTO> list = dao.listBasket(memberId);
-			int count = Integer.parseInt(req.getParameter("count"));
+			String[] count = req.getParameterValues("count");
 			String[] itemNo = req.getParameterValues("itemNo");
 			String address = req.getParameter("address");
 			String addressDetail = req.getParameter("addressDetail");
 			String addressCode = req.getParameter("addressCode");
+
 			req.setAttribute("list", list);
+			req.setAttribute("count", count);
+			req.setAttribute("address", address);
+			req.setAttribute("addressDetail", addressDetail);
+			req.setAttribute("addressCode", addressCode);
 			
 			
 		} catch (Exception e) {
