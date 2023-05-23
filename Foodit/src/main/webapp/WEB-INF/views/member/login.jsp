@@ -126,9 +126,9 @@ button {
 						<div class="write_view login_view">
 							<form name="loginForm" id="form" method="post">
 								<input type="text" name="memberId" id="memberId" size="20"
-									placeholder="아이디를 입력해주세요" value=""> <input
+									placeholder="아이디를 입력해주세요" value="" style="margin-bottom: 5px;"> <input
 									type="password" name="pwd" id="pwd" size="20"
-									placeholder="비밀번호를 입력해주세요">
+									placeholder="비밀번호를 입력해주세요" >
 								<div class="checkbox_save">
 									<div class="login_search">
 										<a class="link" href="${pageContext.request.contextPath}/member/findId.do">

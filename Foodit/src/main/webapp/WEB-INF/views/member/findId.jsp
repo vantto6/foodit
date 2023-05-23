@@ -162,16 +162,18 @@
 </head>
 <body>
 
+	<header>
+		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+	</header>
 
-	
 <main>
 
 <div id = "content">
 		
 	
 
-	<div class="css-140915z e13dlrpy2">
-		<div class="css-7500ra e13dlrpy0">아이디 찾기</div>
+	<div class="css-140915z e13dlrpy2" style="margin-top:70px">
+		<div class="css-7500ra">아이디 찾기</div>
 		<div class="css-u3y03b e13dlrpy1">
 			
 			<form name  ="findForm" class="css-s3iz85 e1h5g482" method = "post">
@@ -241,7 +243,11 @@
 
 	
 </script>
+<footer>
+		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
+	</footer>
 
+	<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp" />
 
 </body>
 </html>

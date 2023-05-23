@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/sj/main.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/sj/MarketStyle.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/shopping.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/find_id.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/join.css" type="text/css">
 
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
