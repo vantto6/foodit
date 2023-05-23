@@ -67,6 +67,22 @@ body {
   font-size: 16px;
   font-weight: bold;
 }
+.go-to-first-page {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #88b04B;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
 </style>
 </head>
 <body>
@@ -76,8 +92,8 @@ body {
     </div>
     <div class="visitors">
       <div>
-        <div class="count">1000</div>
-        <div class="label">방문자수</div>
+        <div class="count">${totalCount}명</div>
+        <div class="label">총 방문자수</div>
       </div>
       <div>
         <div class="count">${memberCount}명</div>
@@ -89,21 +105,25 @@ body {
       </div>
     </div>
     <div class="sales-status">
-      <h3>Sales Status</h3>
+      <h3>접속자 수</h3>
       <div class="status">
-        <div class="label">일일 판매금액:</div>
-        <div class="value">$500</div>
+        <div class="label">현재 접속자 수:</div>
+        <div class="value"> ${currentCount}명</div>
       </div>
       <div class="status">
-        <div class="label">주간 판매금액:</div>
-        <div class="value">$3000</div>
+        <div class="label">오늘 접속자 수:</div>
+        <div class="value">${toDayCount}명</div>
       </div>
       <div class="status">
-        <div class="label">월간 판매금액:</div>
-        <div class="value">$10000</div>
+        <div class="label">어제 접속자 수:</div>
+        <div class="value">${yesterDayCount}명</div>
       </div>
     </div>
   </div>
-
+<footer>
+  		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${memberCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		<button class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
+		</div>
+</footer>
 </body>
 </html>
