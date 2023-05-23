@@ -19,6 +19,8 @@ public class ItemInquiryDAO {
 		String sql;
 		
 		try {
+			
+			conn.setAutoCommit(false);
 			sql = "INSERT INTO itemInquiry(inquiryNo,memberId,subject,content,createDate,updateDate,isSecret,itemNo) "
 					+ "VALUES (itemInquiry_seq.NEXTVAL,?,?,?,SYSDATE,SYSDATE,1,?)";
 			pstmt = conn.prepareStatement(sql);
@@ -29,8 +31,15 @@ public class ItemInquiryDAO {
 			pstmt.setLong(4, dto.getItemNo());
 			
 			pstmt.executeUpdate();
+			conn.commit();
 		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e2) {
+			}
 			e.printStackTrace();
+			throw e;
+
 		}finally {
 			if (pstmt != null) {
 				try {
@@ -175,7 +184,7 @@ public class ItemInquiryDAO {
 	}	
 	
 	// 해당 게시물 보기
-	public ItemInquiryDTO readBoard(long itemNo) {
+	public ItemInquiryDTO readBoard(long itemNo, long inquiryNo) {
 		ItemInquiryDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -184,11 +193,11 @@ public class ItemInquiryDAO {
 		try {
 			sql = "SELECT inquiryNo,memberId,subject,content,createDate,updateDate,isSecret,itemNo "
 					+ "FROM itemInquiry "
-					+ "WHERE itemNo = ?";
+					+ "WHERE itemNo = ? AND inquiryNo = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, itemNo);
-
+			pstmt.setLong(2, inquiryNo);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -221,6 +230,79 @@ public class ItemInquiryDAO {
 				}
 			}
 		}
+		return dto;
+	}
+	
+	public void insertReply(ReplyDTO dto) {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn.setAutoCommit(false);
+			sql = "INSERT INTO reply(content,createDate,inquiryNo) VALUES (?,SYSDATE,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getContent());
+			pstmt.setLong(2, dto.getInquiryNo());
+			
+			pstmt.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e2) {
+			}
+			e.printStackTrace();
+		}finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+	}
+	
+	public ReplyDTO listReply(long inquiryNo) {
+		ReplyDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		
+		try {
+			sql = "SELECT content,createDate,inquiryNo FROM reply WHERE inquiryNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, inquiryNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ReplyDTO();
+				dto.setInquiryNo(rs.getLong("inquiryNo"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("createDate"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
 		return dto;
 	}
 

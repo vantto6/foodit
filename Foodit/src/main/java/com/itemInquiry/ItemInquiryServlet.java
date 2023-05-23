@@ -1,6 +1,7 @@
 package com.itemInquiry;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 
 import com.member.SessionInfo;
 import com.util.MyServlet;
@@ -43,6 +45,10 @@ public class ItemInquiryServlet extends MyServlet {
 			writeSubmit(req, resp);
 		} else if (uri.indexOf("article.do") != -1) {
 			article(req, resp);
+		} else if (uri.indexOf("insertReply.do") != -1) {
+			insertReply(req, resp);
+		} else if (uri.indexOf("listReply.do") != -1) {
+			listReply(req, resp);
 		}
 	}
 	
@@ -168,11 +174,11 @@ public class ItemInquiryServlet extends MyServlet {
 		
 		try {
 			long itemNo = Long.parseLong(itemnum);
-			
+			long inquiryNo = Long.parseLong(req.getParameter("inquiryNo"));
 			// 조회수 할까말까,,
 			
 			// 게시물 가져오기
-			ItemInquiryDTO dto = dao.readBoard(itemNo);
+			ItemInquiryDTO dto = dao.readBoard(itemNo,inquiryNo);
 			if (dto == null) {
 				resp.sendRedirect(cp + "/itemInquiry/list.do?" + query);
 				return;
@@ -189,7 +195,48 @@ public class ItemInquiryServlet extends MyServlet {
 		}
 	}
 	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ItemInquiryDAO dao = new ItemInquiryDAO();
+				
+		String state = "false";
+		try {
+			ReplyDTO dto = new ReplyDTO();
+			long inquiryNo = Long.parseLong(req.getParameter("inquiryNo"));
+			dto.setInquiryNo(inquiryNo);
+			dto.setContent(req.getParameter("content"));
+			
+			dao.insertReply(dto);
+			state = "true";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8"); // 이거없으면 한글 다 깨짐
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
+
+	}
+	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ItemInquiryDAO dao = new ItemInquiryDAO();
+		
+		try {
+			long inquiryNo = Long.parseLong(req.getParameter("inquiryNo"));
+			ReplyDTO dto = dao.listReply(inquiryNo);
+			
+			
+			req.setAttribute("dto", dto);
+			
+			forward(req, resp, "/WEB-INF/views/itemInquiry/Reply.jsp");
+			return;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendError(400);
 	}
 	
 	

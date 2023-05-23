@@ -74,7 +74,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 
 $(function() {
 	$(".btnSendReply").click(function() {
-		let num = "${dto.itemNo}";
+		let inquiryNo = "${dto.inquiryNo}";
 		const $tb = $(this).closest("table");
 		let content =  $tb.find("textarea").val().trim();
 		
@@ -86,13 +86,13 @@ $(function() {
 		content = encodeURIComponent(content);
 		
 		let url = "${pageContext.request.contextPath}/itemInquiry/insertReply.do";
-		let qs = "itemNo="+itemNo+"&content="+content;
+		let qs = "inquiryNo="+inquiryNo+"&content="+content;
 		
 		const fn = function(data) {
 			$tb.find("textarea").val("");
 			let state = data.state;
 			if(state === "true"){
-				alert("성공");
+				
 			} else{
 				alert("댓글을 추가하지 못했습니다.");
 			}
@@ -102,7 +102,22 @@ $(function() {
 	});
 });
 
+$(function() {
+	listPage();
+});
 
+function listPage() {
+	let url = "${pageContext.request.contextPath}/itemInquiry/listReply.do";
+	let qs = "inquiryNo=${dto.inquiryNo}";
+	let selector = "#Reply";
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	}
+	
+	ajaxFun(url,"get",qs,"text",fn);
+	//ajaxFun(url,"get",qs,"html",fn);가능
+}
 </script>
 </head>
 <body>
@@ -119,7 +134,7 @@ $(function() {
 				<thead>
 					<tr>
 						<td colspan="2" align="center">
-							제목: [${dto.subject}]
+							문의 내용: ${dto.subject}
 						</td>
 					</tr>
 				</thead>
@@ -175,7 +190,7 @@ $(function() {
 			</div>
 				
 			</c:if>
-				<div id="listReply"></div>
+				<div id="Reply"></div>
 	    </div>
 	</div>
 </main>

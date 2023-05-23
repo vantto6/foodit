@@ -83,7 +83,7 @@ public class ItemDAO {
 			sb.append(" FROM items i ");
 			sb.append(" JOIN brand b ON i.brandNo = b.brandNo");
 			sb.append(" JOIN category c ON i.categoryNo = c.categoryNo");
-			sb.append( " WHERE TRUNC(SYSDATE - createDate) < 2 ");
+			sb.append( " WHERE TRUNC(SYSDATE - createDate) < 5 ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -201,7 +201,7 @@ public class ItemDAO {
 
 		try {
 			sql = "select COUNT(*) from items  "
-					+ "WHERE TRUNC(SYSDATE - createDate) < 2 ";
+					+ "WHERE TRUNC(SYSDATE - createDate) < 5 ";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();

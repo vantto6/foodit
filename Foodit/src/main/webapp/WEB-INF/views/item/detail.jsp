@@ -226,7 +226,56 @@ button {
 	font-size: 20px;
 }
 
+.detail-view{
+	width: 1050px;
+	margin-top: 50px;
+	
+}
 
+.context h3 {
+    display: block;
+    margin: 75px 0px 0px;
+    padding-bottom: 35px;
+    font-size: 38px;
+    line-height: 46px;
+    text-align: center;
+    border-bottom: 1px solid rgb(193, 193, 193);
+    color: rgb(102, 102, 102);
+}
+
+.context .detail-description {
+	font-size: 18px;
+    line-height: 32px;
+    color: rgb(55, 55, 55);
+    text-align: center;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+
+.foodit_point {
+	display: inline-block;
+    position: relative;
+    z-index: 10;
+    font-size: 50px;
+    width: 100%;
+    margin-bottom: 70px;
+    font-weight: 400;
+    font-family: "Noto Sans";
+    color: rgb(102, 102, 102);
+    text-align: center;
+    
+}
+
+.intro-img {
+	width: 1050px;
+    height: 700px;
+}
+
+.small-style {
+	display: block;
+	font-size: 30px;
+	margin-top: 30px
+}
 </style>
 
 <script type="text/javascript">
@@ -422,9 +471,25 @@ $(function() {
 	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen"></i></div></button>
 	<h3>상품문의</h3>	
 </div>
-<div class="detail">
-	<div>
-		<h3>상품설명</h3>
+
+
+<div class="detail-view">
+	<div class="pic">
+		<img class="intro-img" src="https://img-cf.kurly.com/shop/data/goodsview/20230516/gv30000697467_1.jpg">
+	</div>
+	<div class="context">
+		<h3>[${dto.brandName }] ${dto.itemName }</h3>
+		<p class="detail-description">${dto.description }</p>
+	</div>
+	
+	<div class="foodit_point">
+		<h3>
+			<span>Foodit's Check Point</span>
+			<small class="small-style"> ▷ 신선한 음식</small>
+			<small class="small-style"> ▷ 정직한 유통과정</small>
+		</h3>
+		
+	
 	</div>
 </div>
 

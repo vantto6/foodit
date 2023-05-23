@@ -3,21 +3,15 @@ package com.itemInquiry;
 public class ReplyDTO {
 	private String content;
 	private String reg_date;
-	private long itemNo;
-	private String memberId;
+	private long inquiryNo;
 	
 	
-	public String getMemberId() {
-		return memberId;
+	
+	public long getInquiryNo() {
+		return inquiryNo;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-	public long getItemNo() {
-		return itemNo;
-	}
-	public void setItemNo(long itemNo) {
-		this.itemNo = itemNo;
+	public void setInquiryNo(long inquiryNo) {
+		this.inquiryNo = inquiryNo;
 	}
 	public String getContent() {
 		return content;

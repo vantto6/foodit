@@ -15,7 +15,7 @@
 }
 
 
-.table-list th, .table-list td { text-align: center; font-size: 12px;margin-bottom: none}
+.table-list th, .table-list td { text-align: center; font-size: 15px;margin-bottom: none}
 
 .table-list .notice { display: inline-block; padding:1px 3px; background: #ed4c00; color: #fff; }
 .table-list .left { text-align: left; padding-left: 5px; }
@@ -33,7 +33,8 @@ color: #424951;
 }
 
 .inquiry-col {
-	margin: 10px
+	margin: 10px;
+	font-size: 40px
 }
 </style>
 
@@ -49,7 +50,7 @@ color: #424951;
 <main>
 	<div class="container body-container">
 	    <div class="inquriy-title">
-			<h2>[${vo.brandName }] ${vo.itemName } 의 상품 문의</h2>
+			<h1>[${vo.brandName }] ${vo.itemName } 의 상품 문의</h1>
 	    </div>
 	    
 	    <div class="body-main mx-auto">
@@ -66,7 +67,7 @@ color: #424951;
 				
 				<table class="table table-border table-list">
 			
-					<thead class="inquiry-col">
+					<thead class="inquiry-col" style="font-size: 40px">
 						<tr>
 							<th class="num" style="width: 50px">번호</th>
 							<th class="subject" style="width: 250px">제목</th>
@@ -83,7 +84,7 @@ color: #424951;
 
 								<td>${dataCount - (page-1) * size - status.index}</td>
 								<td class="left">
-									<a href="${detailUrl}&itemNo=${itemNo}">${dto.subject}</a>
+									<a href="${detailUrl}&itemNo=${itemNo}&inquiryNo=${dto.inquiryNo}">${dto.subject}</a>
 								</td>
 								<td>${dto.memberId}</td>
 								<td>${dto.createDate }</td>
