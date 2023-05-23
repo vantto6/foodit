@@ -5,7 +5,7 @@
 
 
 <table class='table reply-list'>
-	
+	<c:forEach var = "dto" items="${list}">
 		<tr class='list-header'>
 			<td width='50%'>
 				<span class='bold'>관리자</span>
@@ -17,6 +17,6 @@
 		<tr>
 			<td colspan='2' valign='top'>${dto.content}</td>
 		</tr>
-	
+	</c:forEach>
 </table>
 

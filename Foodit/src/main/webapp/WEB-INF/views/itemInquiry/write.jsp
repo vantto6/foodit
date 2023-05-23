@@ -109,7 +109,7 @@ function sendOk() {
 						<td align="center">
 							<button type="button" class="inquiry-btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 							<button type="reset" class="inquiry-btn">다시입력</button>
-							<button type="button" class="inquiry-btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+							<button type="button" class="inquiry-btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${itemNo }';">${mode=='update'?'수정취소':'등록취소'}</button>
 							<input type="hidden" name="itemNo" value="${itemNo}">
 							<input type="hidden" name="page" value="${page}">
 							<c:if test="${mode=='update'}">

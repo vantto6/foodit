@@ -264,8 +264,8 @@ public class ItemInquiryDAO {
 
 	}
 	
-	public ReplyDTO listReply(long inquiryNo) {
-		ReplyDTO dto = null;
+	public List<ReplyDTO> listReply(long inquiryNo) {
+		List<ReplyDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -279,11 +279,13 @@ public class ItemInquiryDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				dto = new ReplyDTO();
+			while(rs.next()) {
+				ReplyDTO dto = new ReplyDTO();
 				dto.setInquiryNo(rs.getLong("inquiryNo"));
 				dto.setContent(rs.getString("content"));
 				dto.setReg_date(rs.getString("createDate"));
+				
+				list.add(dto);
 			}
 			
 		} catch (Exception e) {
@@ -303,7 +305,7 @@ public class ItemInquiryDAO {
 			}
 		}
 		
-		return dto;
+		return list;
 	}
 
 }

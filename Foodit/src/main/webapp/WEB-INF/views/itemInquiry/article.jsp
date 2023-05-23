@@ -13,9 +13,10 @@
 .body-main {
 	max-width: 800px;
 	padding-top: 15px;
+	margin-top: 100px;
 }
 
-.table-article tr > td { padding-left: 5px; padding-right: 5px; }
+.table-article tr > td { padding-left: 5px; padding-right: 5px; font-size: 15px;}
 
 .reply { clear: both; padding: 20px 0 10px; }
 .reply .bold { font-weight: 600; }
@@ -145,7 +146,7 @@ function listPage() {
 							이름 : ${dto.memberId}
 						</td>
 						<td align="right">
-							${dto.createDate} | 조회 10
+							${dto.createDate}
 							
 						</td>
 					</tr>
@@ -159,13 +160,6 @@ function listPage() {
 				</tbody>
 			</table>
 			
-			<table class="table">
-				<tr>
-					<td align="right">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?${query}&itemNo=${dto.itemNo}';">리스트</button>
-					</td>
-				</tr>
-			</table>
 			
 			<c:if test="${sessionScope.member.memberId== 'admin'}">				
 			<div class="reply">
@@ -191,6 +185,13 @@ function listPage() {
 				
 			</c:if>
 				<div id="Reply"></div>
+			<table class="table">
+				<tr>
+					<td align="right">
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?${query}&itemNo=${dto.itemNo}';">리스트</button>
+					</td>
+				</tr>
+			</table>
 	    </div>
 	</div>
 </main>

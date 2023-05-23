@@ -538,13 +538,17 @@ public class ItemDAO {
 		
 		return dto;
 	}
+	
+	
+	
+	
 	public void insertBasket(ItemDTO dto) {
 		PreparedStatement pstmt = null;
-		
 		String sql;
 		
 		try {
 			conn.setAutoCommit(false);
+			
 			sql = "INSERT INTO basket(basketNo,basketCnt,memberId,itemNo) VALUES(basket_seq.NEXTVAL,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			

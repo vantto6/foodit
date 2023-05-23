@@ -92,7 +92,6 @@ color: #424951;
 							</tr>
 					</c:forEach>
 					</tbody>
-					
 				</table>
 			</form>
 			
@@ -108,9 +107,8 @@ color: #424951;
 					<td align="center">
 					</td>
 					<td align="right" width="100">
-						<c:if test="${sessionScope.member.memberId=='admin'}">
 							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/write.do?itemNo=${itemNo}&page=${page}';">문의하기</button>
-						</c:if>
+
 					</td>
 				</tr>
 			</table>

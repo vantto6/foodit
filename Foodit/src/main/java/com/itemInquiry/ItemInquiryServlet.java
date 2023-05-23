@@ -219,15 +219,16 @@ public class ItemInquiryServlet extends MyServlet {
 		out.print(job.toString());
 
 	}
+
 	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ItemInquiryDAO dao = new ItemInquiryDAO();
 		
 		try {
 			long inquiryNo = Long.parseLong(req.getParameter("inquiryNo"));
-			ReplyDTO dto = dao.listReply(inquiryNo);
+			List<ReplyDTO> list = dao.listReply(inquiryNo);
 			
 			
-			req.setAttribute("dto", dto);
+			req.setAttribute("list", list);
 			
 			forward(req, resp, "/WEB-INF/views/itemInquiry/Reply.jsp");
 			return;
