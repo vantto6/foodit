@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.member.MemberDTO;
+import com.order.OrderDTO;
 import com.util.DBConn;
 
 
@@ -201,7 +201,7 @@ public class BasketDAO {
 		try {
 			sb.append("SELECT name,email,tel");
 			sb.append(" FROM member");
-			sb.append(" WHERE m.memberId = ?");
+			sb.append(" WHERE memberId = ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -235,7 +235,69 @@ public class BasketDAO {
 		}
 		
 		return dto;
-	}	
+	}
+	
+	
+	public void insertOrder(OrderDTO dto) {
+		// 주문정보 입력하기
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		
+		String sql, sql2;
+		try {
+			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, confirm, payment, cnt, sender, recipient, tel, request)"
+					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, dto.getClientNo());
+			pstmt.setString(2, dto.getAddressCode());
+			pstmt.setString(3, dto.getAddress());
+			pstmt.setString(4, dto.getAddressDetail());
+			pstmt.setInt(5, dto.getTotPrice());
+			pstmt.setInt(6, dto.getConfirm());
+			pstmt.setInt(7, dto.getPayment());
+			pstmt.setInt(8, dto.getCnt());
+			pstmt.setInt(9, dto.getSender());
+			pstmt.setInt(10, dto.getRecipient());
+			pstmt.setInt(11, dto.getTel());
+			pstmt.setInt(12, dto.getRequest());
+			
+			pstmt.executeUpdate();
+			
+			sql2 = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payOption,payDate,disPrice)"
+					+ " VALUES(OrderDetail_seq.NEXTVAL, ?,?,?,?,?,?,?)";
+			
+			pstmt2 = conn.prepareStatement(sql2);
+			
+			pstmt2.setLong(1, dto.getOrderNo());
+			pstmt2.setLong(2, dto.getItemNo());
+			pstmt2.setLong(3, dto.getOrdetailCnt());
+			pstmt2.setInt(4, dto.getPrice());
+			pstmt2.setString(5, dto.getPayDate());
+			pstmt2.setInt(6, dto.getDisPrice());
+			pstmt2.setInt(7, dto.getClientNo());
+			
+			pstmt2.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			if (pstmt2 != null)
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {
+				}
+		}
+		
+		
+	}
 	
 
 

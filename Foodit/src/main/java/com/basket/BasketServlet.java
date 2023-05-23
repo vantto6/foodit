@@ -16,11 +16,11 @@ import com.util.MyServlet;
 public class BasketServlet extends MyServlet {
 
 	private static final long serialVersionUID = 1L;
+	OrderDTO Odto = new OrderDTO();
 
 	@Override
 	protected void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8"); 
-		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		if(info==null) {
@@ -65,27 +65,28 @@ public class BasketServlet extends MyServlet {
 	
 	protected void order(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BasketDAO dao = new BasketDAO();
-		String cp = req.getContextPath();
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
 			
 			String memberId = info.getMemberId();
-			Long clientNo = info.getClientNo();
 			List<BasketDTO> list = dao.listBasket(memberId);
 			String[] count = req.getParameterValues("count");
-			String[] itemNo = req.getParameterValues("itemNo");
 			String address = req.getParameter("address");
 			String addressDetail = req.getParameter("addressDetail");
 			String addressCode = req.getParameter("addressCode");
 
+			MemberDTO dto = dao.readMember(memberId);
+			
 			req.setAttribute("list", list);
 			req.setAttribute("count", count);
 			req.setAttribute("address", address);
 			req.setAttribute("addressDetail", addressDetail);
 			req.setAttribute("addressCode", addressCode);
-			
+			req.setAttribute("name", dto.getName());
+			req.setAttribute("email", dto.getEmail());
+			req.setAttribute("tel", dto.getTel());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

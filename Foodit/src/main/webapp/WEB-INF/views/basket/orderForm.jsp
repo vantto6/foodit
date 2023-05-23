@@ -124,15 +124,15 @@ input[type=text] {
 					</tr>
 					<tr>
 						<td width="200">받으실 분</td>
-						<td width="800">이민석</td>
+						<td width="800">${name}</td>
 					</tr>
 					<tr>
 						<td width="200">휴대폰</td>
-						<td width="800">010-2222-2222</td>
+						<td width="800">${tel}</td>
 					</tr>
 					<tr>
 						<td width="200">이메일<br> <br></td>
-						<td width="800">user@gmail.com<br> <span class="info">이메일을
+						<td width="800">${email}<br> <span class="info">이메일을
 								통해 주문처리 과정을 보내드립니다. <br> 정보 변경은 푸드잇>개인정보 수정 메뉴에서 가능합니다.
 						</span>
 						</td>

@@ -207,6 +207,7 @@ $(function(){
 		let count = parseInt($(this).closest("div").find("input[name=count]").val());
 		let maxCount = parseInt($(this).closest("div").find("input[name=maxCount]").val());
 		if(count >= maxCount) {
+			alert("재고가 부족합니다");
 			return false;
 		}
 		
@@ -329,8 +330,9 @@ function checkAll(source) {
 										</tr>
 										<c:set var="totalPrice" value="${totalPrice + (dto.price * dto.basketCnt)}" />
 										<c:set var="totalDiscountPrice" value="${totalDiscountPrice + (dto.discountPrice * dto.basketCnt)}" />
-										<c:set var="totalDiscount" value="${totalDiscount + (totalPrice - totalDiscountPrice)}" />
+										
 									</c:forEach>
+									<c:set var="totalDiscount" value="${totalDiscount + (totalPrice - totalDiscountPrice)}" />
 								</tbody>
 								<tfoot>
 									<tr>
