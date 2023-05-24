@@ -71,7 +71,7 @@
 										</td>
 									</tr>
 									<tr>
-										<th>할인금액</th>
+										<th>할인율</th>
 										<td colspan="2">
 											<div>
 												<span> <input type="text" name="discount"
