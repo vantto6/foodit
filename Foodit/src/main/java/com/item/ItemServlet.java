@@ -332,11 +332,13 @@ public class ItemServlet extends MyServlet {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String gubun = req.getParameter("category");
 		int category = 1;
+		
 		String cp = req.getContextPath();
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp + "/bbs/list.do");
 			return;
 		}
+		
 		String page = req.getParameter("page");
 		int basketCnt = Integer.parseInt(req.getParameter("basketCnt"));
 		long itemNo = Integer.parseInt(req.getParameter("itemNo"));
