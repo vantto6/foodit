@@ -481,8 +481,8 @@ $(function() {
 		</h2>
 		
 	</div>
-	<div class="img">
-		<img src="image/item.jpg">
+	<div>
+		<img class="img" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}" style="width: 450px;height: 556px">
 	</div>
 	
 	<div class="btns">

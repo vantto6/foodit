@@ -20,12 +20,13 @@ public class ItemDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline ");
+			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename ");
 			sb.append(" FROM items i ");
+			sb.append(" JOIN itemsImg im ON i.itemNo = im.itemNo");
 			sb.append(" JOIN brand b ON i.brandNo = b.brandNo");
 			sb.append(" JOIN category c ON i.categoryNo = c.categoryNo");
 			sb.append( " WHERE i.categoryNo = ? ");
-			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY  ");
 
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -37,7 +38,7 @@ public class ItemDAO {
 			
 			while (rs.next()) {
 				ItemDTO dto = new ItemDTO();
-					
+				dto.setSaveFilename(rs.getString("saveFilename"));	
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
@@ -79,11 +80,12 @@ public class ItemDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline ");
+			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename ");
 			sb.append(" FROM items i ");
+			sb.append(" JOIN itemsImg im ON i.itemNo = im.itemNo");
 			sb.append(" JOIN brand b ON i.brandNo = b.brandNo");
 			sb.append(" JOIN category c ON i.categoryNo = c.categoryNo");
-			sb.append( " WHERE TRUNC(SYSDATE - createDate) < 5 ");
+			sb.append( " WHERE TRUNC(SYSDATE - i.createDate) < 5 ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -96,7 +98,8 @@ public class ItemDAO {
 			
 			while (rs.next()) {
 				ItemDTO dto = new ItemDTO();
-					
+				
+				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
@@ -138,8 +141,9 @@ public class ItemDAO {
 		String sql;
 
 		try {
-			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline "
+			sql = " SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename "
 					+ "FROM items i "
+					+ " JOIN itemsImg im ON i.itemNo = im.itemNo "
 					+ "JOIN brand b ON i.brandNo = b.brandNo "
 					+ "JOIN category c ON i.categoryNo = c.categoryNo "
 					+ "WHERE i.itemNo IN (select itemNo "
@@ -158,7 +162,8 @@ public class ItemDAO {
 			
 			while (rs.next()) {
 				ItemDTO dto = new ItemDTO();
-					
+				
+				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
@@ -376,8 +381,9 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
+			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename "
 					+ " FROM items i "
+					+ " JOIN itemsImg im ON i.itemNo = im.itemNo "
 					+ " JOIN brand b ON i.brandNo = b.brandNo"
 					+ " JOIN category c ON i.categoryNo = c.categoryNo "
 					+ " WHERE i.itemNo = ? AND i.categoryNo = ?";
@@ -392,6 +398,7 @@ public class ItemDAO {
 				dto = new ItemDTO();
 				
 				dto.setCategoryNo(category);
+				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
@@ -434,8 +441,9 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
+			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename "
 					+ " FROM items i "
+					+ " JOIN itemsImg im ON i.itemNo = im.itemNo "
 					+ " JOIN brand b ON i.brandNo = b.brandNo"
 					+ " JOIN category c ON i.categoryNo = c.categoryNo "
 					+ " WHERE i.itemNo = ? ";
@@ -448,7 +456,7 @@ public class ItemDAO {
 			
 			if(rs.next()) {
 				dto = new ItemDTO();
-				
+				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));
