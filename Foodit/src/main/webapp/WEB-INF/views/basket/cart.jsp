@@ -347,7 +347,8 @@ function checkAll(source) {
 							</table>
 							<input type="hidden" name="addressCode">
 							<input type="hidden" name="address">
-							<input type="hidden" name="addressDetail">	
+							<input type="hidden" name="addressDetail">
+							<input type="hidden" name="totalDiscountPrice" value="${totalDiscountPrice}">	
 																					
 						</form>
 					</div>
