@@ -471,7 +471,7 @@ public class AdminServlet extends MyUploadServlet {
 
 			dao.addBrands(dto);
 
-			resp.sendRedirect(cp + "/admin/.do");
+			resp.sendRedirect(cp + "/admin/brand.do");
 			return;
 		} catch (SQLException e) {
 			message = "브랜드 등록에 실패했습니다.";

@@ -71,7 +71,7 @@ th {
 						<th></th>
 						<th>카테고리이름</th>
 						<th>브랜드이름</th>
-						
+
 					</tr>
 				</thead>
 				<c:forEach var="dto" items="${list}">
@@ -84,7 +84,7 @@ th {
 							<td>${dto.itemName }</td>
 							<td>${dto.cnt}</td>
 							<c:choose>
-								<c:when test="${dto.cnt <= 5}">
+								<c:when test="${dto.cnt <= 10}">
 									<td><img
 										src="${pageContext.request.contextPath}/resource/images/exclamation.png"
 										style="width: 50px; height: 30px;">
