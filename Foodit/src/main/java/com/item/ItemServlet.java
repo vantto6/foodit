@@ -197,16 +197,20 @@ public class ItemServlet extends MyServlet {
 			category = Integer.parseInt(gubun);
 		}
 		String page = req.getParameter("page");
-
-		String query = "page=" + page;
-
+		
+		String query = "";
+		if (page != null && page.equals("")) {
+			query = "page=" + page;
+		} else {
+			page = "";
+		}
 		try {
 			long itemNo = Long.parseLong(req.getParameter("itemNo"));
 
 			// 게시물 가져오기
 			ItemDTO dto = dao.readItem(category, itemNo);
 			if (dto == null) {
-				resp.sendRedirect(cp + "/item/item.do?" + query);
+				resp.sendRedirect(cp + "/item/item.do?"+query);
 				return;
 			}
 			dto.setContent(util.htmlSymbols(dto.getContent()));
@@ -222,6 +226,7 @@ public class ItemServlet extends MyServlet {
 			
 			// JSP로 전달할 속성
 			req.setAttribute("maxBasketCnt", maxBasketCnt);
+			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
 			req.setAttribute("category", category);
@@ -235,7 +240,7 @@ public class ItemServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/item/item.do?category=" + category + query);
+		resp.sendRedirect(cp + "/item/item.do?category=" + category );
 	}
 
 	protected void detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -248,7 +253,7 @@ public class ItemServlet extends MyServlet {
 		String page = req.getParameter("page");
 		String query = "";
 
-		if (page != null) {
+		if (page != null && page.equals("")) {
 			query = "page=" + page;
 		} else {
 			page = "";
