@@ -11,7 +11,7 @@
 				<span class='bold'>관리자</span>
 			</td>
 			<td width='50%' align='right'>
-				<span>${dto.reg_date}</span> |								
+				<span>${dto.reg_date}</span>							
 			</td>
 		</tr>
 		<tr>
