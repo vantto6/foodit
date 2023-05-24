@@ -45,7 +45,7 @@
 				</div>
 				<div class="cc_view cc_qna">
 					<h3>
-						<a href="index.jsp?folder=qna&category=qna_list" class="tit">질문 답변</a>
+						<a href="${pageContext.request.contextPath}/question/list.do" class="tit">질문 답변</a>
 					</h3>
 					<dl class="list">
 						<dt>24시간 접수 가능</dt>

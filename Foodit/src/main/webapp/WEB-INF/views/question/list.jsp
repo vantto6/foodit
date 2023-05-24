@@ -125,7 +125,7 @@ input[type=checkbox] {
 				alert("삭제할 게시물을 먼저 선택하세요.");
 					return false;
 			}
-			if (confirm("선택한 게시물을 삭제 하시겠습니까 ?")) {
+			if (confirm("선택한 게시물을 삭제하시겠습니까 ?")) {
 				const f = document.listForm;
 				f.action = "${pageContext.request.contextPath}/question/deleteList.do";
 				f.submit();
@@ -210,7 +210,7 @@ input[type=checkbox] {
 								id="chkAll"></th>
 						</c:if>
 						<th width="100">번호</th>
-						<th width="100">분류</th>
+						<th width="150">분류</th>
 						<th width="700">제목</th>
 					</tr>
 					<c:forEach var="dto" items="${list}" varStatus="status">
@@ -229,15 +229,15 @@ input[type=checkbox] {
 							</c:if>
 							<td><i class="fa-regular fa-comment-dots fa-lg"style="color: #88b04b;"></i></td>
 							<td></td>
-							<td>${dto.content}</td>
+							<td style="text-align: left;">${dto.content}</td>
 						</tr>
 					</c:forEach>
 				</table>
 			</form>
 
 
-		</div>
 		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		</div>
 		</div>
 	</main>
 

@@ -168,8 +168,10 @@
 								let state = data.state;
 								if (state === "false") {
 									alert("댓글을 추가하지 못했습니다.");
+								} else {
+									listPage(1); // "listReply" 부분을 업데이트하기 위해 함수 호출
 								}
-							}
+							};
 							ajaxFun(url, "post", qs, "json", fn);
 						});
 	});
