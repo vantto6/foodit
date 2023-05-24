@@ -103,7 +103,7 @@
 	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="box">
 		<a href="${detailUrl}&itemNo=${dto.itemNo}">
-			<img class="imgtest" src="imgtest/도라에몽.png">
+			<img class="imgtest" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}">
 		</a>
 			<h2 class="product-name">${dto.itemName }</h2> 
 			<div class="price">

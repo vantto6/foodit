@@ -27,8 +27,16 @@ public class ItemDTO {
 	private String rqupdateDate; // 문의 수정날짜
 	private String imgcreateDate;
 	private String imgupdateDate;
+	private String saveFilename;
 	
 	
+	
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
+	}
 	public long getDiscountPrice() {
 		return discountPrice;
 	}
