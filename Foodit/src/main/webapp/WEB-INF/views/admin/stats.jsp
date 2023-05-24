@@ -100,7 +100,7 @@ body {
         <div class="label">회원수</div>
       </div>
       <div>
-        <div class="count">10000</div>
+        <div class="count">${orderCount}건</div>
         <div class="label">판매현황</div>
       </div>
     </div>

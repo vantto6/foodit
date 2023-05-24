@@ -136,14 +136,14 @@
           </c:when>
         </c:choose></td>      
    	<td>
-  <button type="button" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/deleteMember.do?clientNo=${dto.clientNo}&page=${page}';">탈퇴</button>
+  <button type="button" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/deleteMembers.do?clientNo=${dto.clientNo}&page=${page}';">탈퇴</button>
   </td>
     </tr>
 </c:forEach>
   </table>
   </div>
   <footer>
-  		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${memberCount == 0 ? "등록된 게시물이 없습니다." : paging}
+  		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${memberCounts == 0 ? "등록된 게시물이 없습니다." : paging}
 		<button class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
 		</div>
 </footer>

@@ -606,7 +606,7 @@ public class AdminDAO {
 			pstmt = conn.prepareStatement(sql);
 
 			// PreparedStatement에 값을 설정합니다.
-			pstmt.setLong(1, dto.getBrandNo());
+			pstmt.setInt(1, dto.getBrandNo());
 			pstmt.setString(2, dto.getBrandName());
 
 			pstmt.executeUpdate();
@@ -636,7 +636,7 @@ public class AdminDAO {
 
 	}
 
-	public int memberCount() {
+	public int memberCounts() {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -672,7 +672,7 @@ public class AdminDAO {
 		return result;
 	}
 
-	public List<AdminDTO> listMember(int offset, int size) {
+	public List<AdminDTO> listMembers(int offset, int size) {
 		List<AdminDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -737,7 +737,7 @@ public class AdminDAO {
 		return list;
 	}
 
-	public void deleteMember(long clientNo) throws SQLException {
+	public void deleteMembers(long clientNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
@@ -796,7 +796,7 @@ public class AdminDAO {
 		}
 	}
 
-	public AdminDTO readMember(long clientNo) {
+	public AdminDTO readMembers(long clientNo) {
 		AdminDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -852,28 +852,107 @@ public class AdminDAO {
 		return dto;
 	}
 
-	public List<AdminDTO> getDailyMemberCounts() {
-		List<AdminDTO> clientCounts = new ArrayList<>();
+	public int orderCount() {
+		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT createDate, COUNT(*) as count FROM client GROUP BY createDate ORDER BY createDate";
+			sql = "SELECT NVL(COUNT(*), 0) FROM orderdetail";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
-				AdminDTO dto = new AdminDTO();
-
-				dto.setCreateDate(rs.getString("createDate"));
-				clientCounts.add(dto);
+			if (rs.next()) {
+				result = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
 
-		return clientCounts;
+		return result;
 	}
+	
+	public void deleteBrand(int brandNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "DELETE FROM brand WHERE brandNo=?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, brandNo);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+	public AdminDTO readBrand(int brandNo) {
+		AdminDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT brandNo , brandName"
+					+ " FROM brand "
+					+ " WHERE brandNo = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, brandNo);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				dto = new AdminDTO();
+				dto.setBrandNo(rs.getInt("brandNo"));
+				dto.setBrandName(rs.getString("brandName"));
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return dto;
+	}
+	
 }

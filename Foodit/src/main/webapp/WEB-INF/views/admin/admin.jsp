@@ -49,6 +49,21 @@
         .sublist {
             margin-left: 20px;
         }
+        .go-to-first-page {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Updated */
+            background-color: #88b04B;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -72,12 +87,18 @@
     
     <h2>회원관리</h2>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/admin/seeMember.do">전체 회원 목록</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/seeMembers.do">전체 회원 목록</a></li>
     </ul>
     
     <h2>통계</h2>
     <ul>
         <li><a href="${pageContext.request.contextPath}/admin/stats.do">접속자수/가입자수/판매 현황</a></li>
     </ul>
+    
+    <footer>
+				<button class="go-to-first-page"
+					onclick="location.href='${pageContext.request.contextPath}/';">메인
+					페이지</button>
+		</footer>
 </body>
 </html>

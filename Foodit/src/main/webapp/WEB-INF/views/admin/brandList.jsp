@@ -63,6 +63,7 @@ th {
             <tr>
                 <th>브랜드 번호</th>
                 <th>브랜드 이름</th>
+                <th>관리</th>
             </tr>
         </thead>
             <c:forEach var="dto" items="${list}">
@@ -70,6 +71,11 @@ th {
                 <tr>
                     <td>${dto.brandNo}</td>
                     <td>${dto.brandName}</td>
+                    
+        		<td>
+  		<button type="button" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/deleteBrand.do?brandNo=${dto.brandNo}&page=${page}';">삭제</button>
+  				</td>
+      
                 </tr>
         </tbody>
             </c:forEach>
@@ -85,7 +91,7 @@ th {
     
     
 <footer>
-		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${brandCount == 0 ? "등록된 게시물이 없습니다." : paging}
 		<button class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
 		</div>
 </footer>

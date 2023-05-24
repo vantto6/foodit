@@ -67,12 +67,15 @@ public class AdminServlet extends MyUploadServlet {
 			seeBrand(req, resp);
 		} else if (uri.indexOf("addBrand.do") != -1) {
 			addBrand(req, resp);
-		} else if (uri.indexOf("seeMember.do") != -1) {
-			seeMember(req, resp);
-		} else if (uri.indexOf("deleteMember.do") != -1) {
-			deleteMember(req, resp);
+		} else if (uri.indexOf("seeMembers.do") != -1) {
+			seeMembers(req, resp);
+		} else if (uri.indexOf("deleteMembers.do") != -1) {
+			deleteMembers(req, resp);
 		} else if (uri.indexOf("stats.do") != -1) {
-			memberStats(req, resp);
+			stats(req, resp);
+		} else if (uri.indexOf("deleteBrand.do") != -1) {
+			deleteBrand(req, resp);
+		} else if (uri.indexOf("updateStat.do") != -1) {
 		}
 	}
 
@@ -182,8 +185,7 @@ public class AdminServlet extends MyUploadServlet {
 			}
 
 			dao.insertItems(dto);
-
-			resp.sendRedirect(cp + "/admin/admin.do");
+			resp.sendRedirect(cp + "/admin/list.do");
 			return;
 		} catch (SQLException e) {
 			message = "상품 등록에 실패했습니다.";
@@ -223,7 +225,7 @@ public class AdminServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listFile", listFile);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "updateStat");
 
 			forward(req, resp, "/WEB-INF/views/admin/modifyProduct.jsp");
 			return;
@@ -417,7 +419,7 @@ public class AdminServlet extends MyUploadServlet {
 			int dataCount = dao.brandCount();
 
 			// 전체페이지수
-			int size = 15;
+			int size = 5;
 			int total_page = util.pageCount(dataCount, size);
 			if (current_page > total_page) {
 				current_page = total_page;
@@ -468,7 +470,7 @@ public class AdminServlet extends MyUploadServlet {
 
 			dao.addBrands(dto);
 
-			resp.sendRedirect(cp + "/admin/admin.do");
+			resp.sendRedirect(cp + "/admin/.do");
 			return;
 		} catch (SQLException e) {
 			message = "브랜드 등록에 실패했습니다.";
@@ -485,7 +487,7 @@ public class AdminServlet extends MyUploadServlet {
 
 	}
 
-	protected void seeMember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void seeMembers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		AdminDAO dao = new AdminDAO();
 		MyUtil util = new MyUtil();
 
@@ -502,7 +504,7 @@ public class AdminServlet extends MyUploadServlet {
 			}
 
 			// 전체데이터 개수
-			int dataCount = dao.memberCount();
+			int dataCount = dao.memberCounts();
 
 			// 전체페이지수
 			int size = 10;
@@ -516,10 +518,9 @@ public class AdminServlet extends MyUploadServlet {
 			if (offset < 0)
 				offset = 0;
 
-			List<AdminDTO> list = dao.listMember(offset, size);
-			// AdminDTO file = dao.readPhotoFile(imgNo);
+			List<AdminDTO> list = dao.listMembers(offset, size);
 			// 페이징 처리
-			String listUrl = cp + "/admin/seeMember.do";
+			String listUrl = cp + "/admin/seeMembers.do";
 			String articleUrl = cp + "" + current_page;
 			String paging = util.paging(current_page, total_page, listUrl);
 
@@ -538,7 +539,7 @@ public class AdminServlet extends MyUploadServlet {
 		forward(req, resp, "/WEB-INF/views/admin/memberList.jsp");
 	}
 
-	protected void deleteMember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void deleteMembers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 삭제 완료
 		AdminDAO dao = new AdminDAO();
 
@@ -549,35 +550,54 @@ public class AdminServlet extends MyUploadServlet {
 		try {
 			long clientNo = Long.parseLong(req.getParameter("clientNo"));
 
-			AdminDTO dto = dao.readMember(clientNo);
+			AdminDTO dto = dao.readMembers(clientNo);
 			if (dto == null) {
-				resp.sendRedirect(cp + "/admin/seeMember.do?page=" + page);
+				resp.sendRedirect(cp + "/admin/seeMembers.do?page=" + page);
 				return;
 			}
 
 			// 테이블 데이터 삭제
-			dao.deleteMember(clientNo);
+			dao.deleteMembers(clientNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/admin/seeMember.do?page=" + page);
+		resp.sendRedirect(cp + "/admin/seeMembers.do?page=" + page);
 	}
-
+	protected void deleteBrand(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
+		AdminDAO dao= new AdminDAO();
+		
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+		
+		try {
+			int brandNo = Integer.parseInt(req.getParameter("brandNo"));
+			
+			AdminDTO dto = dao.readBrand(brandNo);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/brand.do?page=" + page);
+				return;
+			}
+			dao.deleteBrand(brandNo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp + "/admin/brand.do?page=" + page);
+	}
 	protected void stats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		AdminDAO dao = new AdminDAO();
 		req.setAttribute("title", "통계");
 		req.setAttribute("mode", "admin");
+		
+		int memberCount = dao.memberCounts();
+		int orderCount = dao.orderCount();
+		
+		req.setAttribute("memberCount", memberCount);
+		req.setAttribute("orderCount",  orderCount);
 
 		String path = "/WEB-INF/views/admin/stats.jsp";
 		forward(req, resp, path);
 	}
 
-	protected void memberStats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		AdminDAO dao = new AdminDAO();
-		int memberCount = dao.memberCount();
-
-		req.setAttribute("memberCount", memberCount);
-		forward(req, resp, "/WEB-INF/views/admin/stats.jsp");
-	}
 }
