@@ -216,8 +216,12 @@ public class ItemServlet extends MyServlet {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
 
+			//개수
+			int maxBasketCnt = dao.maxBasketCnt(itemNo);
+			
+			
 			// JSP로 전달할 속성
-			req.setAttribute("dto", dto);
+			req.setAttribute("maxBasketCnt", maxBasketCnt);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
 			req.setAttribute("category", category);
@@ -281,12 +285,12 @@ public class ItemServlet extends MyServlet {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
 			
-			String main = req.getParameter("main");
-			if(main != null && ! main.equals("")) {
-				req.setAttribute("main", main);
-			}
+			//개수
+			int maxBasketCnt = dao.maxBasketCnt(itemNo);
+			
 			
 			// JSP로 전달할 속성
+			req.setAttribute("maxBasketCnt", maxBasketCnt);
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("num", num);

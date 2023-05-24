@@ -309,7 +309,15 @@ $(function() {
 	$("#plus").click(function() {
 		let count = $("#count").text();
 		let price = $("#price").text();
-		$("#count").text(++count);
+		
+		let maxBasketCnt = "${maxBasketCnt}";
+		++count;
+		if(count > maxBasketCnt){
+			alert("남은 재고는 ${maxBasketCnt}개 입니다");
+			$("#plus").disabled = false;
+			return;
+		}
+		$("#count").text(count);
 		
 		$("#hiddencount").val(count);
 		
@@ -342,9 +350,8 @@ $(function() {
 		
 		let url = "${pageContext.request.contextPath}/item/insertItemLike.do";
 		let itemNo = "${dto.itemNo}";
-//		let category = "${category}";
 		let page = "${page}";
-//		let num = "${num}";
+
 		
 		let qs = "page="+page + "&itemNo=" + itemNo + "&isNoLike=" + isNoLike;
 		

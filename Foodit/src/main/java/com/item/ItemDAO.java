@@ -549,6 +549,45 @@ public class ItemDAO {
 		return dto;
 	}
 	
+	public int maxBasketCnt(long itemNo) {
+		int result = 0;		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			sql = "SELECT cnt FROM items WHERE itemNo = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, itemNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return result;
+
+	}
 	
 	public int checkbasket(long itemNo, String memberId) {
 		int result = 0;
