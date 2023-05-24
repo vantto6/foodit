@@ -413,7 +413,7 @@ public class AdminDAO {
 				pstmt.executeUpdate();
 				pstmt.close();
 
-				sql = "DELETE FROM requires WHERE itemNo = ?";
+				sql = "DELETE FROM iteminquiry WHERE itemNo = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setLong(1, itemNo);
 				pstmt.executeUpdate();
