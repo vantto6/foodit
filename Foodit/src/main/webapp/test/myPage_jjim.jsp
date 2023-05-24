@@ -27,6 +27,23 @@
 
 .mypage-selectbox { width : 150px;}
 .mypage-selectbox .mypage-ul {  list-style: none; }
+.mypage-selectbox .mypage-ul li {
+	border: 1px solid #ccc;
+    font-size: 18px;
+    color: #333;
+    line-height: 20px;
+    background: #fff;
+    outline: none;
+    vertical-align: top;
+    border-bottom: 0;
+	
+  }
+
+.mypage-selectbox .mypage-ul li:last-child {
+	border-bottom: 1px solid #ccc !important;
+} 
+  
+
 .mypage-ul > li { 
 	height : 50px; 
 	background : white; 
@@ -40,13 +57,16 @@
 	display: block;
 }
 
-.mypage-right {margin-left : 100px; width : 600px; height 300px; float : left; 1px solid black;}
+.mypage-right {margin-left : 100px; width : 800px; height : 100% ; float : left; 1px solid black;}
 .mypage-right-subject { height : 50px ; border-bottom : 2px solid black;}
-.mypage-right-content { height : 300px; }
+.mypage-right-content { height : 100% ; }
 
 .mypage-left-subject { width : 150px; height : 50px; text-align : center; vertical-align: center;}
 
-.abc {witdh : 120px; height : 300px; float: left;}
+.abc {witdh : 120px; height : 100%; float: left;}
+.body-container2 {
+	height: 900px;
+}
 
 </style>
 <script type="text/javascript">
@@ -79,28 +99,17 @@
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<h2> 개인정보수정 </h2> <span style="font-size : 14px;"></span>
-				
+				<h2> 주문 내역 </h2> <span style="font-size : 14px;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span>
+				<select style="display : inline; float : right">
+					<option>3개월</option>
+					<option>6개월</option>
+					<option>1년</option>
+					<option>3년</option>
+				</select>
 			</div>
 			
-			<div class ="mypage-right-content margin-top10">
-				<h2> 비밀번호 재확인 </h2>
-				<h4> 회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요. </h4>
+			<div class ="mypage-right-content">
 				
-				<form name="loginForm" method="post">
-					<div class="members-form">
-						<div class="row text-center">
-							
-						</div>
-						<div class="row">
-							<p>아이디</p><input name="userId" type="text" class="form-control" id="login-userId" placeholder="아이디가져와야함">
-							<p>비밀번호</p><input name="user" type="password" class="form-control margin-top5" id="login-password" placeholder="비밀번호를 입력하세요">
-						</div>
-						<div class="row text-center">
-							<button type="button" class="btn btn-primary" onclick="sendLogin();">확인</button>
-						</div>
-				</div>
-			</form>
 			</div>
 		</div>
 	</div>

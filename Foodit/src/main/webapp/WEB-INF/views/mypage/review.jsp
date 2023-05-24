@@ -70,15 +70,26 @@
 
 .table-border-addrmanage thead > tr { border-bottom: 1px solid black; }
 
-.table-list .addr {
-	width: 70%; color: #787878;
+.table-list .subject {
+	width: 40%; color: #787878;
 }
 .table-list .num {
+	width: 10%; color: #787878; text-align : center;
+}
+.table-list .reg_date {
+	width: 20%; color: #787878; text-align : center;
+}
+.table-list .img {
 	width: 15%; color: #787878; text-align : center;
 }
-.table-list .delete {
+.table-list .itemName {
 	width: 15%; color: #787878; text-align : center;
 }
+img {
+	width : 50px;
+	height : 70px;
+}
+
 
 .table tbody tr td {
 	text-align : center;
@@ -155,16 +166,16 @@
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
 						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
-						<li><a href ="#">장바구니</a></li>				
+						<li><a href = "${pageContext.request.contextPath}/basket/cart.do">장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">상품문의</a></li>				
 					</ul>
 				</div>
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<div><span style="font-size: 20px; ">내가 쓴 리뷰</span></div>
+				<div><span style="font-size: 20px; ">상품문의</span></div>
 			</div>
 			
 			<div class ="mypage-right-content">
@@ -172,18 +183,18 @@
 						<thead>
 							<tr>
 								<th class="num">번호</th>
-								<th class="num">상품사진</th>
-								<th class="addr">제목</th>
-								<th class="delete">작성일자</th>
+								<th class="itemName">상품명</th>
+								<th class="subject">제목</th>
+								<th class="reg_date">작성일자</th>
 							</tr>
 						</thead>
 						<tbody>
-								<c:forEach var="dto" items="${list}">
-								<tr>
+								<c:forEach var="dto" items="${list}" varStatus="status">
+								<tr style="border-bottom: 1px solid lightgray;">
 									<td>${(page-1) * size + status.index + 1}</td>
-									<td>${dto.saveFileName}</td>
-									<td class="addr">?</td>
-									<td><a href="#">${dto.subject}</a></td>
+									<td>${dto.itemName}</td>
+									<td><a href="${pageContext.request.contextPath}/itemInquiry/article.do?itemNo=${dto.itemNo}&inquiryNo=${dto.inquiryNo}">${dto.subject}</a></td>
+									<td>${dto.createDate}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

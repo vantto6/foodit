@@ -164,10 +164,10 @@ function openAddress() {
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
 						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
-						<li><a href ="#">장바구니</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/basket/cart.do">장바구니</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">상품문의</a></li>				
 					</ul>
 				</div>
 		</div>

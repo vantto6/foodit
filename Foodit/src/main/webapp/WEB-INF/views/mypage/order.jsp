@@ -79,18 +79,9 @@
 	float: left;
 }
 
-.mypage-right-subject {
-	height: 10%;
-	border-bottom: 2px solid black;
-}
-
-.mypage-right-content {
-	height: 90%;
-	width: 100%;
-	display: flex;
-	gap: 15px;
-	flex-direction: column
-}
+.mypage-right {margin-left : 100px; width : 800px; height : 100% ; float : left; 1px solid black;}
+.mypage-right-subject { height : 50px ; border-bottom : 2px solid black;}
+.mypage-right-content { height : 100% ; }
 
 .mypage-right:after {
 	clear: both
@@ -165,24 +156,26 @@
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
 						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/basket/cart.jsp">장바구니</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>			
+						<li><a href ="${pageContext.request.contextPath}/basket/cart.do">장바구니</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/checkPw.do">개인정보수정</a></li>			
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">상품문의</a></li>				
 					</ul>
 				</div>
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<span> 주문 내역 </span>  
-				<div><span style="font-size : 14px; float:left;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span></div>
-				<div style="float: right;">
-					<select class="select-orderDate">
-						<option value="1" selected="selected">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select>
+				<span style="font-size : 20px;">주문 내역</span>
+				<div>
+					<span style="font-size : 14px; float:left;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span>
+					<div style="float: right;">
+						<select class="select-orderDate">
+							<option value="1" selected="selected">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			
@@ -221,11 +214,18 @@
 						<div style="margin-top: 5px; ">
 							<div style="width:100px; height: 120px; float : left; border: 1px solid gray "><img src="photo.png"/></div>
 								<div style="margin : 20px; float : left; display: grid ; gap:5px" >
-									<div>주문일자: ${dto.payDate }</div>
-									<div>상품명: ${dto.itemName }</div>
-									<div>주문번호: ${dto.orderNo }</div>
-									<div>신용카드: ${dto.payOption }</div>
-									<div>결제금액: ${dto.totPrice }</div> 
+									<div><b>주문일자</b>	 : ${dto.payDate }</div>
+									<div><b>상품명</b> 	 : 
+											<c:if test="${dto.field < 2}">
+											${dto.itemName}
+											</c:if>
+											<c:if test="${dto.field >= 2}">
+											${dto.itemName} 외 ${dto.field-1} 건
+											</c:if>
+									</div>
+									<div><b>주문번호</b>	 : ${dto.orderNo }</div>
+									<div><b>결제방법</b> 	 : ${dto.payOption }</div>
+									<div><b>결제금액</b> 	 : ${dto.totPrice }</div>
 								</div>
 						</div>
 					</div> 

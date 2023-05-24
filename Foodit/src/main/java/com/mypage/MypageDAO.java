@@ -12,6 +12,52 @@ import com.util.DBConn;
 public class MypageDAO {
 	private Connection conn = DBConn.getConnection();
 	
+	// 개인정보 수정 로그인 체크
+		public MemberDTO pwdCheck(String userId, String userPwd) {
+			MemberDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = " SELECT memberId, pwd "
+						+ " FROM member"
+						+ " WHERE memberId = ? AND pwd = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userId);
+				pstmt.setString(2, userPwd);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dto = new MemberDTO();
+					dto.setMemberId(rs.getString("memberId"));
+					dto.setPwd(rs.getString("pwd"));
+				
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if(rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+					}
+				}
+					
+				if(pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+					}
+				}
+			}
+			
+			return dto;
+		}
+	// 개인정보 수정을 페이지 이메일 중복 체크
 	public Boolean emailCheck(String email) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -58,54 +104,6 @@ public class MypageDAO {
 		return result;
 	}
 	
-	
-	// 개인정보 수정 로그인 체크
-	public MemberDTO loginMember(String userId, String userPwd) {
-		MemberDTO dto = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		
-		try {
-			sql = " SELECT memberId, pwd "
-					+ " FROM member"
-					+ " WHERE memberId = ? AND pwd = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, userId);
-			pstmt.setString(2, userPwd);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				dto = new MemberDTO();
-				dto.setMemberId(rs.getString("memberId"));
-				dto.setPwd(rs.getString("pwd"));
-			
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				}
-			}
-				
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-				}
-			}
-		}
-		
-		return dto;
-	}
-	
-	
 	// 마이페이지 회원정보 수정
 		public void updateMember(MemberDTO dto) throws SQLException {
 			PreparedStatement pstmt = null;
@@ -122,7 +120,6 @@ public class MypageDAO {
 				pstmt.setString(5, dto.getTel());
 				pstmt.setString(6, dto.getMemberId());
 				
-				System.out.println(dto.getMemberId() + dto.getPwd());
 				
 				pstmt.executeUpdate();
 				
@@ -233,6 +230,7 @@ public class MypageDAO {
 		return result;
 	}
 	
+	// 후기 데이터 개수
 	public int reviewDataCount(String memberId) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -240,11 +238,11 @@ public class MypageDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM review "
-					+ " WHERE clientNo = ? ";
+			sql = "SELECT NVL(COUNT(*), 0) FROM ITEMINQUIRY "
+					+ " WHERE memberId = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, bringClientNo(memberId));
+			pstmt.setString(1, memberId);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -271,11 +269,9 @@ public class MypageDAO {
 		return result;
 	}
 
-	
-
 	// 게시물 리스트
-	public List<addrmanageDTO> listBoard(String memberId, int offset, int size) {
-		List<addrmanageDTO> list = new ArrayList<addrmanageDTO>();
+	public List<AddrmanageDTO> addrListBoard(String memberId, int offset, int size) {
+		List<AddrmanageDTO> list = new ArrayList<AddrmanageDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -293,7 +289,7 @@ public class MypageDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				addrmanageDTO dto = new addrmanageDTO();
+				AddrmanageDTO dto = new AddrmanageDTO();
 				
 				dto.setAddrNo(rs.getInt("addrNo"));
 				dto.setAddress(rs.getString("address"));
@@ -323,14 +319,14 @@ public class MypageDAO {
 		return list;
 	}
 	
-	public List<orderDTO> orderListBoard(String memberId, int offset, int size) {
-		List<orderDTO> list = new ArrayList<orderDTO>();
+	public List<OrderDTO> orderListBoard(String memberId, int offset, int size) {
+		List<OrderDTO> list = new ArrayList<OrderDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate"
+			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate, field"
 					+ " FROM ordering od"
 					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
 					+ " JOIN items i ON odt.itemNo = i.itemNo"
@@ -353,7 +349,7 @@ public class MypageDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				orderDTO dto = new orderDTO();
+				OrderDTO dto = new OrderDTO();
 
 				dto.setItemName(rs.getString("itemName"));
 				dto.setOrderNo(rs.getInt("orderNo"));
@@ -361,6 +357,7 @@ public class MypageDAO {
 				dto.setTotPrice(rs.getInt("totPrice"));
 				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setPayDate(rs.getString("payDate"));
+				dto.setField(rs.getInt("field"));
 				
 				list.add(dto);
 			}
@@ -385,91 +382,35 @@ public class MypageDAO {
 		return list;
 	}
 	
-	public List<orderDTO> addrListBoard(String memberId, int offset, int size) {
-		List<orderDTO> list = new ArrayList<orderDTO>();
+	public List<ReviewDTO> reviewListBoard(String memberId, int offset, int size) {
+		List<ReviewDTO> list = new ArrayList<ReviewDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate"
-					+ " FROM ordering od"
-					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
-					+ " JOIN items i ON odt.itemNo = i.itemNo"
-					+ " JOIN itemsimg img ON i.itemNo = img.itemNo"
-					+ " JOIN client c ON od.clientno = c.clientno"
-					+ " JOIN member m ON c.clientno = m.clientno"
-					+ " WHERE odt.ordetailno = ("
-					+ "  SELECT MIN(ordetailno)"
-					+ "  FROM orderdetail"
-					+ "  WHERE orderNo = od.orderNo"
-					+ " ) AND m.memberid = ? "
-					+ " ORDER BY od.orderNo DESC"
+			sql = "SELECT inquiryNo, subject, iq.createDate, itemName, iq.ItemNo FROM ITEMINQUIRY iq"
+					+ " JOIN items it ON iq.itemNo = it.itemNo"
+					+ " WHERE memberId = ?"
+					+ " ORDER BY inquiryNo DESC"
 					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, memberId);
 			pstmt.setInt(2, offset);
 			pstmt.setInt(3, size);
-
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				orderDTO dto = new orderDTO();
-
-				dto.setItemName(rs.getString("itemName"));
-				dto.setOrderNo(rs.getInt("orderNo"));
-				dto.setPayOption(rs.getString("payment"));
-				dto.setTotPrice(rs.getInt("totPrice"));
-				dto.setSaveFilename(rs.getString("saveFilename"));
-				dto.setPayDate(rs.getString("payDate"));
-				
-				list.add(dto);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e2) {
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e2) {
-				}
-			}
-		}
-
-		return list;
-	}
-	public List<reviewDTO> reviewListBoard(String memberId, int offset, int size) {
-		List<reviewDTO> list = new ArrayList<reviewDTO>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		
-		try {
-			sql = "SELECT reviewNo, subject, createDate FROM review WHERE clientNo = ?"
-					+ " ORDER BY reviewNo DESC"
-					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, bringClientNo(memberId));
-			pstmt.setInt(2, offset);
-			pstmt.setInt(3, size);
 			
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				reviewDTO dto = new reviewDTO();
+				ReviewDTO dto = new ReviewDTO();
 				
-				dto.setReviewNo(rs.getInt("reviewNo"));
+				dto.setInquiryNo(rs.getInt("inquiryNo"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setCreateDate(rs.getString("createDate"));
+				dto.setItemName(rs.getString("itemName"));
+				dto.setItemNo(rs.getInt("ItemNo"));
 				
 				list.add(dto);
 			}
@@ -496,7 +437,7 @@ public class MypageDAO {
 	
 	
 	
-	// 배송지 추가를 위한 clientNO 가져오기
+	// memberId로 clientNO 가져오기
 	public String bringClientNo(String memberId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -538,7 +479,8 @@ public class MypageDAO {
 		return clientNo;
 	}
 	
-	public void insertAddr(addrmanageDTO dto) throws SQLException {
+	// 배송지 추가
+	public void insertAddr(AddrmanageDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		

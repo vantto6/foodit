@@ -109,7 +109,7 @@ function sendLogin() {
 		return;
 	}
 
-	f.action = "${pageContext.request.contextPath}/mypage/login_ok.do";
+	f.action = "${pageContext.request.contextPath}/mypage/checkPw_ok.do";
 	f.submit();
 }
 </script>
@@ -131,16 +131,16 @@ function sendLogin() {
 				<div class ="mypage-selectbox">
 					<ul class="mypage-ul">
 						<li><a href ="${pageContext.request.contextPath}/mypage/order.do">주문내역</a></li>				
-						<li><a>장바구니</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/modify_checkPw.do">개인정보수정</a></li>				
+						<li><a href = "${pageContext.request.contextPath}/basket/cart.do">장바구니</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/checkPw.do">개인정보수정</a></li>				
 						<li><a href ="${pageContext.request.contextPath}/mypage/addr.do">배송지관리</a></li>				
-						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">내가쓴후기</a></li>				
+						<li><a href ="${pageContext.request.contextPath}/mypage/review.do">상품문의</a></li>				
 					</ul>
 				</div>
 		</div>
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
-				<h2> 개인정보수정 </h2> <span style="font-size : 14px;"></span>
+				<span style="font-size : 20px;">개인 정보 수정</span>
 				
 			</div>
 			
