@@ -129,7 +129,7 @@
 				<div id="content">
 					<div class="recommend-container">
 						<div class="recommend-head">
-							<span class="head">신상입니다요</span>
+							<span class="head"><i class="fa-sharp fa-regular fa-heart" style="color: #88b04b;"></i>&nbsp;Foodit의 신상품&nbsp;<i class="fa-sharp fa-regular fa-heart" style="color: #88b04b;"></i></span>
 						</div>
 
 						<div class="slick-slider13">
@@ -139,7 +139,7 @@
 
 									<div class="product_container">
 										<div class="product">
-											<a href="${cp}/item/detail2.do?itemNo=${dto.itemNo}&num=1">
+											<a href="${cp}/item/detail2.do?itemNo=${dto.itemNo}&num=1&main=1">
 												<img class="product_img" src="/sambab/product_image/장어.JPG">
 											</a>
 

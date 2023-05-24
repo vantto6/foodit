@@ -498,8 +498,9 @@ public class ItemDAO {
 		ResultSet rs = null;
 		String sql;
 		try {
-			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline"
+			sql = "SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename "
 					+ " FROM items i "
+					+ " JOIN itemsImg im ON i.itemNo = im.itemNo "
 					+ " JOIN brand b ON i.brandNo = b.brandNo"
 					+ " JOIN category c ON i.categoryNo = c.categoryNo "
 					+ " WHERE i.itemNo = ? ";
@@ -513,6 +514,7 @@ public class ItemDAO {
 			if(rs.next()) {
 				dto = new ItemDTO();
 				
+				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setCategoryName(rs.getString("categoryName"));

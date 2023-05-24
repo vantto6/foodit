@@ -424,6 +424,7 @@ $(function() {
 	<input type="hidden" name="category" value="${category}">
 	<input type="hidden" name="page" value="${page}">
 	<input type="hidden" name="num" value="${num}">
+	<input type="hidden" name="main" value="${main}">
 	<table>
 
 		<tbody>
@@ -495,7 +496,7 @@ $(function() {
 	</form>
 </div>
 <div class="fixed-box">
-	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen"></i></div></button>
+	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen" style="color: #88b04b;"></i></div></button>
 	<h3>상품문의</h3>	
 </div>
 

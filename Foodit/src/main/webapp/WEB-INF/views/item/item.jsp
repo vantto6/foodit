@@ -87,15 +87,15 @@
 </header>
 <div>
 	<c:if test="${category eq 1 }">
-		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-apple-whole"></i>&nbsp;&nbsp;야채/과일</h3>
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-apple-whole" style="color: #88b04b;"></i>&nbsp;&nbsp;야채/과일</h3>
 	</c:if>
 
 	<c:if test="${category eq 2 }">
-		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-fish"></i>&nbsp;&nbsp;해/수산물</h3>
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-fish" style="color: #88b04b;"></i>&nbsp;&nbsp;해/수산물</h3>
 	</c:if>
 	
 	<c:if test="${category eq 3 }">
-		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-drumstick-bite"></i>&nbsp;&nbsp;정육</h3>
+		<h3  class="css-i804ml eaf14xt0"><i class="fa-solid fa-drumstick-bite" style="color: #88b04b;"></i>&nbsp;&nbsp;정육</h3>
 	</c:if>	
 </div>
 	<div class="container">

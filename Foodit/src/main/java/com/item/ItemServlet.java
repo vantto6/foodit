@@ -72,7 +72,7 @@ public class ItemServlet extends MyServlet {
 
 			String page = req.getParameter("page");
 			int current_page = 1;
-			if (page != null) {
+			if (page != null && !page.equals("")) {
 				current_page = Integer.parseInt(page);
 			}
 
@@ -280,7 +280,12 @@ public class ItemServlet extends MyServlet {
 			HttpSession session = req.getSession();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
-
+			
+			String main = req.getParameter("main");
+			if(main != null && ! main.equals("")) {
+				req.setAttribute("main", main);
+			}
+			
 			// JSP로 전달할 속성
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
@@ -342,15 +347,15 @@ public class ItemServlet extends MyServlet {
 		String page = req.getParameter("page");
 		int basketCnt = Integer.parseInt(req.getParameter("basketCnt"));
 		long itemNo = Integer.parseInt(req.getParameter("itemNo"));
-
+		String number = req.getParameter("num");
 		if (gubun != null && !gubun.equals("")) { // 카테고리일때
 			category = Integer.parseInt(gubun);
 			query += "category=" + category + "&page=" + page + "&itemNo=" + itemNo;
 
-		} else { // 아닐때
-			String number = req.getParameter("num");
+		} else if(number != null && !number.equals("")){ // 아닐때
+			
 			long num = Integer.parseInt(number);
-			query += "num=" + num + "&page=" + page + "&itemNo=" + itemNo;
+			query += "num=" + num + "&itemNo=" + itemNo;
 		}
 		String memberId = info.getMemberId();
 
@@ -367,10 +372,10 @@ public class ItemServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		if (gubun != null) {
+		if (gubun != null && !gubun.equals("")) {
 
 			resp.sendRedirect(cp + "/item/detail.do?" + query);
-		} else {
+		} else  if(number != null && !number.equals("")){
 
 			resp.sendRedirect(cp + "/item/detail2.do?" + query);
 		}
