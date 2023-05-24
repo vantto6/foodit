@@ -370,7 +370,28 @@ public class AdminDAO {
 			}
 		}
 	}
+	public void deleteReply(long itemNo) throws SQLException {
+	    PreparedStatement pstmt = null;
+	    String sql;
 
+	    try {
+	        sql = "DELETE FROM reply WHERE inquiryNo IN (SELECT inquiryNo FROM iteminquiry WHERE itemNo = ?)";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, itemNo);
+	        pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    } finally {
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e2) {
+	                e2.printStackTrace();
+	            }
+	        }
+	    }
+	}
 	public void delete(long itemNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
