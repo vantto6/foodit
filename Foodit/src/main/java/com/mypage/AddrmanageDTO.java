@@ -1,6 +1,6 @@
 package com.mypage;
 
-public class addrmanageDTO {
+public class AddrmanageDTO {
 	private long addrNo;
 	private String addressCode;
 	private String address;

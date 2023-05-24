@@ -1,13 +1,20 @@
 package com.mypage;
 
-public class orderDTO {
+public class OrderDTO {
 	private String itemName;
 	private int orderNo;
 	private String payOption;
 	private int totPrice;
 	private String saveFilename;
 	private String payDate;
+	private int field;
 	
+	public int getField() {
+		return field;
+	}
+	public void setField(int field) {
+		this.field = field;
+	}
 	public String getPayDate() {
 		return payDate;
 	}

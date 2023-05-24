@@ -1,22 +1,29 @@
 package com.mypage;
 
-public class reviewDTO {
-	private int reviewNo;
-	private String saveFileName;
+public class ReviewDTO {
+	private int inquiryNo;
+	private int itemNo;
 	private String subject;
 	private String createDate;
+	private String itemName;
 	
-	public int getReviewNo() {
-		return reviewNo;
+	public int getInquiryNo() {
+		return inquiryNo;
 	}
-	public void setReviewNo(int reviewNo) {
-		this.reviewNo = reviewNo;
+	public void setInquiryNo(int inquiryNo) {
+		this.inquiryNo = inquiryNo;
 	}
-	public String getSaveFileName() {
-		return saveFileName;
+	public int getItemNo() {
+		return itemNo;
 	}
-	public void setSaveFileName(String saveFileName) {
-		this.saveFileName = saveFileName;
+	public void setItemNo(int itemNo) {
+		this.itemNo = itemNo;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	public String getSubject() {
 		return subject;
