@@ -190,21 +190,22 @@ public class BasketDAO {
 	    return true; // 재고 확인 완료
 	}
 	
-	public String readOrderNo(String clientNo) {
+	public String readOrderNo(long clientNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String orderNo = null;
 		String sql;
 		
 		try {
-			sql = "SELECT orderNo FROM Ordering WHERE clientNo = ?";
+			sql = "SELECT orderNo FROM Ordering WHERE clientNo = ? AND confirm = 0";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, clientNo);
+			pstmt.setLong(1, clientNo);
 			
 			rs = pstmt.executeQuery();
-			
-			orderNo = rs.getString("orderNo");
+			while(rs.next()) {
+				orderNo = rs.getString("orderNo");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -277,8 +278,8 @@ public class BasketDAO {
 		
 		String sql;
 		try {
-			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, cnt, recipient, tel, request)"
-					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, cnt, recipient, tel, request, confirm)"
+					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -310,7 +311,7 @@ public class BasketDAO {
 	public void insertOrderDetail(List<OrderDTO> orderDetailList) {
 	    PreparedStatement pstmt = null;
 	    String sql = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payOption,payDate,disPrice)"
-	                 + " VALUES(OrderDetail_seq.NEXTVAL, ?,?,?,?,?,?,?)";
+	                 + " VALUES(OrderDetail_seq.NEXTVAL, Order_seq.CURRVAL,?,?,?,?,?,?)";
 	    
 	    try {
 	        pstmt = conn.prepareStatement(sql);
@@ -339,6 +340,28 @@ public class BasketDAO {
 	    }
 	}
 	
+	
+	public void updateConfirm() {
+		PreparedStatement pstmt = null;
+		
+		String sql;
+		try {
+			sql = "UPDATE ordering SET confirm = 1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+		}
+		
+		
+	}
 
 
 }

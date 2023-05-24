@@ -102,16 +102,15 @@ public class BasketServlet extends MyServlet {
 			
 			oDto.setCnt(i);
 			
-			int orderNo = Integer.parseInt(dao.readOrderNo(memberId));
+
 			int[] realCount = new int[i];
 			
-			for(int j=0;j<=i;j++) {
+			for(int j=0;j<i;j++) {
 				OrderDTO dto = new OrderDTO();
 				realCount[j] = Integer.parseInt(count[j]);
 				dto.setItemNo(itemNo[j]);
 				dto.setPrice(price[j]);
 				dto.setDisPrice(disprice[j]);
-				dto.setOrderNo(orderNo);
 				dto.setOrdetailCnt(realCount[j]);
 				dto.setClientNo(clientNo);
 				
@@ -133,8 +132,6 @@ public class BasketServlet extends MyServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 		forward(req, resp, "/WEB-INF/views/basket/orderForm.jsp");
 	}
 	 
