@@ -390,7 +390,7 @@ $(function() {
 				
 				f.action = "${pageContext.request.contextPath}/item/basket_ok.do";
 				f.submit();
-				alert("상품등록완료 제발");
+				alert("상품을 장바구니에 담겼습니다");
 			}
 
 		};
