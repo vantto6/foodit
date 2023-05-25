@@ -216,11 +216,11 @@
 								<div style="margin : 20px; float : left; display: grid ; gap:5px" >
 									<div><b>주문일자</b>	 : ${dto.payDate }</div>
 									<div><b>상품명</b> 	 : 
-											<c:if test="${dto.field < 2}">
+											<c:if test="${dto.cnt < 2}">
 											${dto.itemName}
 											</c:if>
-											<c:if test="${dto.field >= 2}">
-											${dto.itemName} 외 ${dto.field-1} 건
+											<c:if test="${dto.cnt >= 2}">
+											${dto.itemName} 외 ${dto.cnt-1} 건
 											</c:if>
 									</div>
 									<div><b>주문번호</b>	 : ${dto.orderNo }</div>

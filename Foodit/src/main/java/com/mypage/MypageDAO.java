@@ -270,8 +270,8 @@ public class MypageDAO {
 	}
 
 	// 게시물 리스트
-	public List<AddrmanageDTO> addrListBoard(String memberId, int offset, int size) {
-		List<AddrmanageDTO> list = new ArrayList<AddrmanageDTO>();
+	public List<AddrDTO> addrListBoard(String memberId, int offset, int size) {
+		List<AddrDTO> list = new ArrayList<AddrDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -289,7 +289,7 @@ public class MypageDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				AddrmanageDTO dto = new AddrmanageDTO();
+				AddrDTO dto = new AddrDTO();
 				
 				dto.setAddrNo(rs.getInt("addrNo"));
 				dto.setAddress(rs.getString("address"));
@@ -319,14 +319,14 @@ public class MypageDAO {
 		return list;
 	}
 	
-	public List<OrderDTO> orderListBoard(String memberId, int offset, int size) {
-		List<OrderDTO> list = new ArrayList<OrderDTO>();
+	public List<OrderingDTO> orderListBoard(String memberId, int offset, int size) {
+		List<OrderingDTO> list = new ArrayList<OrderingDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT itemName, odt.orderNo, payment, totPrice, saveFilename, payDate, field"
+			sql = "SELECT itemName, odt.orderNo, totPrice, saveFilename, payDate, od.cnt"
 					+ " FROM ordering od"
 					+ " JOIN orderdetail odt ON od.orderNo = odt.orderNo"
 					+ " JOIN items i ON odt.itemNo = i.itemNo"
@@ -349,15 +349,14 @@ public class MypageDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				OrderDTO dto = new OrderDTO();
+				OrderingDTO dto = new OrderingDTO();
 
 				dto.setItemName(rs.getString("itemName"));
 				dto.setOrderNo(rs.getInt("orderNo"));
-				dto.setPayOption(rs.getString("payment"));
 				dto.setTotPrice(rs.getInt("totPrice"));
 				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setPayDate(rs.getString("payDate"));
-				dto.setField(rs.getInt("field"));
+				dto.setCnt(rs.getInt("cnt"));
 				
 				list.add(dto);
 			}
@@ -382,8 +381,8 @@ public class MypageDAO {
 		return list;
 	}
 	
-	public List<ReviewDTO> reviewListBoard(String memberId, int offset, int size) {
-		List<ReviewDTO> list = new ArrayList<ReviewDTO>();
+	public List<InquiryDTO> reviewListBoard(String memberId, int offset, int size) {
+		List<InquiryDTO> list = new ArrayList<InquiryDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -404,7 +403,7 @@ public class MypageDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				ReviewDTO dto = new ReviewDTO();
+				InquiryDTO dto = new InquiryDTO();
 				
 				dto.setInquiryNo(rs.getInt("inquiryNo"));
 				dto.setSubject(rs.getString("subject"));
@@ -480,7 +479,7 @@ public class MypageDAO {
 	}
 	
 	// 배송지 추가
-	public void insertAddr(AddrmanageDTO dto) throws SQLException {
+	public void insertAddr(AddrDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		

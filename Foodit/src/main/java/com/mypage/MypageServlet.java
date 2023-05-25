@@ -212,7 +212,7 @@ public class MypageServlet extends MyServlet {
 			int offset = (current_page - 1) * size;
 			if(offset < 0) offset = 0;
 			
-			List<OrderDTO> list = null;
+			List<OrderingDTO> list = null;
 			
 			list = dao.orderListBoard(memberId, offset, size);
 			
@@ -265,7 +265,7 @@ public class MypageServlet extends MyServlet {
 			int offset = (current_page - 1) * size;
 			if(offset < 0) offset = 0;
 			
-			List<ReviewDTO> list = null;
+			List<InquiryDTO> list = null;
 			
 			list = dao.reviewListBoard(memberId, offset, size);
 			String listUrl = cp + "/mypage/review.do";
@@ -299,7 +299,7 @@ public class MypageServlet extends MyServlet {
 			
 			try {
 				
-				AddrmanageDTO dto = new AddrmanageDTO();
+				AddrDTO dto = new AddrDTO();
 				
 				dto.setAddressCode(req.getParameter("addressCode"));
 				dto.setAddress(req.getParameter("address"));
@@ -364,7 +364,7 @@ public class MypageServlet extends MyServlet {
 				int offset = (current_page - 1) * size;
 				if(offset < 0) offset = 0;
 				
-				List<AddrmanageDTO> list = null;
+				List<AddrDTO> list = null;
 				
 				list = dao.addrListBoard(memberId, offset, size);
 
