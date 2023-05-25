@@ -73,7 +73,7 @@
 }
 
 .page-style{
-	margin-top: 30px;
+	margin-top: 80px;
 }
 .itemdiscription{
 	width: 1000px;
