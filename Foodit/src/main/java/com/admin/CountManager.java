@@ -17,7 +17,7 @@ public class CountManager implements HttpSessionListener {
 	private static long toDayCount;
 	private static long yesterDayCount;
 	private static long totalCount;
-
+ 
 	public CountManager() {
 		// 자정이 되면 오늘인원은 어제 인원으로 변경되고, 오늘 인원은 0으로 변경
 		TimerTask task = new TimerTask() {

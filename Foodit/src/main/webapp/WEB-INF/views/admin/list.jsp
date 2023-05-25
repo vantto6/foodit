@@ -96,7 +96,7 @@
   <td>${dto.price}</td>
   <td>${dto.createDate}</td>
   <td>${dto.updateDate}</td>
-  <td>${dto.categoryName}</td>
+  <td>${dto.categoryName}</td> 
   <td>${dto.brandName}</td>
   <td class="button-container">
   <button class="button" onclick="location.href='${pageContext.request.contextPath}/admin/update.do?itemNo=${dto.itemNo}&page=${page}';">수정</button>

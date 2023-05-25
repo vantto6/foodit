@@ -155,7 +155,7 @@ public class AdminDAO {
 				dto.setCreateDate(rs.getString("createDate"));
 				dto.setUpdateDate(rs.getString("updateDate"));
 				dto.setCategoryName(rs.getString("categoryName"));
-				dto.setBrandName(rs.getString("brandName"));
+				dto.setBrandName(rs.getString("brandName")); 
 
 				list.add(dto);
 			}

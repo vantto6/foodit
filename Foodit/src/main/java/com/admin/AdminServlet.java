@@ -225,7 +225,7 @@ public class AdminServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listFile", listFile);
 			
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "update"); 
 
 			forward(req, resp, "/WEB-INF/views/admin/modifyProduct.jsp");
 			return;

@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class WebAppInit implements ServletContextListener {
 	private String pathname = "/WEB-INF/userCount.properties";
-
+ 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// 서버가 시작되는 시점에 호출
