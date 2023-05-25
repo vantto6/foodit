@@ -224,8 +224,8 @@ public class AdminServlet extends MyUploadServlet {
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("listFile", listFile);
-
-			req.setAttribute("mode", "updateStat");
+			
+			req.setAttribute("mode", "update");
 
 			forward(req, resp, "/WEB-INF/views/admin/modifyProduct.jsp");
 			return;
@@ -314,37 +314,37 @@ public class AdminServlet extends MyUploadServlet {
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	    AdminDAO dao = new AdminDAO();
+		AdminDAO dao = new AdminDAO();
 
-	    String cp = req.getContextPath();
-	    String page = req.getParameter("page");
+		String cp = req.getContextPath();
+		String page = req.getParameter("page");
 
-	    try {
-	        long itemNo = Long.parseLong(req.getParameter("itemNo"));
-	        AdminDTO dto = dao.readProduct(itemNo);
+		try {
+			long itemNo = Long.parseLong(req.getParameter("itemNo"));
+			AdminDTO dto = dao.readProduct(itemNo);
 
-	        if (dto == null) {
-	            resp.sendRedirect(cp + "/admin/list.do?page=" + page);
-	            return;
-	        }
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/list.do?page=" + page);
+				return;
+			}
 
-	        // Delete entries in reply table
-	        dao.deleteReply(itemNo);
+			// Delete entries in reply table
+			dao.deleteReply(itemNo);
 
-	        // Delete image files
-	        List<AdminDTO> listFile = dao.listProductFile(itemNo);
-	        for (AdminDTO vo : listFile) {
-	            FileManager.doFiledelete(pathname, vo.getSaveFilename());
-	        }
-	        dao.deleteImageFile("all", itemNo);
+			// Delete image files
+			List<AdminDTO> listFile = dao.listProductFile(itemNo);
+			for (AdminDTO vo : listFile) {
+				FileManager.doFiledelete(pathname, vo.getSaveFilename());
+			}
+			dao.deleteImageFile("all", itemNo);
 
-	        // Delete table data
-	        dao.delete(itemNo);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+			// Delete table data
+			dao.delete(itemNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	    resp.sendRedirect(cp + "/admin/list.do?page=" + page);
+		resp.sendRedirect(cp + "/admin/list.do?page=" + page);
 	}
 
 	protected void seeStock(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -540,7 +540,8 @@ public class AdminServlet extends MyUploadServlet {
 		forward(req, resp, "/WEB-INF/views/admin/memberList.jsp");
 	}
 
-	protected void deleteMembers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void deleteMembers(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		// 삭제 완료
 		AdminDAO dao = new AdminDAO();
 
@@ -565,37 +566,39 @@ public class AdminServlet extends MyUploadServlet {
 
 		resp.sendRedirect(cp + "/admin/seeMembers.do?page=" + page);
 	}
-	protected void deleteBrand(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException{
-		AdminDAO dao= new AdminDAO();
-		
+
+	protected void deleteBrand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		AdminDAO dao = new AdminDAO();
+
 		String cp = req.getContextPath();
-		
+
 		String page = req.getParameter("page");
-		
+
 		try {
 			int brandNo = Integer.parseInt(req.getParameter("brandNo"));
-			
+
 			AdminDTO dto = dao.readBrand(brandNo);
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/brand.do?page=" + page);
 				return;
 			}
 			dao.deleteBrand(brandNo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		resp.sendRedirect(cp + "/admin/brand.do?page=" + page);
 	}
+
 	protected void stats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		AdminDAO dao = new AdminDAO();
 		req.setAttribute("title", "통계");
 		req.setAttribute("mode", "admin");
-		
+
 		int memberCount = dao.memberCounts();
 		int orderCount = dao.orderCount();
-		
+
 		req.setAttribute("memberCount", memberCount);
-		req.setAttribute("orderCount",  orderCount);
+		req.setAttribute("orderCount", orderCount);
 
 		String path = "/WEB-INF/views/admin/stats.jsp";
 		forward(req, resp, path);

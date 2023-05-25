@@ -370,28 +370,30 @@ public class AdminDAO {
 			}
 		}
 	}
-	public void deleteReply(long itemNo) throws SQLException {
-	    PreparedStatement pstmt = null;
-	    String sql;
 
-	    try {
-	        sql = "DELETE FROM reply WHERE inquiryNo IN (SELECT inquiryNo FROM iteminquiry WHERE itemNo = ?)";
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setLong(1, itemNo);
-	        pstmt.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        throw e;
-	    } finally {
-	        if (pstmt != null) {
-	            try {
-	                pstmt.close();
-	            } catch (SQLException e2) {
-	                e2.printStackTrace();
-	            }
-	        }
-	    }
+	public void deleteReply(long itemNo) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+
+		try {
+			sql = "DELETE FROM reply WHERE inquiryNo IN (SELECT inquiryNo FROM iteminquiry WHERE itemNo = ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, itemNo);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
 	}
+
 	public void delete(long itemNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -432,7 +434,7 @@ public class AdminDAO {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setLong(1, itemNo);
 				pstmt.executeUpdate();
-				pstmt.close(); 
+				pstmt.close();
 
 				sql = "DELETE FROM iteminquiry WHERE itemNo = ?";
 				pstmt = conn.prepareStatement(sql);
@@ -908,7 +910,7 @@ public class AdminDAO {
 
 		return result;
 	}
-	
+
 	public void deleteBrand(int brandNo) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -932,6 +934,7 @@ public class AdminDAO {
 			}
 		}
 	}
+
 	public AdminDTO readBrand(int brandNo) {
 		AdminDTO dto = null;
 		PreparedStatement pstmt = null;
@@ -939,9 +942,7 @@ public class AdminDAO {
 		String sql;
 
 		try {
-			sql = "SELECT brandNo , brandName"
-					+ " FROM brand "
-					+ " WHERE brandNo = ?";
+			sql = "SELECT brandNo , brandName" + " FROM brand " + " WHERE brandNo = ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, brandNo);
@@ -951,7 +952,7 @@ public class AdminDAO {
 				dto = new AdminDTO();
 				dto.setBrandNo(rs.getInt("brandNo"));
 				dto.setBrandName(rs.getString("brandName"));
-			
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -975,5 +976,5 @@ public class AdminDAO {
 
 		return dto;
 	}
-	
+
 }

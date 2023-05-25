@@ -28,10 +28,7 @@
       background-color: #f2f2f2;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: center;
-    }
+
 
     .button {
       margin-right: 8px;
@@ -89,6 +86,7 @@
 <c:forEach var="dto" items="${list}">
 
   <tr>
+  
   <td class="center">
       <img style="width: 100px;" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}">
   </td>
@@ -101,11 +99,10 @@
   <td>${dto.categoryName}</td>
   <td>${dto.brandName}</td>
   <td class="button-container">
-    <button class="button" onclick="location.href='${pageContext.request.contextPath}/admin/update.do?itemNo=${dto.itemNo}&page=${page}';">수정</button>
-  </td>
-  <td class="button-container">
-    <button type="submit" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/delete.do?itemNo=${dto.itemNo}&page=${page}';">삭제</button>
-  </td>
+  <button class="button" onclick="location.href='${pageContext.request.contextPath}/admin/update.do?itemNo=${dto.itemNo}&page=${page}';">수정</button>
+  <button type="submit" class="button" onclick="location.href='${pageContext.request.contextPath}/admin/delete.do?itemNo=${dto.itemNo}&page=${page}';">삭제</button>
+</td>
+
 </tr>
 
 </c:forEach>
