@@ -73,7 +73,7 @@ color: #424951;
 							<th class="subject" style="width: 250px">제목</th>
 							<th style="width: 50px">작성자</th>
 							<th class="date" style="width: 50px">작성일</th>
-							<th class="hit" style="width: 50px">답변유무</th>
+
 						</tr>
 					</thead>
 					
@@ -88,7 +88,7 @@ color: #424951;
 								</td>
 								<td>${dto.memberId}</td>
 								<td>${dto.createDate }</td>
-								<td>1/0</td>
+		
 							</tr>
 					</c:forEach>
 					</tbody>
@@ -102,7 +102,7 @@ color: #424951;
 			<table class="table">
 				<tr>
 					<td width="100">
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/notice/list.do';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?${query}&itemNo=${itemNo}';" title="새로고침"><i class="fa-solid fa-arrow-rotate-right"></i></button>
 					</td>
 					<td align="center">
 					</td>

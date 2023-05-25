@@ -77,6 +77,7 @@ input[type=text] {
 }
 </style>
 
+
 </head>
 <body>
 
@@ -92,7 +93,7 @@ input[type=text] {
 				<h2 class="tit">주문서</h2>
 			</div>
 			<br>
-			<form>
+			<form name="orderOkForm" method="post">
 				<table>
 					<tr>
 						<th colspan="4">주문상품</th>
@@ -115,6 +116,7 @@ input[type=text] {
 						</tr>
 					<c:set var="totalDiscountedPrice" value="${totalDiscountedPrice + discountedPrice}" />
 					<c:set var="totalOriginalPrice" value="${totalOriginalPrice + originalPrice}" />
+					<c:set var="itemName" value="${dto.itemName}"/>
 					</c:forEach>
 				</table>
 
@@ -154,7 +156,7 @@ input[type=text] {
 					<tr>
 						<td width="200">요청사항</td>
 						<td width="800"><input type="text" name="request" maxlength="100"
-								class="form-control" value=""></td>
+								class="form-control" value="안전하게 배송 부탁드립니다."></td>
 					</tr>
 				</table>
 				<table class="orderInfo">
@@ -180,7 +182,7 @@ input[type=text] {
 					</tr>
 				</table>
 				
-				 <button type="button" class="btn active btn_order" name="btnOk" onclick="orderOk();">${totalDiscountedPrice}원 결제하기</button>
+				 <button type="button" class="btn active btn_order" name="btnOk" onclick="requestPay();">${totalDiscountedPrice}원 결제하기</button>
 			</form>
 		</div>
 	</main>
@@ -190,5 +192,45 @@ input[type=text] {
 	</footer>
 
 	<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp" />
+	
+	
 </body>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+<script>
+	const userCode = "imp14477224";
+	IMP.init(userCode);
+	
+	var today = new Date();
+	var hours = today.getHours();
+	var minutes = today.getMinutes();
+	var seconds = today.getSeconds();
+	var milliseconds = today.getMilliseconds();
+	var makeMerchantUid = hours + minutes + seconds + milliseconds;
+	var amount = parseInt(${totalDiscountedPrice});
+	function requestPay() {
+		  IMP.request_pay({
+		    pg: "kakaopay",
+		    pay_method: "card",
+		    merchant_uid: "IMP" + makeMerchantUid,
+		    name: "${itemName}",
+		    amount: amount,
+		    buyer_name: "${name}",
+		    buyer_tel: "${tel}",
+		    buyer_email: "${email}"
+		  }, function(rsp){
+		    if (rsp.success) {
+		    	alert("결제에 성공하였습니다.");
+			    console.log(rsp);
+		    	var f = document.orderOkForm;
+		    	f.action="${pageContext.request.contextPath}/basket/order_ok.do";
+		    	f.submit();
+		    	
+		    } else {
+		      alert("결제에 실패하였습니다.");
+		      console.log(rsp);
+		    }
+		  });
+	}	
+</script>
 </html>

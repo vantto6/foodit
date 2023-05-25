@@ -2,7 +2,7 @@ package com.basket;
 
 public class OrderDTO {
 	private int orderNo;
-	private int clientNo;
+	private long clientNo;
 	private String addressCode;
 	private String address;
 	private String addressDetail;
@@ -11,9 +11,9 @@ public class OrderDTO {
 	private int payment;
 	private int cnt;
 	private int sender;
-	private int recipient;
-	private int tel;
-	private int request;
+	private String recipient;
+	private String tel;
+	private String request;
 	private int ordetailNo;
 	private int itemNo;
 	private int ordetailCnt;
@@ -39,22 +39,22 @@ public class OrderDTO {
 	public void setSender(int sender) {
 		this.sender = sender;
 	}
-	public int getRecipient() {
+	public String getRecipient() {
 		return recipient;
 	}
-	public void setRecipient(int recipient) {
+	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
-	public int getTel() {
+	public String getTel() {
 		return tel;
 	}
-	public void setTel(int tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public int getRequest() {
+	public String getRequest() {
 		return request;
 	}
-	public void setRequest(int request) {
+	public void setRequest(String request) {
 		this.request = request;
 	}
 	public int getOrderNo() {
@@ -63,10 +63,10 @@ public class OrderDTO {
 	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	public int getClientNo() {
+	public long getClientNo() {
 		return clientNo;
 	}
-	public void setClientNo(int clientNo) {
+	public void setClientNo(long clientNo) {
 		this.clientNo = clientNo;
 	}
 	public String getAddressCode() {

@@ -72,7 +72,7 @@ public class ItemServlet extends MyServlet {
 
 			String page = req.getParameter("page");
 			int current_page = 1;
-			if (page != null) {
+			if (page != null && !page.equals("")) {
 				current_page = Integer.parseInt(page);
 			}
 
@@ -197,16 +197,20 @@ public class ItemServlet extends MyServlet {
 			category = Integer.parseInt(gubun);
 		}
 		String page = req.getParameter("page");
-
-		String query = "page=" + page;
-
+		
+		String query = "";
+		if (page != null && page.equals("")) {
+			query = "page=" + page;
+		} else {
+			page = "";
+		}
 		try {
 			long itemNo = Long.parseLong(req.getParameter("itemNo"));
 
 			// 게시물 가져오기
 			ItemDTO dto = dao.readItem(category, itemNo);
 			if (dto == null) {
-				resp.sendRedirect(cp + "/item/item.do?" + query);
+				resp.sendRedirect(cp + "/item/item.do?"+query);
 				return;
 			}
 			dto.setContent(util.htmlSymbols(dto.getContent()));
@@ -216,7 +220,12 @@ public class ItemServlet extends MyServlet {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
 
+			//개수
+			int maxBasketCnt = dao.maxBasketCnt(itemNo);
+			
+			
 			// JSP로 전달할 속성
+			req.setAttribute("maxBasketCnt", maxBasketCnt);
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
@@ -231,7 +240,7 @@ public class ItemServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/item/item.do?category=" + category + query);
+		resp.sendRedirect(cp + "/item/item.do?category=" + category );
 	}
 
 	protected void detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -244,7 +253,7 @@ public class ItemServlet extends MyServlet {
 		String page = req.getParameter("page");
 		String query = "";
 
-		if (page != null) {
+		if (page != null && page.equals("")) {
 			query = "page=" + page;
 		} else {
 			page = "";
@@ -280,8 +289,13 @@ public class ItemServlet extends MyServlet {
 			HttpSession session = req.getSession();
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			boolean isMemberLike = dao.isMemberitemLike(itemNo, info.getMemberId());
-
+			
+			//개수
+			int maxBasketCnt = dao.maxBasketCnt(itemNo);
+			
+			
 			// JSP로 전달할 속성
+			req.setAttribute("maxBasketCnt", maxBasketCnt);
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("num", num);
@@ -342,15 +356,15 @@ public class ItemServlet extends MyServlet {
 		String page = req.getParameter("page");
 		int basketCnt = Integer.parseInt(req.getParameter("basketCnt"));
 		long itemNo = Integer.parseInt(req.getParameter("itemNo"));
-
+		String number = req.getParameter("num");
 		if (gubun != null && !gubun.equals("")) { // 카테고리일때
 			category = Integer.parseInt(gubun);
 			query += "category=" + category + "&page=" + page + "&itemNo=" + itemNo;
 
-		} else { // 아닐때
-			String number = req.getParameter("num");
+		} else if(number != null && !number.equals("")){ // 아닐때
+			
 			long num = Integer.parseInt(number);
-			query += "num=" + num + "&page=" + page + "&itemNo=" + itemNo;
+			query += "num=" + num + "&itemNo=" + itemNo;
 		}
 		String memberId = info.getMemberId();
 
@@ -367,10 +381,10 @@ public class ItemServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		if (gubun != null) {
+		if (gubun != null && !gubun.equals("")) {
 
 			resp.sendRedirect(cp + "/item/detail.do?" + query);
-		} else {
+		} else  if(number != null && !number.equals("")){
 
 			resp.sendRedirect(cp + "/item/detail2.do?" + query);
 		}

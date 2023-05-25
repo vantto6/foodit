@@ -309,7 +309,15 @@ $(function() {
 	$("#plus").click(function() {
 		let count = $("#count").text();
 		let price = $("#price").text();
-		$("#count").text(++count);
+		
+		let maxBasketCnt = "${maxBasketCnt}";
+		++count;
+		if(count > maxBasketCnt){
+			alert("남은 재고는 ${maxBasketCnt}개 입니다");
+			$("#plus").disabled = false;
+			return;
+		}
+		$("#count").text(count);
 		
 		$("#hiddencount").val(count);
 		
@@ -342,9 +350,8 @@ $(function() {
 		
 		let url = "${pageContext.request.contextPath}/item/insertItemLike.do";
 		let itemNo = "${dto.itemNo}";
-//		let category = "${category}";
 		let page = "${page}";
-//		let num = "${num}";
+
 		
 		let qs = "page="+page + "&itemNo=" + itemNo + "&isNoLike=" + isNoLike;
 		
@@ -424,6 +431,7 @@ $(function() {
 	<input type="hidden" name="category" value="${category}">
 	<input type="hidden" name="page" value="${page}">
 	<input type="hidden" name="num" value="${num}">
+	<input type="hidden" name="main" value="${main}">
 	<table>
 
 		<tbody>
@@ -495,7 +503,7 @@ $(function() {
 	</form>
 </div>
 <div class="fixed-box">
-	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen"></i></div></button>
+	<button type="button" class="bt" onclick="location.href='${pageContext.request.contextPath}/itemInquiry/itemInquiry.do?itemNo=${dto.itemNo}'"><div><i class="fa-solid fa-pen" style="color: #88b04b;"></i></div></button>
 	<h3>상품문의</h3>	
 </div>
 

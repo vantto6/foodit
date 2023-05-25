@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.order.OrderDTO;
 import com.util.DBConn;
 
 
@@ -191,6 +190,42 @@ public class BasketDAO {
 	    return true; // 재고 확인 완료
 	}
 	
+	public String readOrderNo(long clientNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String orderNo = null;
+		String sql;
+		
+		try {
+			sql = "SELECT orderNo FROM Ordering WHERE clientNo = ? AND confirm = 0";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, clientNo);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				orderNo = rs.getString("orderNo");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
+		return orderNo;
+	}
+	
 	
 	public MemberDTO readMember(String memberId) {
 		MemberDTO dto = null;
@@ -239,14 +274,12 @@ public class BasketDAO {
 	
 	
 	public void insertOrder(OrderDTO dto) {
-		// 주문정보 입력하기
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
 		
-		String sql, sql2;
+		String sql;
 		try {
-			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, confirm, payment, cnt, sender, recipient, tel, request)"
-					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO Ordering(orderNo, clientNo, addressCode, address, addressDetail, totPrice, cnt, recipient, tel, request, confirm)"
+					+ " VALUES(Ordering_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -255,31 +288,12 @@ public class BasketDAO {
 			pstmt.setString(3, dto.getAddress());
 			pstmt.setString(4, dto.getAddressDetail());
 			pstmt.setInt(5, dto.getTotPrice());
-			pstmt.setInt(6, dto.getConfirm());
-			pstmt.setInt(7, dto.getPayment());
-			pstmt.setInt(8, dto.getCnt());
-			pstmt.setInt(9, dto.getSender());
-			pstmt.setInt(10, dto.getRecipient());
-			pstmt.setInt(11, dto.getTel());
-			pstmt.setInt(12, dto.getRequest());
+			pstmt.setInt(6, dto.getCnt());
+			pstmt.setString(7, dto.getRecipient());
+			pstmt.setString(8, dto.getTel());
+			pstmt.setString(9, dto.getRequest());
 			
 			pstmt.executeUpdate();
-			
-			sql2 = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payOption,payDate,disPrice)"
-					+ " VALUES(OrderDetail_seq.NEXTVAL, ?,?,?,?,?,?,?)";
-			
-			pstmt2 = conn.prepareStatement(sql2);
-			
-			pstmt2.setLong(1, dto.getOrderNo());
-			pstmt2.setLong(2, dto.getItemNo());
-			pstmt2.setLong(3, dto.getOrdetailCnt());
-			pstmt2.setInt(4, dto.getPrice());
-			pstmt2.setString(5, dto.getPayDate());
-			pstmt2.setInt(6, dto.getDisPrice());
-			pstmt2.setInt(7, dto.getClientNo());
-			
-			pstmt2.executeUpdate();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -289,16 +303,65 @@ public class BasketDAO {
 					pstmt.close();
 				} catch (SQLException e) {
 				}
-			if (pstmt2 != null)
+		}
+		
+		
+	}
+	
+	public void insertOrderDetail(List<OrderDTO> orderDetailList) {
+	    PreparedStatement pstmt = null;
+	    String sql = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payOption,payDate,disPrice)"
+	                 + " VALUES(OrderDetail_seq.NEXTVAL, Order_seq.CURRVAL,?,?,?,?,?,?)";
+	    
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        for (OrderDTO dto : orderDetailList) {
+	            pstmt.setLong(1, dto.getOrderNo());
+	            pstmt.setLong(2, dto.getItemNo());
+	            pstmt.setLong(3, dto.getOrdetailCnt());
+	            pstmt.setInt(4, dto.getPrice());
+	            pstmt.setString(5, dto.getPayDate());
+	            pstmt.setInt(6, dto.getDisPrice());
+	            pstmt.setLong(7, dto.getClientNo());
+	            
+	            pstmt.executeUpdate();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
+	
+	
+	public void updateConfirm() {
+		PreparedStatement pstmt = null;
+		
+		String sql;
+		try {
+			sql = "UPDATE ordering SET confirm = 1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
 				try {
-					pstmt2.close();
+					pstmt.close();
 				} catch (SQLException e) {
 				}
 		}
 		
 		
 	}
-	
 
 
 }

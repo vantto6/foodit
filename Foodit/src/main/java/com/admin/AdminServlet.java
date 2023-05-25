@@ -314,36 +314,37 @@ public class AdminServlet extends MyUploadServlet {
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 삭제 완료
-		AdminDAO dao = new AdminDAO();
+	    AdminDAO dao = new AdminDAO();
 
-		String cp = req.getContextPath();
+	    String cp = req.getContextPath();
+	    String page = req.getParameter("page");
 
-		String page = req.getParameter("page");
+	    try {
+	        long itemNo = Long.parseLong(req.getParameter("itemNo"));
+	        AdminDTO dto = dao.readProduct(itemNo);
 
-		try {
-			long itemNo = Long.parseLong(req.getParameter("itemNo"));
+	        if (dto == null) {
+	            resp.sendRedirect(cp + "/admin/list.do?page=" + page);
+	            return;
+	        }
 
-			AdminDTO dto = dao.readProduct(itemNo);
-			if (dto == null) {
-				resp.sendRedirect(cp + "/admin/list.do?page=" + page);
-				return;
-			}
+	        // Delete entries in reply table
+	        dao.deleteReply(itemNo);
 
-			// 이미지 파일 지우기
-			List<AdminDTO> listFile = dao.listProductFile(itemNo);
-			for (AdminDTO vo : listFile) {
-				FileManager.doFiledelete(pathname, vo.getSaveFilename());
-			}
-			dao.deleteImageFile("all", itemNo);
+	        // Delete image files
+	        List<AdminDTO> listFile = dao.listProductFile(itemNo);
+	        for (AdminDTO vo : listFile) {
+	            FileManager.doFiledelete(pathname, vo.getSaveFilename());
+	        }
+	        dao.deleteImageFile("all", itemNo);
 
-			// 테이블 데이터 삭제
-			dao.delete(itemNo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        // Delete table data
+	        dao.delete(itemNo);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 
-		resp.sendRedirect(cp + "/admin/list.do?page=" + page);
+	    resp.sendRedirect(cp + "/admin/list.do?page=" + page);
 	}
 
 	protected void seeStock(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -470,7 +471,7 @@ public class AdminServlet extends MyUploadServlet {
 
 			dao.addBrands(dto);
 
-			resp.sendRedirect(cp + "/admin/.do");
+			resp.sendRedirect(cp + "/admin/brand.do");
 			return;
 		} catch (SQLException e) {
 			message = "브랜드 등록에 실패했습니다.";

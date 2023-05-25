@@ -91,13 +91,13 @@
 </header>
 <div>
 	<c:if test="${num eq 1}">
-		<h3 class="css-i804ml eaf14xt0" ><i class="fa-solid fa-check-double"></i>&nbsp;&nbsp;신상품</h3>
+		<h3 class="css-i804ml eaf14xt0" ><i class="fa-solid fa-check-double" style="color: #88b04b;"></i>&nbsp;&nbsp;신상품</h3>
 		<div class="itemdiscription">
 			<h4 style="text-align: right;">* 최신 상품순입니다</h4>
 		</div>
 	</c:if>
 	<c:if test="${num eq 2}">
-		<h3 class="css-i804ml eaf14xt0" ><i class="fa-regular fa-thumbs-up"></i>&nbsp;&nbsp;베스트</h3>
+		<h3 class="css-i804ml eaf14xt0" ><i class="fa-regular fa-thumbs-up" style="color: #88b04b;"></i>&nbsp;&nbsp;베스트</h3>
 		<div class="itemdiscription">
 			<h4 style="text-align: right;">* 찜이 많은 상품순입니다</h4>
 		</div>

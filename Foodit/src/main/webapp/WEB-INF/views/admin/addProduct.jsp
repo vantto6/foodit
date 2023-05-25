@@ -53,9 +53,9 @@
 										<td colspan="2">
 											<div>
 												<span> <input type="text" name="itemName"
-													id="itemName" class="i_text text1" placeholder="한글만 입력하세요.">
+													id="itemName" class="i_text text1" placeholder="한글자 이상">
 												</span>
-											</div> <span class="won_type"> 한글만 입력해주세요 ! </span>
+											</div> <span class="won_type"> 한글자 이상 ! </span>
 										</td>
 									</tr>
 
