@@ -103,7 +103,6 @@ public class MypageServlet extends MyServlet {
 		if(dto != null) {
 			
 			HttpSession session = req.getSession();
-			System.out.println(session);
 			SessionInfo sessionInfo = (SessionInfo) session.getAttribute("member");
 
 			String str = sessionInfo.getMemberId();
@@ -320,6 +319,8 @@ public class MypageServlet extends MyServlet {
 	protected void deleteAddr(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
 		String addrNo = req.getParameter("addrNo");
+		
+		System.out.println(addrNo);
 		
 		try {
 			MypageDAO dao = new MypageDAO();

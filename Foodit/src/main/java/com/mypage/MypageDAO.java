@@ -123,17 +123,6 @@ public class MypageDAO {
 				
 				pstmt.executeUpdate();
 				
-				/*
-				 * pstmt.close(); pstmt = null;
-				 * 
-				 * sql = "UPDATE client SET updateDate = SYSDATE WHERE memberNo = ?"; pstmt =
-				 * conn.prepareStatement(sql);
-				 * 
-				 * pstmt.setString(1, dto.getMemberId());
-				 * 
-				 * pstmt.executeUpdate();
-				 */
-				
 
 			} catch (SQLException e) {
 				e.printStackTrace();

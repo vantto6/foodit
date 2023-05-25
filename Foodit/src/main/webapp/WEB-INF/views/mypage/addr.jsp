@@ -178,7 +178,8 @@ function openAddress() {
 			</div>
 			
 			<div class ="mypage-right-content">
-				<form name="addrForm">
+						<form name="addrForm" method="POST">
+				
 					<table class="table table-border-addrmanage table-list">
 						<thead>
 							<tr>
@@ -189,20 +190,19 @@ function openAddress() {
 						</thead>
 					
 						<tbody>
-									<c:forEach var="dto" items="${list}" varStatus="status">
-								<tr>
-									<td>${(page-1) * size + status.index + 1}</td>
-									<td class="addr">${dto.address}&nbsp;${dto.addressDetail}</td>
-									<td><button style="padding: auto" onclick="deleteAddr();">&nbsp;X&nbsp;</button></td>
-								</tr>
-								
-									<input type="hidden" name="addrNo" value="${dto.addrNo}">
+							<c:forEach var="dto" items="${list}" varStatus="status">
+									<tr>
+										<td>${(page-1) * size + status.index + 1}</td>
+										<td class="addr">${dto.address}&nbsp;${dto.addressDetail}</td>
+										<td><button type="button" style="padding: auto" onclick="deleteAddr(${dto.addrNo});">&nbsp;X&nbsp;</button></td>
+									</tr>
 									
+									<input type="hidden" name="addrNo" value="${dto.addrNo}">
 							</c:forEach>
 								
 						</tbody>
 					</table>
-			</form>
+				</form>
 			<div class="page-navigation">
 				${dataCount == 0 ? "등록된 배송지가 없습니다." : paging}
 			</div>
@@ -293,7 +293,7 @@ function btnAddressOk() {
 
 <script>
 
-function deleteAddr() {
+/* function deleteAddr(obj) {
 	const f = document.addrForm;
 	if(confirm("배송지를 삭제하시겠습니까? ")){
 		
@@ -303,7 +303,18 @@ function deleteAddr() {
 	} else {
 		event.preventDefault();
 	}
+}  */
+
+function deleteAddr(addrNo) {
+    const f = document.addrForm;
+    if (confirm("배송지를 삭제하시겠습니까?")) {
+        f.action = "${pageContext.request.contextPath}/mypage/deleteAddr.do?addrNo=" + addrNo;
+        f.submit();
+    } else {
+        event.preventDefault();
+    }
 }
+
 </script>
 
 

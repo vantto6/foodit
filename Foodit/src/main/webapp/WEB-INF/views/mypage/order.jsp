@@ -103,8 +103,8 @@
 .body-container2 {
 	height: 900px; 
 }	
-.right-content-orderinfo img { widith : 50px;
-	height: 60px;
+.orderImg {
+	width:100px; height: 120px;
 }
 
 .right-content-orderinfo {
@@ -166,17 +166,6 @@
 		<div class="mypage-right">		
 			<div class ="mypage-right-subject">
 				<span style="font-size : 20px;">주문 내역</span>
-				<div>
-					<span style="font-size : 14px; float:left;"> 최대 지난 3년간의 주문 내역을 확인할 수 있습니다.</span>
-					<div style="float: right;">
-						<select class="select-orderDate">
-							<option value="1" selected="selected">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-						</select>
-					</div>
-				</div>
 			</div>
 			
 			<div class ="mypage-right-content"  >
@@ -212,7 +201,7 @@
 					<c:forEach var="dto" items="${list}" varStatus="status">	
 						<div style="display: flex; justify-content: space-between; align-items: center; gap: 15px; border-bottom: 1px solid lightgray">
 						<div style="margin-top: 5px; ">
-							<div style="width:100px; height: 120px; float : left; border: 1px solid gray "><img src="photo.png"/></div>
+							<div style="width:100px; height: 120px; float : left; "><img class="orderImg" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}"/></div>
 								<div style="margin : 20px; float : left; display: grid ; gap:5px" >
 									<div><b>주문일자</b>	 : ${dto.payDate }</div>
 									<div><b>상품명</b> 	 : 
@@ -224,8 +213,7 @@
 											</c:if>
 									</div>
 									<div><b>주문번호</b>	 : ${dto.orderNo }</div>
-									<div><b>결제방법</b> 	 : ${dto.payOption }</div>
-									<div><b>결제금액</b> 	 : ${dto.totPrice }</div>
+									<div><b>결제금액</b> 	 : ${dto.totPrice } 원</div>
 								</div>
 						</div>
 					</div> 
