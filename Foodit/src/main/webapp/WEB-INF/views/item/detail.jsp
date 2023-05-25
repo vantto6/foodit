@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
 
 <style type="text/css">
-* { padding: 0; margin: 0 auto; }
+.product_view .detail-view .container{ padding: 0; margin: 0 auto; }
 *, *::after, *::before { box-sizing: border-box; }
 
 .product_view {position:relative; padding: 0 0 0 430px; width: 1050px; box-sizing: border-box; margin-top: 130px}
@@ -49,51 +49,6 @@
 .detail{width: 1050px;}
 
 
-#Review_list {
-	width: 1000px;
-	margin: 0 auto;
-	text-align: center;
-	
-}
-.review_text {
-	font-size: 1em;
-	text-align: left;
-}
-
-
-#Review_title {
-	font-size: 3em;
-	font-weight: bold;
-	padding : 15px;
-}
-
-table.review {
-	width: 1000px;
-	margin-top:10px;
-	border-top: 1px solid  #5f0081;
-	border-bottom: 1px solid white;
-	border-left: none;
-	border-right: none;
-	padding: 10px 10px;
-	text-align: center;
-	font-size: 1.1em;
-}
-
-th.review {
-	border-bottom: 1px solid rgb(230,230,230);
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-size: 1.1em;
-}
-
-td.review {
-	border-bottom: 1px solid rgb(230,230,230);
-	text-align: center;	
-	overflow: hidden;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-size: 1.1em;
-}
 
 .subject {
 	border-bottom: 1px solid rgb(230,230,230);
@@ -105,29 +60,8 @@ td.review {
 	font-size: 1.1em;
 }
 
-.write_review {
-	margin-top: 15px;
-	margin-left: 850px;
-	width: 100px;
-	text-align: center;
-	border-style: solid #5f0081;
-	background-color: #5f0081;
-	color: white;
-	font-weight: bold;
-	border-radius: 3px;
-	
-}
 
-.review_write {
-	color: white;
-	font-weight: bold;
-	border-style: none;
-	background-color: #5f0081;
-	padding: 10px;
-	border-radius: 3px;
-	font-size: 1.1em;
-	
-}
+
 
 button, select {
     text-transform: none;
@@ -145,22 +79,7 @@ button {
     outline: none;
    	
 }
-.review_number{
-	font-size: 1.1em;
-}
 
-#Review_list a:hover {
-	text-decoration: none;
-	color: red;
-}
-
-.secret, .remove {
-	background-color: black;
-	color: white;
-	font-size: 14px;
-	border: 1px solid black;
-	border-radius: 4px;
-}
 
 .discount {
     padding-right: 9px;
@@ -418,12 +337,12 @@ $(function() {
 </script>
 
 </head>
-<body>
-
 <header>
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </header>
+<body>
 
+<div class="container">
 <div class="product_view">
 	<h2>[${dto.brandName }] ${dto.itemName }</h2>
 	<form name="myDetailForm" method="post">
@@ -527,21 +446,11 @@ $(function() {
 	
 	</div>
 </div>
-
-
-
-
-		
-	
-</body>
-	
-
+</div>
 <footer>
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 </footer>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
-
-
 </body>
 </html>
