@@ -161,7 +161,7 @@
                            <tr>
                                 <th >브랜드번호</th>
                                 <td colspan="2"> 
-                                    <div>
+                                    <div> 
                                         <span>
                                             <input type="number" name="brandNo" id="brandNo" class="i_text text1" value="${dto.brandNo}">
                                         </span>
