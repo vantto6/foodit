@@ -8,9 +8,17 @@ public class mainItemDTO {
 	private long discountPrice;
 	private String brandName;
 	private int category;
+	private String saveFilename;
 	
 	
 	
+	
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
+	}
 	public int getCategory() {
 		return category;
 	}

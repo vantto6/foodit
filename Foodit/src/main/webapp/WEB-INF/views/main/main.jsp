@@ -140,7 +140,7 @@
 									<div class="product_container">
 										<div class="product">
 											<a href="${cp}/item/detail2.do?itemNo=${dto.itemNo}&num=1">
-												<img class="product_img" src="/sambab/product_image/장어.JPG">
+												<img class="product_img" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}">
 											</a>
 
 										</div>

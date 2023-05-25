@@ -510,7 +510,7 @@ $(function() {
 
 <div class="detail-view">
 	<div class="pic">
-		<img class="intro-img" src="https://img-cf.kurly.com/shop/data/goodsview/20230516/gv30000697467_1.jpg">
+		<img class="intro-img" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}">
 	</div>
 	<div class="context">
 		<h3>[${dto.brandName }] ${dto.itemName }</h3>

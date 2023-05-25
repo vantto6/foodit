@@ -20,11 +20,12 @@ public class mainItemDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline ");
+			sb.append("SELECT i.itemNo itemNo,brandName,categoryName,itemName,price,discount,saleUnit,description,deadline,saveFilename ");
 			sb.append(" FROM items i ");
+			sb.append(" JOIN itemsImg im ON i.itemNo = im.itemNo ");
 			sb.append(" JOIN brand b ON i.brandNo = b.brandNo");
 			sb.append(" JOIN category c ON i.categoryNo = c.categoryNo");
-			sb.append( " WHERE TRUNC(SYSDATE - createDate) < 5 ");
+			sb.append( " WHERE TRUNC(SYSDATE - i.createDate) < 5 ");
 
 			pstmt = conn.prepareStatement(sb.toString());
 
@@ -32,7 +33,7 @@ public class mainItemDAO {
 			
 			while (rs.next()) {
 				mainItemDTO dto = new mainItemDTO();
-					
+				dto.setSaveFilename(rs.getString("saveFilename"));	
 				dto.setItemNo(rs.getLong("itemNo"));
 				dto.setBrandName(rs.getString("brandName"));
 				dto.setItemName(rs.getString("itemName"));
