@@ -20,9 +20,10 @@ public class BasketDAO {
 		StringBuffer sb = new StringBuffer();
 		 
 		try {
-			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount, cnt");
+			sb.append(" SELECT b.itemNo,basketNo,itemName,basketCnt, price, discount, cnt, savefilename");
 			sb.append(" FROM basket b ");
 			sb.append(" JOIN items i ON b.itemNo = i.itemNo ");
+			sb.append(" JOIN itemsimg im ON b.itemNo = im.itemNo");
 			sb.append(" WHERE memberId = ? ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -42,7 +43,7 @@ public class BasketDAO {
 				dto.setDiscount(rs.getInt("discount"));
 				dto.setDiscountPrice();
 				dto.setCnt(rs.getInt("cnt"));
-				
+				dto.setSaveFilename(rs.getString("savefilename"));
 				list.add(dto);
 			}
 			
@@ -386,6 +387,34 @@ public class BasketDAO {
 				}
 		}
 		
+		
+	}
+	
+	public void updateInventory(String[] count, String[] itemNo) {
+		PreparedStatement pstmt = null;
+		
+		String sql;
+		try {
+			sql = "UPDATE items SET cnt = (cnt - ?) WHERE itemNO = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			for(int i=0; i<count.length; i++) {
+				pstmt.setString(1, count[i]);
+				pstmt.setString(2, itemNo[i]);
+				
+				pstmt.executeUpdate();
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+		}
 		
 	}
 

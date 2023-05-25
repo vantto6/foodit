@@ -9,7 +9,14 @@ public class BasketDTO {
 	private String itemName;
 	private int discountPrice;
 	private int cnt;
+	private String saveFilename;
 	
+	public String getSaveFilename() {
+		return saveFilename;
+	}
+	public void setSaveFilename(String saveFilename) {
+		this.saveFilename = saveFilename;
+	}
 	public int getCnt() {
 		return cnt;
 	}

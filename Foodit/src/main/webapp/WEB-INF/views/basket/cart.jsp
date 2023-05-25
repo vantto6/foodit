@@ -315,7 +315,7 @@ function checkAll(source) {
 									<c:forEach var="dto" items="${list}">
 										<tr class="cartList_detail">
 											<td><input type="checkbox" name="Selecteditem" value="${dto.basketNo}"></td>
-											<td><img src="galbitang.jpeg" alt="food_img"></td>
+											<td><img src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}" alt="food_img" style="width:100px"></td>
 											<td><a href="#"></a><span class="cartList_smartstore">
 											</span>
 												<p class="price">${dto.itemName}</p></td>

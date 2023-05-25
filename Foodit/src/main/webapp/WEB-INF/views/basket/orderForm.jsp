@@ -106,7 +106,7 @@ input[type=text] {
 						<c:set var="originalPrice" value="${price * countIndex}" />
 						<c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
 						<tr>
-							<td width="100"><img src="galbitang.jpeg" alt="food_img"></td>
+							<td width="100"><img src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}" alt="food_img"></td>
 							<td width="600">${dto.itemName}</td>
 							<td width="200">${countIndex}개</td>
 							<td width="100">
@@ -117,6 +117,8 @@ input[type=text] {
 					<c:set var="totalDiscountedPrice" value="${totalDiscountedPrice + discountedPrice}" />
 					<c:set var="totalOriginalPrice" value="${totalOriginalPrice + originalPrice}" />
 					<c:set var="itemName" value="${dto.itemName}"/>
+					<input type="hidden" name="countIndex" value="${countIndex}">
+					<input type="hidden" name="itemNo" value="${dto.itemNo}">
 					</c:forEach>
 				</table>
 

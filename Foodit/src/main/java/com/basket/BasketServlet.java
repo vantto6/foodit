@@ -149,8 +149,11 @@ public class BasketServlet extends MyServlet {
 		BasketDAO dao = new BasketDAO();
 		try {
 			oDto.setRequest(req.getParameter("request"));
+			String[] count = req.getParameterValues("countIndex");
+			String[] itemNo = req.getParameterValues("itemNo");
 			dao.insertOrder(oDto);
 			dao.insertOrderDetail(orderDetailList);
+			dao.updateInventory(count, itemNo);
 			dao.updateConfirm();
 			dao.deleteBasket();
 			
