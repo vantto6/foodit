@@ -132,6 +132,11 @@ function sendOrder() {
 		return;
 	}
 	
+	if(f.totalDiscountPrice.value == 0) {
+		alert("장바구니에 상품이 없습니다 ...");
+		return;
+	}
+	
 	
 	f.action="${pageContext.request.contextPath}/basket/order.do";
 	f.submit();

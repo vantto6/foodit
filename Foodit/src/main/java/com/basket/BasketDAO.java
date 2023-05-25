@@ -98,6 +98,34 @@ public class BasketDAO {
 			}
 		}
 		
+		
+		
+	}
+	
+	public void deleteBasket() {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			
+			sql = "DELETE FROM Basket";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+
 	}
 	
 	public List<AddressDTO> listAddress(long clientNo) {
@@ -310,20 +338,18 @@ public class BasketDAO {
 	
 	public void insertOrderDetail(List<OrderDTO> orderDetailList) {
 	    PreparedStatement pstmt = null;
-	    String sql = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payOption,payDate,disPrice)"
-	                 + " VALUES(OrderDetail_seq.NEXTVAL, Order_seq.CURRVAL,?,?,?,?,?,?)";
+	    String sql = "INSERT INTO OrderDetail(ordetailNo,orderNo,itemNo,ordetailCnt,price,payDate,disPrice,clientNo)"
+	                 + " VALUES(OrderDetail_seq.NEXTVAL, Ordering_seq.CURRVAL,?,?,?,SYSDATE,?,?)";
 	    
 	    try {
 	        pstmt = conn.prepareStatement(sql);
 	        
 	        for (OrderDTO dto : orderDetailList) {
-	            pstmt.setLong(1, dto.getOrderNo());
-	            pstmt.setLong(2, dto.getItemNo());
-	            pstmt.setLong(3, dto.getOrdetailCnt());
-	            pstmt.setInt(4, dto.getPrice());
-	            pstmt.setString(5, dto.getPayDate());
-	            pstmt.setInt(6, dto.getDisPrice());
-	            pstmt.setLong(7, dto.getClientNo());
+	            pstmt.setLong(1, dto.getItemNo());
+	            pstmt.setLong(2, dto.getOrdetailCnt());
+	            pstmt.setInt(3, dto.getPrice());
+	            pstmt.setInt(4, dto.getDisPrice());
+	            pstmt.setLong(5, dto.getClientNo());
 	            
 	            pstmt.executeUpdate();
 	        }

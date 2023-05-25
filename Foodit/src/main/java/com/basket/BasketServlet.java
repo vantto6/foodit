@@ -39,8 +39,6 @@ public class BasketServlet extends MyServlet {
 			cart_delete(req, resp);
 		} else if(uri.indexOf("order_ok.do") != -1) {
 			order_complete(req, resp);
-		} else if(uri.indexOf("home.do") != -1) {
-			back_home(req, resp);
 		}
 
 	}
@@ -153,6 +151,8 @@ public class BasketServlet extends MyServlet {
 			oDto.setRequest(req.getParameter("request"));
 			dao.insertOrder(oDto);
 			dao.insertOrderDetail(orderDetailList);
+			dao.updateConfirm();
+			dao.deleteBasket();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,7 +160,4 @@ public class BasketServlet extends MyServlet {
 		forward(req, resp, "/WEB-INF/views/basket/orderComplete.jsp");
 	}
 	
-	protected void back_home(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		forward(req, resp, "/WEB-INF/views/main/main.jsp");
-	}
 }
