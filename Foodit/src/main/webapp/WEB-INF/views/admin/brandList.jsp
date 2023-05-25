@@ -36,10 +36,10 @@ th {
   justify-content: center;
   align-items: center;
 }
-        .go-to-first-page {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
+.go-to-first-page {
+     
+      bottom: 100px;
+      right: 100px;
       background-color: #88b04B;
       border: none;
       color: white;
@@ -92,8 +92,8 @@ th {
     
 <footer>
 		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${brandCount == 0 ? "등록된 게시물이 없습니다." : paging}
-		<button class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
 		</div>
+		<button  class="go-to-first-page" onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음 페이지</button>
 </footer>
 </main>
 </body>
