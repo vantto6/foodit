@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>통계</title>
+<jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
 body {
