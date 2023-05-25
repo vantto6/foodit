@@ -329,7 +329,7 @@ public class InquiryServlet extends MyServlet{
 			//List<InquiryDTO> listReply = dao.listInquiry(offset, size);
 			InquiryDTO dto = dao.readInquiry(inquiryNo);
 			if (dto.getAnswer() != null) {
-				dto.setAnswer(dto.getAnswer().replaceAll("\n", "<br>"));
+				dto.setAnswer(dto.getAnswer().replaceAll("\n", "<br> "));
 			}
 			
 			//for(InquiryDTO dto : listReply) {
