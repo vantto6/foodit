@@ -13,6 +13,7 @@
 .body-main {
 	max-width: 700px;
 	padding-top: 15px;
+	line-height: 25px;
 	
 }
 
@@ -79,6 +80,9 @@
 	padding-left: 7px;
 	padding-right: 7px;
 }
+
+td{font-size: 1.2em;}
+
 </style>
 <script type="text/javascript">
 	<c:if test="${sessionScope.member.memberId=='admin'}">

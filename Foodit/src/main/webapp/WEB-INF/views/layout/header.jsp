@@ -36,7 +36,7 @@ img {
 
 
 
-<div class="nav-container">
+<div class="nav-container" >
 
 	<div class="header-top">
 		<div class="header-left">&nbsp;</div>

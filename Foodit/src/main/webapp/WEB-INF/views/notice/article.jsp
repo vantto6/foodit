@@ -13,6 +13,7 @@
 .body-main {
 	max-width: 700px;
 	padding-top: 15px;
+	line-height: 25px;
 }
 
 .table-article tr > td { padding-left: 5px; padding-right: 5px; }
@@ -31,6 +32,8 @@
 	border: none;
 	
 }
+
+td{font-size: 1.2em;}
 
 
 </style>
