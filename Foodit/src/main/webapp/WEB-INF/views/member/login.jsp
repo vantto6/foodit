@@ -145,6 +145,7 @@ button {
 								href="${pageContext.request.contextPath}/member/join.do"> <span
 								class="txt_type">회원가입</span>
 							</a>
+							<p style="margin-top: 10px">${message }</p>
 						</div>
 					</div>
 				</div>

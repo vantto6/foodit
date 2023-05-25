@@ -283,12 +283,9 @@ $(function() {
 				}
 				$i.css("color",color);
 				
-				//let count = data.boardLikeCount;
-				//$("#boardLikeCount").text(count);
 			}else if(state === "liked"){
 				alert("좋아요는 한번만 가능합니다.");
 			}
-
 		};
 		
 		ajaxFun(url,"post",qs,"json",fn);
@@ -301,10 +298,7 @@ $(function() {
 	$("#sendBasket").click(function() {
 		let url = "${pageContext.request.contextPath}/item/basketCheck.do";
 		let itemNo = "${dto.itemNo}";
-//		let category = "${category}";
-//		let page = "${page}";
-//		let num = "${num}";
-		
+
 		let qs = "&itemNo=" + itemNo;
 		
 		const fn = function(data) {
@@ -409,7 +403,7 @@ $(function() {
 		
 	</div>
 	<div>
-		<img class="img" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}" style="width: 450px;height: 556px">
+		<img class="img" src="${pageContext.request.contextPath}/uploads/admin/${dto.saveFilename}" style="width: 450px;height: 590px">
 	</div>
 	
 	<div class="btns">
