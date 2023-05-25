@@ -144,7 +144,6 @@ td{font-size: 1.2em;}
 		}
 
 		ajaxFun(url, "get", qs, "text", fn);
-		// ajaxFun(url, "get", qs, "html", fn); // 가능
 	}
 
 	//댓글등록

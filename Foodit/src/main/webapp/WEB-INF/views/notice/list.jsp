@@ -13,7 +13,6 @@
 .body-main {
 	width: 1000px;
 	margin: 0 auto;
-	
 }
 
 table {
@@ -63,7 +62,6 @@ td {
 	text-align: center;
 	margin-right: 60px;
 }
-
 
 .btn:active, .btn:focus, .btn:hover {
 	background-color: #f8f9fa;
@@ -159,15 +157,11 @@ input[type=checkbox] {
 							<button type="button" class="btn" id="btnDeleteList">삭제</button>
 						</c:if>
 						<input type="hidden" name="page" value="${page}">
-
-
 						<c:if test="${sessionScope.member.memberId=='admin'}">
-							<input type="hidden" name="size" value="${size}">
 
 							<button type="button" class="btn"
-								onclick="location.href='${pageContext.request.contextPath}/notice/write.do?size=${size}';">글올리기</button>
+								onclick="location.href='${pageContext.request.contextPath}/notice/write.do';">글올리기</button>
 						</c:if>
-
 						<c:if test="${sessionScope.member.memberId !='admin'}">
 							<span style="float: left">${dataCount}개(${page}/${total_page}페이지)</span>
 						</c:if>
@@ -201,8 +195,8 @@ input[type=checkbox] {
 
 				</table>
 			</form>
-		<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-		</div>
+			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+			</div>
 		</div>
 	</main>
 

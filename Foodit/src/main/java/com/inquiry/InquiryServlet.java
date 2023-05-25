@@ -305,6 +305,8 @@ public class InquiryServlet extends MyServlet{
 		
 		try {
 			long inquiryNo = Long.parseLong(req.getParameter("inquiryNo"));
+			
+			/*
 			String pageNo = req.getParameter("pageNo");
 			int current_page =1;
 			if(pageNo != null) {
@@ -323,7 +325,7 @@ public class InquiryServlet extends MyServlet{
 			
 			int offset = (current_page -1) * size;
 			if(offset < 0)offset = 0;
-			
+			*/
 			//List<InquiryDTO> listReply = dao.listInquiry(offset, size);
 			InquiryDTO dto = dao.readInquiry(inquiryNo);
 			if (dto.getAnswer() != null) {
@@ -336,14 +338,14 @@ public class InquiryServlet extends MyServlet{
 			//	}
 			//}
 			
-			String paging = util.pagingMethod(current_page, total_page, "listPage");
+			//String paging = util.pagingMethod(current_page, total_page, "listPage");
 			
 			req.setAttribute("dto", dto);
 			
-			req.setAttribute("pageNo", pageNo);
-			req.setAttribute("replyCount", replyCount);
-			req.setAttribute("total_page", total_page);
-			req.setAttribute("paging", paging);
+			//req.setAttribute("pageNo", pageNo);
+			//req.setAttribute("replyCount", replyCount);
+			//req.setAttribute("total_page", total_page);
+			//req.setAttribute("paging", paging);
 			
 			forward(req, resp, "/WEB-INF/views/inquiry/listReply.jsp");
 			return;
