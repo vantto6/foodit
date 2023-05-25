@@ -39,7 +39,7 @@ th {
 }
 
 .go-to-first-page {
-	position: fixed;
+	
 	bottom: 20px;
 	right: 20px;
 	background-color: #88b04B;
@@ -103,10 +103,10 @@ th {
 		</div>
 		<footer>
 			<div class="page-navigation" style="width: 900px; margin: 0 auto;">${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+			</div>
 				<button class="go-to-first-page"
 					onclick="location.href='${pageContext.request.contextPath}/admin/admin.do';">처음
 					페이지</button>
-			</div>
 		</footer>
 	</main>
 </body>
